@@ -2,111 +2,105 @@
 <html lang="sw">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>CHILAGU LEGACY CINEMA</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-    :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; --glow: 0 0 15px var(--purple); }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background: var(--black); color: var(--silver); padding-bottom: 80px; }
+    :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000000; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--black); color: var(--silver); }
     
-    .header { padding: 15px; background: linear-gradient(180deg, #111 0%, #000 100%); position: sticky; top: 0; z-index: 10; box-shadow: var(--glow); }
-    .logo { height: 45px; filter: drop-shadow(0 0 5px var(--purple)); cursor: pointer; }
-    .search-bar { width: 100%; padding: 12px; margin-top: 12px; border-radius: 25px; border: 1px solid var(--purple); background: #1a1a1a; color: white; outline: none; font-size: 13px; }
+    .header { padding: 12px 15px; background: #0A0A0A; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--purple); }
+    .logo { height: 38px; width: auto; object-fit: contain; display: block; cursor: pointer; }
+    .search-bar { width: 100%; padding: 10px 15px; margin-top: 10px; border-radius: 8px; border: 1px solid #333; background: #111; color: white; outline: none; font-size: 13px; }
 
-    .main-cats { display: flex; gap: 10px; padding: 15px; overflow-x: auto; background: #0a0a0a; }
-    .main-btn { padding: 10px 20px; background: #222; border: 2px solid #333; border-radius: 25px; color: var(--silver); font-weight: 600; font-size: 13px; white-space: nowrap; cursor: pointer; transition: 0.3s; }
-    .main-btn.active { background: var(--purple); color: white; border-color: var(--purple); box-shadow: var(--glow); }
+    .main-cats { display: flex; gap: 8px; padding: 12px 15px; overflow-x: auto; background: #0A0A0A; }
+    .main-btn { padding: 8px 16px; background: #1A1A1A; border: 1px solid #333; border-radius: 20px; color: var(--silver); font-weight: 600; font-size: 12px; white-space: nowrap; cursor: pointer; }
+    .main-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
 
-    .sub-cats { display: none; gap: 8px; padding: 10px 15px; overflow-x: auto; background: #111; }
-    .sub-cats.active { display: flex; }
-    .sub-btn { padding: 6px 12px; background: #1a1a1a; border-radius: 15px; color: var(--silver); font-size: 11px; cursor: pointer; }
+    .sub-cats { display: flex; gap: 8px; padding: 10px 15px; overflow-x: auto; background: #0F0F0F; border-bottom: 1px solid #1A1A1A; }
+    .sub-btn { padding: 6px 12px; background: #1A1A1A; border-radius: 15px; color: var(--silver); font-size: 11px; cursor: pointer; }
     .sub-btn.active { background: var(--purple); color: white; }
 
-    .banner { width: 100%; height: 200px; position: relative; }
-    .banner video { width: 100%; height: 100%; object-fit: cover; border-bottom: 3px solid var(--purple); }
+    .banner { width: 100%; height: 180px; background: #111; }
+    .banner video { width: 100%; height: 100%; object-fit: cover; }
 
-    .section-title { padding: 15px; font-size: 16px; font-weight: 700; }
-    .movie-row { display: flex; gap: 10px; padding: 0 15px 15px; overflow-x: auto; }
-    .movie-card { min-width: 32%; background: #111; border-radius: 10px; overflow: hidden; cursor: pointer; transition: 0.3s; border: 1px solid #222; }
-    .movie-card:active { transform: scale(0.95); }
-    .movie-card img { width: 100%; height: 140px; object-fit: cover; }
-    .movie-card p { padding: 8px; font-size: 11px; font-weight: 600; }
+    .section-title { padding: 15px; font-size: 15px; font-weight: 700; color: white; }
+    .movie-row { display: flex; gap: 10px; padding: 0 15px 20px; overflow-x: auto; }
+    .movie-card { min-width: 30vw; max-width: 30vw; background: #111; border-radius: 6px; overflow: hidden; cursor: pointer; }
+    .movie-card img { width: 100%; height: 38vw; object-fit: cover; background: #222; }
+    .movie-card p { padding: 8px; font-size: 11px; font-weight: 600; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .player-container { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: black; z-index: 20; }
     .player-container video { width: 100%; height: 100%; object-fit: contain; }
-    .close-player { position: absolute; top: 15px; right: 20px; font-size: 35px; color: white; cursor: pointer; text-shadow: var(--glow); z-index: 21; }
+    .close-player { position: absolute; top: 10px; right: 15px; font-size: 28px; color: white; cursor: pointer; z-index: 21; font-weight: 700; }
     
-    .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #0a0a0a; padding: 10px 0; border-top: 1px solid #222; }
-    .nav-btn { color: var(--silver); text-align: center; font-size: 10px; font-weight: 600; cursor: pointer; }
+    .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #0A0A0A; padding: 8px 0; border-top: 1px solid #1A1A1A; }
+    .nav-btn { color: var(--silver); text-align: center; font-size: 10px; font-weight: 600; cursor: pointer; padding: 5px; }
 
-    .admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 30; padding: 20px; overflow-y: auto; }
-    .admin-box { background: #111; padding: 20px; border-radius: 15px; border: 2px solid var(--purple); }
-    .admin-box h2 { color: var(--purple); margin-bottom: 15px; font-size: 18px; }
-    .admin-box input, .admin-box select, .admin-box button { width: 100%; padding: 10px; margin: 8px 0; background: #222; border: 1px solid #333; color: white; border-radius: 8px; font-size: 12px; }
-    .admin-box button { background: var(--purple); font-weight: 700; cursor: pointer; }
+    .admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); z-index: 30; padding: 20px; overflow-y: auto; }
+    .admin-box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid var(--purple); }
+    .admin-box h2 { color: var(--purple); margin-bottom: 15px; font-size: 16px; }
+    .admin-box input, .admin-box select, .admin-box button { width: 100%; padding: 10px; margin: 8px 0; background: #1A1A1A; border: 1px solid #333; color: white; border-radius: 6px; font-size: 12px; }
+    .admin-box button { background: var(--purple); font-weight: 700; border: none; }
 </style>
 </head>
 <body>
 
 <div class="header">
-    <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg" class="logo" id="logoBtn" alt="CHILAGU">
-    <input type="text" id="search" class="search-bar" placeholder="Tafuta filamu, album, bidhaa...">
+    <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg" class="logo" id="logoBtn" alt="CHILAGU LEGACY CINEMA">
+    <input type="text" id="search" class="search-bar" placeholder="Tafuta...">
 </div>
 
 <div class="main-cats" id="mainCats"></div>
-<div class="sub-cats active" id="subCats"></div>
+<div class="sub-cats" id="subCats"></div>
 
 <div class="banner">
     <video id="bannerVideo" autoplay muted loop playsinline></video>
 </div>
 
-<h3 class="section-title" id="sectionTitle">Trending Sasa</h3>
-<div class="movie-row" id="contentGrid"><p style="padding:20px">Inapakia movies...</p></div>
+<h3 class="section-title" id="sectionTitle">Filamu Mpya</h3>
+<div class="movie-row" id="contentGrid"></div>
 
 <div class="player-container" id="player">
-    <span class="close-player" id="closeBtn">X</span>
+    <div class="close-player" id="closeBtn">X</div>
     <video id="videoPlayer" controls playsinline></video>
 </div>
 
 <div class="bottom-nav">
-    <div class="nav-btn" id="navHome">🏠<br>Home</div>
-    <div class="nav-btn" id="navShop">🛍️<br>Shop</div>
-    <div class="nav-btn" id="navAcademy">📚<br>Academy</div>
+    <div class="nav-btn" id="navHome">Home</div>
+    <div class="nav-btn" id="navShop">Shop</div>
+    <div class="nav-btn" id="navAcademy">Academy</div>
 </div>
 
 <div class="admin-modal" id="adminPanel">
     <div class="admin-box">
-        <h2>ADMIN PANEL - CHILAGU</h2>
-        <input type="password" id="adminPin" placeholder="Weka PIN: 1255">
+        <h2>ADMIN ACCESS</h2>
+        <input type="password" id="adminPin" placeholder="Weka PIN">
         <button id="loginBtn">INGIA</button>
         
         <div id="adminControls" style="display:none">
-            <h3>Ongeza Movie/Series</h3>
-            <input id="mTitle" placeholder="Jina la Movie">
-            <input id="mPoster" placeholder="Link ya Poster">
-            <input id="mVideo" placeholder="Link ya Video">
-            <input id="mTrailer" placeholder="Link ya Trailer ya Banner">
+            <h3>Ongeza Content</h3>
+            <input id="mTitle" placeholder="Title">
+            <input id="mPoster" placeholder="Poster URL">
+            <input id="mVideo" placeholder="Video Link">
+            <input id="mTrailer" placeholder="Trailer Link for Banner">
             <select id="mType"><option>Single Movie</option><option>Series</option><option>FlashCut</option></select>
             <select id="mGenre"><option>Action</option><option>Drama</option><option>Love Story</option><option>Inspiration</option></select>
-            <select id="mPrice"><option value="free">Bure</option><option value="paid">Inalipwa</option></select>
-            <button id="addMovieBtn">WEKA MOVIE</button>
-
-            <h3>Settings za Pesa</h3>
-            <input id="paymentNum" placeholder="Namba ya Malipo M-Pesa/Tigo">
-            <input id="newPass" type="password" placeholder="Badilisha Password ya Admin">
-            <button id="saveSettingsBtn">HIFADHI SETTINGS</button>
-            <button id="logoutBtn" style="background:#800">TOKA</button>
+            <select id="mPrice"><option value="free">Free</option><option value="paid">Paid</option></select>
+            <button id="addMovieBtn">ADD CONTENT</button>
+            <button id="logoutBtn" style="background:#550000">CLOSE</button>
         </div>
     </div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  // WEKA CONFIG YAKO YA FIREBASE HAPA
-  const firebaseConfig = {};
+  const firebaseConfig = {
+    // WEKA CONFIG YAKO YA FIREBASE HAPA
+  };
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
@@ -118,41 +112,60 @@
   const mainCats = ["All", "Single Movie", "Series", "FlashCut", "Shop"];
   const subCats = ["All", "Action", "Drama", "Love Story", "Inspiration"];
 
-  // JENGA BUTTONS
-  mainCats.forEach(cat => {
-      const btn = document.createElement('div');
-      btn.className = 'main-btn' + (cat === 'All' ? ' active' : '');
-      btn.innerText = cat;
-      btn.onclick = () => setMainCat(cat, btn);
-      document.getElementById('mainCats').appendChild(btn);
+  document.addEventListener('DOMContentLoaded', () => {
+      buildCategories();
+      attachEvents();
+      loadMovies();
   });
 
-  subCats.forEach(cat => {
-      const btn = document.createElement('div');
-      btn.className = 'sub-btn' + (cat === 'All' ? ' active' : '');
-      btn.innerText = cat;
-      btn.onclick = () => setGenre(cat, btn);
-      document.getElementById('subCats').appendChild(btn);
-  });
+  function buildCategories() {
+      const mainDiv = document.getElementById('mainCats');
+      mainCats.forEach(cat => {
+          const btn = document.createElement('div');
+          btn.className = 'main-btn' + (cat === 'All' ? ' active' : '');
+          btn.innerText = cat;
+          btn.dataset.cat = cat;
+          mainDiv.appendChild(btn);
+      });
 
-  // FUNCTIONS ZOTE ZIMEFUNGWA
-  document.getElementById('logoBtn').onclick = () => {
-      clickCount++;
-      if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; }
-      setTimeout(() => clickCount = 0, 3000);
+      const subDiv = document.getElementById('subCats');
+      subCats.forEach(cat => {
+          const btn = document.createElement('div');
+          btn.className = 'sub-btn' + (cat === 'All' ? ' active' : '');
+          btn.innerText = cat;
+          btn.dataset.genre = cat;
+          subDiv.appendChild(btn);
+      });
   }
-  document.getElementById('loginBtn').onclick = checkPin;
-  document.getElementById('addMovieBtn').onclick = addMovie;
-  document.getElementById('saveSettingsBtn').onclick = saveSettings;
-  document.getElementById('logoutBtn').onclick = logoutAdmin;
-  document.getElementById('closeBtn').onclick = closePlayer;
-  document.getElementById('navHome').onclick = () => alert('Home');
-  document.getElementById('navShop').onclick = () => setMainCat('Shop');
-  document.getElementById('navAcademy').onclick = () => alert('Academy inakuja');
+
+  function attachEvents() {
+      document.getElementById('mainCats').addEventListener('click', e => {
+          if(e.target.classList.contains('main-btn')) setMainCat(e.target.dataset.cat, e.target);
+      });
+      document.getElementById('subCats').addEventListener('click', e => {
+          if(e.target.classList.contains('sub-btn')) setGenre(e.target.dataset.genre, e.target);
+      });
+      document.getElementById('contentGrid').addEventListener('click', e => {
+          const card = e.target.closest('.movie-card');
+          if(card) playMovie(card.dataset.link);
+      });
+      
+      document.getElementById('logoBtn').addEventListener('click', () => {
+          clickCount++;
+          if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; }
+          setTimeout(() => clickCount = 0, 3000);
+      });
+      
+      document.getElementById('loginBtn').addEventListener('click', checkPin);
+      document.getElementById('addMovieBtn').addEventListener('click', addMovie);
+      document.getElementById('logoutBtn').addEventListener('click', () => document.getElementById('adminPanel').style.display = 'none');
+      document.getElementById('closeBtn').addEventListener('click', closePlayer);
+      document.getElementById('navShop').addEventListener('click', () => setMainCat('Shop'));
+  }
 
   function setMainCat(cat, btn) {
       document.querySelectorAll('.main-btn').forEach(b => b.classList.remove('active'));
-      if(btn) btn.classList.add('active');
+      btn.classList.add('active');
       currentMainCat = cat;
       document.getElementById('subCats').style.display = cat === 'Shop' ? 'none' : 'flex';
       document.getElementById('sectionTitle').innerText = cat;
@@ -169,7 +182,7 @@
   function checkPin() {
       if(document.getElementById('adminPin').value === '1255') {
           document.getElementById('adminControls').style.display = 'block';
-      } else { alert('PIN SIO SAHI'); }
+      } else { alert('PIN ERROR'); }
   }
 
   async function addMovie() {
@@ -177,7 +190,7 @@
           title: mTitle.value, poster: mPoster.value, videoLink: mVideo.value,
           trailerLink: mTrailer.value, type: mType.value, genre: mGenre.value, price: mPrice.value
       });
-      alert('Movie Imeongezwa!'); loadMovies(); 
+      alert('Added'); loadMovies(); 
       if(mTrailer.value) document.getElementById('bannerVideo').src = mTrailer.value;
   }
 
@@ -197,27 +210,31 @@
           filtered = filtered.filter(m => m.genre === currentGenre);
       }
 
-      let html = '';
+      const grid = document.getElementById('contentGrid');
+      grid.innerHTML = '';
       filtered.forEach(m => {
-          html += `<div class="movie-card" onclick="playMovie('${m.videoLink}')"><img src="${m.poster}"><p>${m.title}</p></div>`;
+          const card = document.createElement('div');
+          card.className = 'movie-card';
+          card.dataset.link = m.videoLink;
+          card.innerHTML = `<img src="${m.poster}"><p>${m.title}</p>`;
+          grid.appendChild(card);
       });
-      document.getElementById('contentGrid').innerHTML = html || "<p style='padding:20px'>Hakuna movie hapa bado</p>";
+      if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px'>No content</p>";
   }
 
-  window.playMovie = (link) => {
-      if(!link) { alert('Link ya video haipo'); return; }
-      document.getElementById('videoPlayer').src = link;
-      document.getElementById('player').style.display = 'block';
-      document.getElementById('videoPlayer').play();
+  function playMovie(link) {
+      if(!link) return;
+      const player = document.getElementById('player');
+      const video = document.getElementById('videoPlayer');
+      video.src = link;
+      player.style.display = 'block';
+      video.play();
   }
   function closePlayer() {
-      document.getElementById('videoPlayer').pause();
+      const video = document.getElementById('videoPlayer');
+      video.pause();
       document.getElementById('player').style.display = 'none';
   }
-  function logoutAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
-  function saveSettings() { alert('Settings zimehifadhiwa Firebase'); }
-
-  loadMovies();
 </script>
 </body>
 </html>
