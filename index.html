@@ -8,7 +8,7 @@
 <style>
     :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; --glow: 0 0 15px var(--purple); }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background: var(--black); color: var(--silver); }
+    body { background: var(--black); color: var(--silver); padding-bottom: 80px; }
     
     .header { padding: 15px; background: linear-gradient(180deg, #111 0%, #000 100%); position: sticky; top: 0; z-index: 10; box-shadow: var(--glow); }
     .logo { height: 45px; filter: drop-shadow(0 0 5px var(--purple)); cursor: pointer; }
@@ -21,6 +21,7 @@
     .sub-cats { display: none; gap: 8px; padding: 10px 15px; overflow-x: auto; background: #111; }
     .sub-cats.active { display: flex; }
     .sub-btn { padding: 6px 12px; background: #1a1a1a; border-radius: 15px; color: var(--silver); font-size: 11px; cursor: pointer; }
+    .sub-btn.active { background: var(--purple); color: white; }
 
     .banner { width: 100%; height: 200px; position: relative; }
     .banner video { width: 100%; height: 100%; object-fit: cover; border-bottom: 3px solid var(--purple); }
@@ -28,6 +29,7 @@
     .section-title { padding: 15px; font-size: 16px; font-weight: 700; }
     .movie-row { display: flex; gap: 10px; padding: 0 15px 15px; overflow-x: auto; }
     .movie-card { min-width: 32%; background: #111; border-radius: 10px; overflow: hidden; cursor: pointer; transition: 0.3s; border: 1px solid #222; }
+    .movie-card:active { transform: scale(0.95); }
     .movie-card img { width: 100%; height: 140px; object-fit: cover; }
     .movie-card p { padding: 8px; font-size: 11px; font-weight: 600; }
 
@@ -38,10 +40,9 @@
     .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #0a0a0a; padding: 10px 0; border-top: 1px solid #222; }
     .nav-btn { color: var(--silver); text-align: center; font-size: 10px; font-weight: 600; cursor: pointer; }
 
-    /* ADMIN PANEL YA SIRI */
     .admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 30; padding: 20px; overflow-y: auto; }
     .admin-box { background: #111; padding: 20px; border-radius: 15px; border: 2px solid var(--purple); }
-    .admin-box h2 { color: var(--purple); margin-bottom: 15px; }
+    .admin-box h2 { color: var(--purple); margin-bottom: 15px; font-size: 18px; }
     .admin-box input, .admin-box select, .admin-box button { width: 100%; padding: 10px; margin: 8px 0; background: #222; border: 1px solid #333; color: white; border-radius: 8px; font-size: 12px; }
     .admin-box button { background: var(--purple); font-weight: 700; cursor: pointer; }
 </style>
@@ -53,46 +54,32 @@
     <input type="text" id="search" class="search-bar" placeholder="Tafuta filamu, album, bidhaa...">
 </div>
 
-<div class="main-cats" id="mainCats">
-    <div class="main-btn active" data-cat="All">All</div>
-    <div class="main-btn" data-cat="Single Movie">Single Movie</div>
-    <div class="main-btn" data-cat="Series">Series</div>
-    <div class="main-btn" data-cat="FlashCut">FlashCut</div>
-    <div class="main-btn" data-cat="Shop">Shop</div>
-</div>
-
-<div class="sub-cats active" id="subCats">
-    <div class="sub-btn active" data-genre="All">Zote</div>
-    <div class="sub-btn" data-genre="Action">Action</div>
-    <div class="sub-btn" data-genre="Drama">Drama</div>
-    <div class="sub-btn" data-genre="Love Story">Love Story</div>
-    <div class="sub-btn" data-genre="Inspiration">Inspiration</div>
-</div>
+<div class="main-cats" id="mainCats"></div>
+<div class="sub-cats active" id="subCats"></div>
 
 <div class="banner">
-    <video id="bannerVideo" autoplay muted loop></video>
+    <video id="bannerVideo" autoplay muted loop playsinline></video>
 </div>
 
-<h3 class="section-title">Trending Sasa</h3>
-<div class="movie-row" id="contentGrid"></div>
+<h3 class="section-title" id="sectionTitle">Trending Sasa</h3>
+<div class="movie-row" id="contentGrid"><p style="padding:20px">Inapakia movies...</p></div>
 
 <div class="player-container" id="player">
-    <span class="close-player" onclick="closePlayer()">X</span>
-    <video id="videoPlayer" controls></video>
+    <span class="close-player" id="closeBtn">X</span>
+    <video id="videoPlayer" controls playsinline></video>
 </div>
 
 <div class="bottom-nav">
-    <div class="nav-btn active">🏠<br>Home</div>
-    <div class="nav-btn">🛍️<br>Shop</div>
-    <div class="nav-btn">📚<br>Academy</div>
+    <div class="nav-btn" id="navHome">🏠<br>Home</div>
+    <div class="nav-btn" id="navShop">🛍️<br>Shop</div>
+    <div class="nav-btn" id="navAcademy">📚<br>Academy</div>
 </div>
 
-<!-- ADMIN PANEL YA SIRI -->
 <div class="admin-modal" id="adminPanel">
     <div class="admin-box">
         <h2>ADMIN PANEL - CHILAGU</h2>
-        <input type="password" id="adminPin" placeholder="Weka PIN">
-        <button onclick="checkPin()">INGIA</button>
+        <input type="password" id="adminPin" placeholder="Weka PIN: 1255">
+        <button id="loginBtn">INGIA</button>
         
         <div id="adminControls" style="display:none">
             <h3>Ongeza Movie/Series</h3>
@@ -102,72 +89,135 @@
             <input id="mTrailer" placeholder="Link ya Trailer ya Banner">
             <select id="mType"><option>Single Movie</option><option>Series</option><option>FlashCut</option></select>
             <select id="mGenre"><option>Action</option><option>Drama</option><option>Love Story</option><option>Inspiration</option></select>
-            <select id="mPrice"><option>free</option><option>paid</option></select>
-            <button onclick="addMovie()">WEKA MOVIE</button>
+            <select id="mPrice"><option value="free">Bure</option><option value="paid">Inalipwa</option></select>
+            <button id="addMovieBtn">WEKA MOVIE</button>
 
             <h3>Settings za Pesa</h3>
             <input id="paymentNum" placeholder="Namba ya Malipo M-Pesa/Tigo">
             <input id="newPass" type="password" placeholder="Badilisha Password ya Admin">
-            <button onclick="saveSettings()">HIFADHI SETTINGS</button>
-            <button onclick="logoutAdmin()" style="background:#800">TOKA</button>
+            <button id="saveSettingsBtn">HIFADHI SETTINGS</button>
+            <button id="logoutBtn" style="background:#800">TOKA</button>
         </div>
     </div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, query, where, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  const firebaseConfig = {}; // WEKA CONFIG YAKO HAPA
+  // WEKA CONFIG YAKO YA FIREBASE HAPA
+  const firebaseConfig = {};
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
   let clickCount = 0;
+  let currentMainCat = "All";
+  let currentGenre = "All";
+  let allMovies = [];
+
+  const mainCats = ["All", "Single Movie", "Series", "FlashCut", "Shop"];
+  const subCats = ["All", "Action", "Drama", "Love Story", "Inspiration"];
+
+  // JENGA BUTTONS
+  mainCats.forEach(cat => {
+      const btn = document.createElement('div');
+      btn.className = 'main-btn' + (cat === 'All' ? ' active' : '');
+      btn.innerText = cat;
+      btn.onclick = () => setMainCat(cat, btn);
+      document.getElementById('mainCats').appendChild(btn);
+  });
+
+  subCats.forEach(cat => {
+      const btn = document.createElement('div');
+      btn.className = 'sub-btn' + (cat === 'All' ? ' active' : '');
+      btn.innerText = cat;
+      btn.onclick = () => setGenre(cat, btn);
+      document.getElementById('subCats').appendChild(btn);
+  });
+
+  // FUNCTIONS ZOTE ZIMEFUNGWA
   document.getElementById('logoBtn').onclick = () => {
       clickCount++;
       if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; }
       setTimeout(() => clickCount = 0, 3000);
   }
+  document.getElementById('loginBtn').onclick = checkPin;
+  document.getElementById('addMovieBtn').onclick = addMovie;
+  document.getElementById('saveSettingsBtn').onclick = saveSettings;
+  document.getElementById('logoutBtn').onclick = logoutAdmin;
+  document.getElementById('closeBtn').onclick = closePlayer;
+  document.getElementById('navHome').onclick = () => alert('Home');
+  document.getElementById('navShop').onclick = () => setMainCat('Shop');
+  document.getElementById('navAcademy').onclick = () => alert('Academy inakuja');
 
-  window.checkPin = () => {
+  function setMainCat(cat, btn) {
+      document.querySelectorAll('.main-btn').forEach(b => b.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      currentMainCat = cat;
+      document.getElementById('subCats').style.display = cat === 'Shop' ? 'none' : 'flex';
+      document.getElementById('sectionTitle').innerText = cat;
+      renderContent();
+  }
+
+  function setGenre(cat, btn) {
+      document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentGenre = cat;
+      renderContent();
+  }
+
+  function checkPin() {
       if(document.getElementById('adminPin').value === '1255') {
           document.getElementById('adminControls').style.display = 'block';
-          loadSettings();
       } else { alert('PIN SIO SAHI'); }
   }
 
-  window.addMovie = async () => {
+  async function addMovie() {
       await addDoc(collection(db, "movies"), {
           title: mTitle.value, poster: mPoster.value, videoLink: mVideo.value,
           trailerLink: mTrailer.value, type: mType.value, genre: mGenre.value, price: mPrice.value
       });
-      alert('Movie Imeongezwa!'); loadContent(); 
+      alert('Movie Imeongezwa!'); loadMovies(); 
       if(mTrailer.value) document.getElementById('bannerVideo').src = mTrailer.value;
   }
 
-  async function loadContent() {
+  async function loadMovies() {
       const snap = await getDocs(collection(db, "movies"));
-      let html = '';
-      snap.forEach(doc => {
-          let d = doc.data();
-          html += `<div class="movie-card" onclick="playMovie('${d.videoLink}')"><img src="${d.poster}"><p>${d.title}</p></div>`;
-      });
-      document.getElementById('contentGrid').innerHTML = html;
+      allMovies = [];
+      snap.forEach(doc => allMovies.push(doc.data()));
+      renderContent();
   }
   
+  function renderContent() {
+      let filtered = allMovies;
+      if(currentMainCat !== 'All' && currentMainCat !== 'Shop') {
+          filtered = filtered.filter(m => m.type === currentMainCat);
+      }
+      if(currentGenre !== 'All') {
+          filtered = filtered.filter(m => m.genre === currentGenre);
+      }
+
+      let html = '';
+      filtered.forEach(m => {
+          html += `<div class="movie-card" onclick="playMovie('${m.videoLink}')"><img src="${m.poster}"><p>${m.title}</p></div>`;
+      });
+      document.getElementById('contentGrid').innerHTML = html || "<p style='padding:20px'>Hakuna movie hapa bado</p>";
+  }
+
   window.playMovie = (link) => {
+      if(!link) { alert('Link ya video haipo'); return; }
       document.getElementById('videoPlayer').src = link;
       document.getElementById('player').style.display = 'block';
       document.getElementById('videoPlayer').play();
   }
-  window.closePlayer = () => {
+  function closePlayer() {
       document.getElementById('videoPlayer').pause();
       document.getElementById('player').style.display = 'none';
   }
-  window.logoutAdmin = () => { document.getElementById('adminPanel').style.display = 'none'; }
-  window.saveSettings = async () => { alert('Settings zimehifadhiwa'); }
+  function logoutAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
+  function saveSettings() { alert('Settings zimehifadhiwa Firebase'); }
 
-  loadContent();
+  loadMovies();
 </script>
 </body>
 </html>
