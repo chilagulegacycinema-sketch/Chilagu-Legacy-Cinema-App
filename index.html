@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHILAGU LEGACY CINEMA</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --purple: #6A0DAD;
+        --silver: #C0C0C0;
+        --black: #000;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: var(--black); color: var(--silver); }
+    
+    /* HEADER */
+    .header { padding: 15px; background: #111; position: sticky; top: 0; z-index: 10; }
+    .logo { height: 40px; }
+    .search-bar { width: 100%; padding: 10px; margin-top: 10px; border-radius: 20px; border: 1px solid var(--purple); background: #222; color: white; outline: none; }
+
+    /* BANNER SLIDER */
+    .banner { width: 100%; height: 200px; overflow: hidden; position: relative; }
+    .banner img { width: 100%; height: 100%; object-fit: cover; animation: slide 10s infinite; }
+    @keyframes slide { 0%{opacity:1} 33%{opacity:0} 66%{opacity:0} 100%{opacity:1} }
+
+    /* CATEGORIES */
+    .categories { display: flex; gap: 10px; padding: 15px; overflow-x: auto; }
+    .cat-btn { padding: 8px 15px; background: #222; border: 1px solid var(--purple); border-radius: 20px; color: var(--silver); white-space: nowrap; cursor: pointer; }
+    .cat-btn.active { background: var(--purple); color: white; }
+
+    /* MOVIE GRID */
+    .section-title { padding: 0 15px; font-size: 18px; font-weight: 600; }
+    .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; }
+    .movie-card { background: #111; border-radius: 10px; overflow: hidden; cursor: pointer; }
+    .movie-card img { width: 100%; height: 150px; object-fit: cover; }
+    .movie-card p { padding: 8px; font-size: 12px; }
+
+    /* PLAYER */
+    .player-container { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: black; z-index: 20; }
+    .player-container video { width: 100%; height: 80%; }
+    .close-player { position: absolute; top: 10px; right: 20px; font-size: 30px; color: white; cursor: pointer; }
+    
+    /* BOTTOM AD BANNER */
+    .bottom-ad { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #111; border-top: 2px solid var(--purple); display: flex; align-items: center; justify-content: center; z-index: 15; }
+    .bottom-ad p { color: var(--silver); font-size: 12px; }
+
+    /* BOTTOM NAV */
+    .bottom-nav { position: fixed; bottom: 60px; width: 100%; display: flex; justify-content: space-around; background: #111; padding: 10px 0; border-top: 1px solid #333; }
+    .nav-btn { color: var(--silver); text-align: center; font-size: 10px; cursor: pointer; }
+    .nav-btn.active { color: var(--purple); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg" class="logo" alt="CHILAGU">
+    <input type="text" class="search-bar" placeholder="Tafuta movie...">
+</div>
+
+<!-- BANNER -->
+<div class="banner">
+    <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg" alt="Banner">
+</div>
+
+<!-- CATEGORIES -->
+<div class="categories" id="categories">
+    <div class="cat-btn active">Zote</div>
+    <div class="cat-btn">Bongo Movie</div>
+    <div class="cat-btn">Action</div>
+    <div class="cat-btn">Comedy</div>
+    <div class="cat-btn">FLEX STUDIO OG</div>
+</div>
+
+<!-- MOVIES -->
+<h3 class="section-title">Filamu Mpya</h3>
+<div class="movie-grid" id="movie-grid">
+    <!-- Movies zitavutwa kutoka Firebase hapa -->
+    <div class="movie-card" onclick="playMovie('https://www.w3schools.com/html/mov_bbb.mp4')">
+        <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg">
+        <p>LOST AT ARRIVAL</p>
+    </div>
+</div>
+
+<!-- PLAYER -->
+<div class="player-container" id="player">
+    <span class="close-player" onclick="closePlayer()">X</span>
+    <video id="videoPlayer" controls autoplay></video>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <div class="nav-btn active">🏠<br>Home</div>
+    <div class="nav-btn">🛍️<br>Shop</div>
+    <div class="nav-btn">📚<br>Academy</div>
+</div>
+
+<!-- BOTTOM AD -->
+<div class="bottom-ad">
+    <p>Hapa ndipo Tangazo lako litaonekana - Haijazuii Movie</p>
+</div>
+
+<script type="module">
+  // 1. UNGANISHA FIREBASE YAKO
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    // WEKA CONFIG YAKO YA FIREBASE HAPA
+    // Unaipata kwenye Firebase > Project Settings > Web App
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 2. FUNCTION YA KU-PLAY MOVIE
+  function playMovie(videoLink) {
+      document.getElementById('videoPlayer').src = videoLink;
+      document.getElementById('player').style.display = 'block';
+  }
+  function closePlayer() {
+      document.getElementById('videoPlayer').pause();
+      document.getElementById('player').style.display = 'none';
+  }
+
+  // 3. VUTA MOVIES KUTOKA FIREBASE
+  async function loadMovies() {
+      const querySnapshot = await getDocs(collection(db, "movies"));
+      let html = '';
+      querySnapshot.forEach((doc) => {
+          let data = doc.data();
+          html += `
+          <div class="movie-card" onclick="playMovie('${data.videoLink}')">
+              <img src="${data.poster}">
+              <p>${data.title}</p>
+          </div>`;
+      });
+      document.getElementById('movie-grid').innerHTML = html;
+  }
+  loadMovies();
+
+</script>
+</body>
+</html>
