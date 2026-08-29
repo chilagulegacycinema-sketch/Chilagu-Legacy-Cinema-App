@@ -4,142 +4,170 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CHILAGU LEGACY CINEMA</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
-    :root {
-        --purple: #6A0DAD;
-        --silver: #C0C0C0;
-        --black: #000;
-    }
+    :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; --glow: 0 0 15px var(--purple); }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body { background: var(--black); color: var(--silver); }
     
-    /* HEADER */
-    .header { padding: 15px; background: #111; position: sticky; top: 0; z-index: 10; }
-    .logo { height: 40px; }
-    .search-bar { width: 100%; padding: 10px; margin-top: 10px; border-radius: 20px; border: 1px solid var(--purple); background: #222; color: white; outline: none; }
+    .header { padding: 15px; background: linear-gradient(180deg, #111 0%, #000 100%); position: sticky; top: 0; z-index: 10; box-shadow: var(--glow); }
+    .logo { height: 45px; filter: drop-shadow(0 0 5px var(--purple)); cursor: pointer; }
+    .search-bar { width: 100%; padding: 12px; margin-top: 12px; border-radius: 25px; border: 1px solid var(--purple); background: #1a1a1a; color: white; outline: none; font-size: 13px; }
 
-    /* BANNER SLIDER */
-    .banner { width: 100%; height: 200px; overflow: hidden; position: relative; }
-    .banner img { width: 100%; height: 100%; object-fit: cover; animation: slide 10s infinite; }
-    @keyframes slide { 0%{opacity:1} 33%{opacity:0} 66%{opacity:0} 100%{opacity:1} }
+    .main-cats { display: flex; gap: 10px; padding: 15px; overflow-x: auto; background: #0a0a0a; }
+    .main-btn { padding: 10px 20px; background: #222; border: 2px solid #333; border-radius: 25px; color: var(--silver); font-weight: 600; font-size: 13px; white-space: nowrap; cursor: pointer; transition: 0.3s; }
+    .main-btn.active { background: var(--purple); color: white; border-color: var(--purple); box-shadow: var(--glow); }
 
-    /* CATEGORIES */
-    .categories { display: flex; gap: 10px; padding: 15px; overflow-x: auto; }
-    .cat-btn { padding: 8px 15px; background: #222; border: 1px solid var(--purple); border-radius: 20px; color: var(--silver); white-space: nowrap; cursor: pointer; }
-    .cat-btn.active { background: var(--purple); color: white; }
+    .sub-cats { display: none; gap: 8px; padding: 10px 15px; overflow-x: auto; background: #111; }
+    .sub-cats.active { display: flex; }
+    .sub-btn { padding: 6px 12px; background: #1a1a1a; border-radius: 15px; color: var(--silver); font-size: 11px; cursor: pointer; }
 
-    /* MOVIE GRID */
-    .section-title { padding: 0 15px; font-size: 18px; font-weight: 600; }
-    .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; }
-    .movie-card { background: #111; border-radius: 10px; overflow: hidden; cursor: pointer; }
-    .movie-card img { width: 100%; height: 150px; object-fit: cover; }
-    .movie-card p { padding: 8px; font-size: 12px; }
+    .banner { width: 100%; height: 200px; position: relative; }
+    .banner video { width: 100%; height: 100%; object-fit: cover; border-bottom: 3px solid var(--purple); }
 
-    /* PLAYER */
+    .section-title { padding: 15px; font-size: 16px; font-weight: 700; }
+    .movie-row { display: flex; gap: 10px; padding: 0 15px 15px; overflow-x: auto; }
+    .movie-card { min-width: 32%; background: #111; border-radius: 10px; overflow: hidden; cursor: pointer; transition: 0.3s; border: 1px solid #222; }
+    .movie-card img { width: 100%; height: 140px; object-fit: cover; }
+    .movie-card p { padding: 8px; font-size: 11px; font-weight: 600; }
+
     .player-container { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: black; z-index: 20; }
-    .player-container video { width: 100%; height: 80%; }
-    .close-player { position: absolute; top: 10px; right: 20px; font-size: 30px; color: white; cursor: pointer; }
+    .player-container video { width: 100%; height: 100%; object-fit: contain; }
+    .close-player { position: absolute; top: 15px; right: 20px; font-size: 35px; color: white; cursor: pointer; text-shadow: var(--glow); z-index: 21; }
     
-    /* BOTTOM AD BANNER */
-    .bottom-ad { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #111; border-top: 2px solid var(--purple); display: flex; align-items: center; justify-content: center; z-index: 15; }
-    .bottom-ad p { color: var(--silver); font-size: 12px; }
+    .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #0a0a0a; padding: 10px 0; border-top: 1px solid #222; }
+    .nav-btn { color: var(--silver); text-align: center; font-size: 10px; font-weight: 600; cursor: pointer; }
 
-    /* BOTTOM NAV */
-    .bottom-nav { position: fixed; bottom: 60px; width: 100%; display: flex; justify-content: space-around; background: #111; padding: 10px 0; border-top: 1px solid #333; }
-    .nav-btn { color: var(--silver); text-align: center; font-size: 10px; cursor: pointer; }
-    .nav-btn.active { color: var(--purple); }
+    /* ADMIN PANEL YA SIRI */
+    .admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 30; padding: 20px; overflow-y: auto; }
+    .admin-box { background: #111; padding: 20px; border-radius: 15px; border: 2px solid var(--purple); }
+    .admin-box h2 { color: var(--purple); margin-bottom: 15px; }
+    .admin-box input, .admin-box select, .admin-box button { width: 100%; padding: 10px; margin: 8px 0; background: #222; border: 1px solid #333; color: white; border-radius: 8px; font-size: 12px; }
+    .admin-box button { background: var(--purple); font-weight: 700; cursor: pointer; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
-    <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg" class="logo" alt="CHILAGU">
-    <input type="text" class="search-bar" placeholder="Tafuta movie...">
+    <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg" class="logo" id="logoBtn" alt="CHILAGU">
+    <input type="text" id="search" class="search-bar" placeholder="Tafuta filamu, album, bidhaa...">
 </div>
 
-<!-- BANNER -->
+<div class="main-cats" id="mainCats">
+    <div class="main-btn active" data-cat="All">All</div>
+    <div class="main-btn" data-cat="Single Movie">Single Movie</div>
+    <div class="main-btn" data-cat="Series">Series</div>
+    <div class="main-btn" data-cat="FlashCut">FlashCut</div>
+    <div class="main-btn" data-cat="Shop">Shop</div>
+</div>
+
+<div class="sub-cats active" id="subCats">
+    <div class="sub-btn active" data-genre="All">Zote</div>
+    <div class="sub-btn" data-genre="Action">Action</div>
+    <div class="sub-btn" data-genre="Drama">Drama</div>
+    <div class="sub-btn" data-genre="Love Story">Love Story</div>
+    <div class="sub-btn" data-genre="Inspiration">Inspiration</div>
+</div>
+
 <div class="banner">
-    <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg" alt="Banner">
+    <video id="bannerVideo" autoplay muted loop></video>
 </div>
 
-<!-- CATEGORIES -->
-<div class="categories" id="categories">
-    <div class="cat-btn active">Zote</div>
-    <div class="cat-btn">Bongo Movie</div>
-    <div class="cat-btn">Action</div>
-    <div class="cat-btn">Comedy</div>
-    <div class="cat-btn">FLEX STUDIO OG</div>
-</div>
+<h3 class="section-title">Trending Sasa</h3>
+<div class="movie-row" id="contentGrid"></div>
 
-<!-- MOVIES -->
-<h3 class="section-title">Filamu Mpya</h3>
-<div class="movie-grid" id="movie-grid">
-    <!-- Movies zitavutwa kutoka Firebase hapa -->
-    <div class="movie-card" onclick="playMovie('https://www.w3schools.com/html/mov_bbb.mp4')">
-        <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg">
-        <p>LOST AT ARRIVAL</p>
-    </div>
-</div>
-
-<!-- PLAYER -->
 <div class="player-container" id="player">
     <span class="close-player" onclick="closePlayer()">X</span>
-    <video id="videoPlayer" controls autoplay></video>
+    <video id="videoPlayer" controls></video>
 </div>
 
-<!-- BOTTOM NAV -->
 <div class="bottom-nav">
     <div class="nav-btn active">🏠<br>Home</div>
     <div class="nav-btn">🛍️<br>Shop</div>
     <div class="nav-btn">📚<br>Academy</div>
 </div>
 
-<!-- BOTTOM AD -->
-<div class="bottom-ad">
-    <p>Hapa ndipo Tangazo lako litaonekana - Haijazuii Movie</p>
+<!-- ADMIN PANEL YA SIRI -->
+<div class="admin-modal" id="adminPanel">
+    <div class="admin-box">
+        <h2>ADMIN PANEL - CHILAGU</h2>
+        <input type="password" id="adminPin" placeholder="Weka PIN">
+        <button onclick="checkPin()">INGIA</button>
+        
+        <div id="adminControls" style="display:none">
+            <h3>Ongeza Movie/Series</h3>
+            <input id="mTitle" placeholder="Jina la Movie">
+            <input id="mPoster" placeholder="Link ya Poster">
+            <input id="mVideo" placeholder="Link ya Video">
+            <input id="mTrailer" placeholder="Link ya Trailer ya Banner">
+            <select id="mType"><option>Single Movie</option><option>Series</option><option>FlashCut</option></select>
+            <select id="mGenre"><option>Action</option><option>Drama</option><option>Love Story</option><option>Inspiration</option></select>
+            <select id="mPrice"><option>free</option><option>paid</option></select>
+            <button onclick="addMovie()">WEKA MOVIE</button>
+
+            <h3>Settings za Pesa</h3>
+            <input id="paymentNum" placeholder="Namba ya Malipo M-Pesa/Tigo">
+            <input id="newPass" type="password" placeholder="Badilisha Password ya Admin">
+            <button onclick="saveSettings()">HIFADHI SETTINGS</button>
+            <button onclick="logoutAdmin()" style="background:#800">TOKA</button>
+        </div>
+    </div>
 </div>
 
 <script type="module">
-  // 1. UNGANISHA FIREBASE YAKO
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, query, where, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    // WEKA CONFIG YAKO YA FIREBASE HAPA
-    // Unaipata kwenye Firebase > Project Settings > Web App
-  };
-
+  const firebaseConfig = {}; // WEKA CONFIG YAKO HAPA
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // 2. FUNCTION YA KU-PLAY MOVIE
-  function playMovie(videoLink) {
-      document.getElementById('videoPlayer').src = videoLink;
-      document.getElementById('player').style.display = 'block';
+  let clickCount = 0;
+  document.getElementById('logoBtn').onclick = () => {
+      clickCount++;
+      if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; }
+      setTimeout(() => clickCount = 0, 3000);
   }
-  function closePlayer() {
+
+  window.checkPin = () => {
+      if(document.getElementById('adminPin').value === '1255') {
+          document.getElementById('adminControls').style.display = 'block';
+          loadSettings();
+      } else { alert('PIN SIO SAHI'); }
+  }
+
+  window.addMovie = async () => {
+      await addDoc(collection(db, "movies"), {
+          title: mTitle.value, poster: mPoster.value, videoLink: mVideo.value,
+          trailerLink: mTrailer.value, type: mType.value, genre: mGenre.value, price: mPrice.value
+      });
+      alert('Movie Imeongezwa!'); loadContent(); 
+      if(mTrailer.value) document.getElementById('bannerVideo').src = mTrailer.value;
+  }
+
+  async function loadContent() {
+      const snap = await getDocs(collection(db, "movies"));
+      let html = '';
+      snap.forEach(doc => {
+          let d = doc.data();
+          html += `<div class="movie-card" onclick="playMovie('${d.videoLink}')"><img src="${d.poster}"><p>${d.title}</p></div>`;
+      });
+      document.getElementById('contentGrid').innerHTML = html;
+  }
+  
+  window.playMovie = (link) => {
+      document.getElementById('videoPlayer').src = link;
+      document.getElementById('player').style.display = 'block';
+      document.getElementById('videoPlayer').play();
+  }
+  window.closePlayer = () => {
       document.getElementById('videoPlayer').pause();
       document.getElementById('player').style.display = 'none';
   }
+  window.logoutAdmin = () => { document.getElementById('adminPanel').style.display = 'none'; }
+  window.saveSettings = async () => { alert('Settings zimehifadhiwa'); }
 
-  // 3. VUTA MOVIES KUTOKA FIREBASE
-  async function loadMovies() {
-      const querySnapshot = await getDocs(collection(db, "movies"));
-      let html = '';
-      querySnapshot.forEach((doc) => {
-          let data = doc.data();
-          html += `
-          <div class="movie-card" onclick="playMovie('${data.videoLink}')">
-              <img src="${data.poster}">
-              <p>${data.title}</p>
-          </div>`;
-      });
-      document.getElementById('movie-grid').innerHTML = html;
-  }
-  loadMovies();
-
+  loadContent();
 </script>
 </body>
 </html>
