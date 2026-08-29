@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>CHILAGU LEGACY SHOP</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
     :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -75,30 +75,27 @@
             <input id="pImage" placeholder="Link ya Picha">
             <textarea id="pDesc" placeholder="Maelezo mafupi"></textarea>
             <select id="pCat"><option>Nguo</option><option>Album</option><option>Bidhaa Nyingine</option></select>
-            <input id="pWhatsApp" placeholder="Namba ya WhatsApp ya Mteja Akulipie">
+            <input id="pWhatsApp" placeholder="Namba yako WhatsApp 2556...">
             <button id="addProductBtn">WEKA BIDHAA</button>
-            <hr style="margin:15px 0; border-color:#333">
-            <h3>Settings</h3>
-            <input id="paymentNum" placeholder="Namba yako ya Malipo M-Pesa/Tigo">
-            <button id="saveSettingsBtn">HIFADHI NAMBA</button>
-            <button id="logoutBtn" style="background:#550000">FUNGA</button>
+            <button id="logoutBtn" style="background:#550000; margin-top:10px">FUNGA</button>
         </div>
     </div>
 </div>
 
 <script>
-// 1. WEKA CONFIG YAKO YA FIREBASE HAPA
+// 1. WEKA CONFIG YAKO KAMILI YA FIREBASE HAPA
 const firebaseConfig = {
   apiKey: "WEKA_HAPA",
-  authDomain: "WEKA_HAPA",
+  authDomain: "WEKA_HAPA.firebaseapp.com",
+  databaseURL: "https://WEKA_HAPA.firebaseio.com", // MUHIMU SANA HII
   projectId: "WEKA_HAPA",
-  storageBucket: "WEKA_HAPA",
+  storageBucket: "WEKA_HAPA.appspot.com",
   messagingSenderId: "WEKA_HAPA",
   appId: "WEKA_HAPA"
 };
 
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const db = firebase.database(); // TUMIA DATABASE SIO FIRESTORE
 
 let clickCount = 0;
 let allProducts = [];
@@ -131,12 +128,11 @@ function attachEvents() {
     };
     
     document.getElementById('openTvApp').onclick = function(){
-        window.open("https://studioflex38-jpg.github.io/", "_blank");
+        window.location.href = "https://studioflex38-jpg.github.io/";
     }
     
     document.getElementById('loginBtn').onclick = checkPin;
     document.getElementById('addProductBtn').onclick = addProductToFirebase;
-    document.getElementById('saveSettingsBtn').onclick = saveSettings;
     document.getElementById('logoutBtn').onclick = function(){ document.getElementById('adminPanel').style.display = 'none'; };
 }
 
@@ -151,12 +147,12 @@ function setCat(cat, btn) {
 function checkPin() {
     if(document.getElementById('adminPin').value === '1255') {
         document.getElementById('adminControls').style.display = 'block';
-        loadSettings();
     } else { alert('PIN SIO SAHI'); }
 }
 
 function addProductToFirebase() {
-    db.collection("products").add({
+    const newProductRef = db.ref("products").push();
+    newProductRef.set({
         name: document.getElementById('pName').value, 
         price: document.getElementById('pPrice').value, 
         image: document.getElementById('pImage').value,
@@ -166,18 +162,20 @@ function addProductToFirebase() {
     })
     .then(() => {
         alert('Bidhaa Imeongezwa');
-        loadProductsFromFirebase();
-    })
-    .catch((error) => { alert("Error: " + error); });
+        document.getElementById('pName').value = "";
+        document.getElementById('pPrice').value = "";
+    });
 }
 
 function loadProductsFromFirebase() {
-    db.collection("products").get().then((querySnapshot) => {
+    db.ref("products").on("value", (snapshot) => {
         allProducts = [];
-        querySnapshot.forEach((doc) => {
-            allProducts.push(doc.data());
+        snapshot.forEach((child) => {
+            allProducts.push(child.val());
         });
         renderProducts();
+    }, (error) => {
+        document.getElementById('productGrid').innerHTML = "<p style='padding:20px; grid-column: span 2;'>Error: Angalia databaseURL na Rules za Firebase</p>";
     });
 }
   
@@ -206,16 +204,8 @@ function renderProducts() {
 }
 
 function buyProduct(num, name){
-    let msg = "Habari, nataka kununua: " + name;
+    let msg = "Habari CHILAGU SHOP, nataka kununua: " + name;
     window.open("https://wa.me/"+num+"?text="+encodeURIComponent(msg), "_blank");
-}
-
-function saveSettings(){
-    localStorage.setItem("paymentNum", document.getElementById('paymentNum').value);
-    alert("Namba Imehifadhiwa");
-}
-function loadSettings(){
-    document.getElementById('paymentNum').value = localStorage.getItem("paymentNum") || "";
 }
 </script>
 </body>
