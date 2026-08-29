@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>CHILAGU LEGACY CINEMA</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 <style>
     :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -60,7 +62,7 @@
 </div>
 
 <h3 class="section-title" id="sectionTitle">Filamu Mpya</h3>
-<div class="movie-row" id="contentGrid"></div>
+<div class="movie-row" id="contentGrid"><p style="padding:20px">Inapakia kutoka Firebase...</p></div>
 
 <div class="player-container" id="player">
     <div class="close-player" id="closeBtn">X</div>
@@ -95,18 +97,24 @@
 </div>
 
 <script>
-// DATA YA MFANO ILI IONEKANE INAFANYA KAZI
-let allMovies = [
-    {title: "LOST AT ARRIVAL", poster: "https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg", videoLink: "https://www.w3schools.com/html/mov_bbb.mp4", trailerLink: "https://www.w3schools.com/html/mov_bbb.mp4", type: "Single Movie", genre: "Action"},
-    {title: "FLEX STUDIO DRAMA", poster: "https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg", videoLink: "https://www.w3schools.com/html/movie.mp4", trailerLink: "", type: "Series", genre: "Drama"},
-    {title: "LOVE IN DAR", poster: "https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg", videoLink: "https://www.w3schools.com/html/mov_bbb.mp4", trailerLink: "", type: "Single Movie", genre: "Love Story"},
-    {title: "FLASHCUT 01", poster: "https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg", videoLink: "https://www.w3schools.com/html/movie.mp4", trailerLink: "", type: "FlashCut", genre: "Inspiration"},
-    {title: "ACTION HERO", poster: "https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg", videoLink: "https://www.w3schools.com/html/mov_bbb.mp4", trailerLink: "", type: "Single Movie", genre: "Action"}
-];
+// 1. WEKA CONFIG YAKO YA FIREBASE HAPA. ITOE KUTOKA FIREBASE > PROJECT SETTINGS
+const firebaseConfig = {
+  apiKey: "WEKA_HAPA",
+  authDomain: "WEKA_HAPA",
+  projectId: "WEKA_HAPA",
+  storageBucket: "WEKA_HAPA",
+  messagingSenderId: "WEKA_HAPA",
+  appId: "WEKA_HAPA"
+};
+
+// ANZISHA FIREBASE
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 let clickCount = 0;
 let currentMainCat = "All";
 let currentGenre = "All";
+let allMovies = [];
 
 const mainCats = ["All", "Single Movie", "Series", "FlashCut", "Shop"];
 const subCats = ["All", "Action", "Drama", "Love Story", "Inspiration"];
@@ -114,7 +122,7 @@ const subCats = ["All", "Action", "Drama", "Love Story", "Inspiration"];
 window.onload = function() {
     buildCategories();
     attachEvents();
-    renderContent();
+    loadMoviesFromFirebase();
 }
 
 function buildCategories() {
@@ -145,7 +153,7 @@ function attachEvents() {
     };
     
     document.getElementById('loginBtn').onclick = checkPin;
-    document.getElementById('addMovieBtn').onclick = addMovie;
+    document.getElementById('addMovieBtn').onclick = addMovieToFirebase;
     document.getElementById('logoutBtn').onclick = function(){ document.getElementById('adminPanel').style.display = 'none'; };
     document.getElementById('closeBtn').onclick = closePlayer;
     document.getElementById('navShop').onclick = function(){ setMainCat('Shop'); };
@@ -173,21 +181,33 @@ function checkPin() {
     } else { alert('PIN ERROR'); }
 }
 
-function addMovie() {
-    let newMovie = {
+function addMovieToFirebase() {
+    db.collection("movies").add({
         title: document.getElementById('mTitle').value, 
         poster: document.getElementById('mPoster').value, 
         videoLink: document.getElementById('mVideo').value,
         trailerLink: document.getElementById('mTrailer').value, 
         type: document.getElementById('mType').value, 
-        genre: document.getElementById('mGenre').value
-    };
-    allMovies.push(newMovie);
-    alert('Imeongezwa');
-    renderContent();
-    if(newMovie.trailerLink) document.getElementById('bannerVideo').src = newMovie.trailerLink;
+        genre: document.getElementById('mGenre').value,
+        price: document.getElementById('mPrice').value
+    })
+    .then(() => {
+        alert('Imeongezwa Firebase');
+        loadMoviesFromFirebase();
+    })
+    .catch((error) => { alert("Error: " + error); });
 }
 
+function loadMoviesFromFirebase() {
+    db.collection("movies").get().then((querySnapshot) => {
+        allMovies = [];
+        querySnapshot.forEach((doc) => {
+            allMovies.push(doc.data());
+        });
+        renderContent();
+    });
+}
+  
 function renderContent() {
     let filtered = allMovies;
     if(currentMainCat !== 'All' && currentMainCat !== 'Shop') {
@@ -206,7 +226,7 @@ function renderContent() {
         card.innerHTML = '<img src="'+m.poster+'"><p>'+m.title+'</p>';
         grid.appendChild(card);
     });
-    if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px'>Hakuna content</p>";
+    if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px'>Hakuna content. Ingia Admin uongeze.</p>";
 }
 
 function playMovie(link) {
