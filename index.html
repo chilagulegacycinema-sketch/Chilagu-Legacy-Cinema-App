@@ -6,20 +6,20 @@
 <title>CHILAGU LEGACY CINEMA</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-    :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000000; }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background: var(--black); color: var(--silver); }
+    :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: var(--black); color: var(--silver); padding-bottom: 60px; }
     
-    .header { padding: 12px 15px; background: #0A0A0A; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--purple); }
-    .logo { height: 38px; width: auto; object-fit: contain; display: block; cursor: pointer; }
-    .search-bar { width: 100%; padding: 10px 15px; margin-top: 10px; border-radius: 8px; border: 1px solid #333; background: #111; color: white; outline: none; font-size: 13px; }
+    .header { padding: 10px 15px; background: #0A0A0A; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--purple); }
+    .logo { height: 40px; display: block; cursor: pointer; }
+    .search-bar { width: 100%; padding: 10px; margin-top: 10px; border-radius: 8px; border: 1px solid #333; background: #111; color: white; font-size: 13px; }
 
     .main-cats { display: flex; gap: 8px; padding: 12px 15px; overflow-x: auto; background: #0A0A0A; }
-    .main-btn { padding: 8px 16px; background: #1A1A1A; border: 1px solid #333; border-radius: 20px; color: var(--silver); font-weight: 600; font-size: 12px; white-space: nowrap; cursor: pointer; }
+    .main-btn { padding: 8px 16px; background: #1A1A1A; border: 1px solid #333; border-radius: 20px; color: var(--silver); font-weight: 600; font-size: 12px; white-space: nowrap; }
     .main-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
 
     .sub-cats { display: flex; gap: 8px; padding: 10px 15px; overflow-x: auto; background: #0F0F0F; border-bottom: 1px solid #1A1A1A; }
-    .sub-btn { padding: 6px 12px; background: #1A1A1A; border-radius: 15px; color: var(--silver); font-size: 11px; cursor: pointer; }
+    .sub-btn { padding: 6px 12px; background: #1A1A1A; border-radius: 15px; color: var(--silver); font-size: 11px; }
     .sub-btn.active { background: var(--purple); color: white; }
 
     .banner { width: 100%; height: 180px; background: #111; }
@@ -27,16 +27,16 @@
 
     .section-title { padding: 15px; font-size: 15px; font-weight: 700; color: white; }
     .movie-row { display: flex; gap: 10px; padding: 0 15px 20px; overflow-x: auto; }
-    .movie-card { min-width: 30vw; max-width: 30vw; background: #111; border-radius: 6px; overflow: hidden; cursor: pointer; }
-    .movie-card img { width: 100%; height: 38vw; object-fit: cover; background: #222; }
-    .movie-card p { padding: 8px; font-size: 11px; font-weight: 600; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .movie-card { min-width: 30%; background: #111; border-radius: 6px; overflow: hidden; }
+    .movie-card img { width: 100%; height: 140px; object-fit: cover; background: #222; }
+    .movie-card p { padding: 8px; font-size: 11px; font-weight: 600; color: white; }
 
     .player-container { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: black; z-index: 20; }
-    .player-container video { width: 100%; height: 100%; object-fit: contain; }
-    .close-player { position: absolute; top: 10px; right: 15px; font-size: 28px; color: white; cursor: pointer; z-index: 21; font-weight: 700; }
+    .player-container video { width: 100%; height: 100%; }
+    .close-player { position: absolute; top: 10px; right: 15px; font-size: 28px; color: white; z-index: 21; font-weight: 700; }
     
     .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #0A0A0A; padding: 8px 0; border-top: 1px solid #1A1A1A; }
-    .nav-btn { color: var(--silver); text-align: center; font-size: 10px; font-weight: 600; cursor: pointer; padding: 5px; }
+    .nav-btn { color: var(--silver); text-align: center; font-size: 10px; font-weight: 600; padding: 5px; }
 
     .admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); z-index: 30; padding: 20px; overflow-y: auto; }
     .admin-box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid var(--purple); }
@@ -48,7 +48,7 @@
 <body>
 
 <div class="header">
-    <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg" class="logo" id="logoBtn" alt="CHILAGU LEGACY CINEMA">
+    <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg" class="logo" id="logoBtn">
     <input type="text" id="search" class="search-bar" placeholder="Tafuta...">
 </div>
 
@@ -76,7 +76,7 @@
 <div class="admin-modal" id="adminPanel">
     <div class="admin-box">
         <h2>ADMIN ACCESS</h2>
-        <input type="password" id="adminPin" placeholder="Weka PIN">
+        <input type="password" id="adminPin" placeholder="Weka PIN 1255">
         <button id="loginBtn">INGIA</button>
         
         <div id="adminControls" style="display:none">
@@ -94,147 +94,131 @@
     </div>
 </div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script>
+// DATA YA MFANO ILI IONEKANE INAFANYA KAZI
+let allMovies = [
+    {title: "LOST AT ARRIVAL", poster: "https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg", videoLink: "https://www.w3schools.com/html/mov_bbb.mp4", trailerLink: "https://www.w3schools.com/html/mov_bbb.mp4", type: "Single Movie", genre: "Action"},
+    {title: "FLEX STUDIO DRAMA", poster: "https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg", videoLink: "https://www.w3schools.com/html/movie.mp4", trailerLink: "", type: "Series", genre: "Drama"},
+    {title: "LOVE IN DAR", poster: "https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg", videoLink: "https://www.w3schools.com/html/mov_bbb.mp4", trailerLink: "", type: "Single Movie", genre: "Love Story"},
+    {title: "FLASHCUT 01", poster: "https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg", videoLink: "https://www.w3schools.com/html/movie.mp4", trailerLink: "", type: "FlashCut", genre: "Inspiration"},
+    {title: "ACTION HERO", poster: "https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg", videoLink: "https://www.w3schools.com/html/mov_bbb.mp4", trailerLink: "", type: "Single Movie", genre: "Action"}
+];
 
-  const firebaseConfig = {
-    // WEKA CONFIG YAKO YA FIREBASE HAPA
-  };
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+let clickCount = 0;
+let currentMainCat = "All";
+let currentGenre = "All";
 
-  let clickCount = 0;
-  let currentMainCat = "All";
-  let currentGenre = "All";
-  let allMovies = [];
+const mainCats = ["All", "Single Movie", "Series", "FlashCut", "Shop"];
+const subCats = ["All", "Action", "Drama", "Love Story", "Inspiration"];
 
-  const mainCats = ["All", "Single Movie", "Series", "FlashCut", "Shop"];
-  const subCats = ["All", "Action", "Drama", "Love Story", "Inspiration"];
+window.onload = function() {
+    buildCategories();
+    attachEvents();
+    renderContent();
+}
 
-  document.addEventListener('DOMContentLoaded', () => {
-      buildCategories();
-      attachEvents();
-      loadMovies();
-  });
+function buildCategories() {
+    const mainDiv = document.getElementById('mainCats');
+    mainCats.forEach(cat => {
+        const btn = document.createElement('div');
+        btn.className = 'main-btn' + (cat === 'All' ? ' active' : '');
+        btn.innerText = cat;
+        btn.onclick = function(){ setMainCat(cat, btn); }
+        mainDiv.appendChild(btn);
+    });
 
-  function buildCategories() {
-      const mainDiv = document.getElementById('mainCats');
-      mainCats.forEach(cat => {
-          const btn = document.createElement('div');
-          btn.className = 'main-btn' + (cat === 'All' ? ' active' : '');
-          btn.innerText = cat;
-          btn.dataset.cat = cat;
-          mainDiv.appendChild(btn);
-      });
+    const subDiv = document.getElementById('subCats');
+    subCats.forEach(cat => {
+        const btn = document.createElement('div');
+        btn.className = 'sub-btn' + (cat === 'All' ? ' active' : '');
+        btn.innerText = cat;
+        btn.onclick = function(){ setGenre(cat, btn); }
+        subDiv.appendChild(btn);
+    });
+}
 
-      const subDiv = document.getElementById('subCats');
-      subCats.forEach(cat => {
-          const btn = document.createElement('div');
-          btn.className = 'sub-btn' + (cat === 'All' ? ' active' : '');
-          btn.innerText = cat;
-          btn.dataset.genre = cat;
-          subDiv.appendChild(btn);
-      });
-  }
+function attachEvents() {
+    document.getElementById('logoBtn').onclick = function(){
+        clickCount++;
+        if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; }
+        setTimeout(function(){ clickCount = 0; }, 3000);
+    };
+    
+    document.getElementById('loginBtn').onclick = checkPin;
+    document.getElementById('addMovieBtn').onclick = addMovie;
+    document.getElementById('logoutBtn').onclick = function(){ document.getElementById('adminPanel').style.display = 'none'; };
+    document.getElementById('closeBtn').onclick = closePlayer;
+    document.getElementById('navShop').onclick = function(){ setMainCat('Shop'); };
+}
 
-  function attachEvents() {
-      document.getElementById('mainCats').addEventListener('click', e => {
-          if(e.target.classList.contains('main-btn')) setMainCat(e.target.dataset.cat, e.target);
-      });
-      document.getElementById('subCats').addEventListener('click', e => {
-          if(e.target.classList.contains('sub-btn')) setGenre(e.target.dataset.genre, e.target);
-      });
-      document.getElementById('contentGrid').addEventListener('click', e => {
-          const card = e.target.closest('.movie-card');
-          if(card) playMovie(card.dataset.link);
-      });
-      
-      document.getElementById('logoBtn').addEventListener('click', () => {
-          clickCount++;
-          if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; }
-          setTimeout(() => clickCount = 0, 3000);
-      });
-      
-      document.getElementById('loginBtn').addEventListener('click', checkPin);
-      document.getElementById('addMovieBtn').addEventListener('click', addMovie);
-      document.getElementById('logoutBtn').addEventListener('click', () => document.getElementById('adminPanel').style.display = 'none');
-      document.getElementById('closeBtn').addEventListener('click', closePlayer);
-      document.getElementById('navShop').addEventListener('click', () => setMainCat('Shop'));
-  }
+function setMainCat(cat, btn) {
+    document.querySelectorAll('.main-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentMainCat = cat;
+    document.getElementById('subCats').style.display = cat === 'Shop' ? 'none' : 'flex';
+    document.getElementById('sectionTitle').innerText = cat;
+    renderContent();
+}
 
-  function setMainCat(cat, btn) {
-      document.querySelectorAll('.main-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentMainCat = cat;
-      document.getElementById('subCats').style.display = cat === 'Shop' ? 'none' : 'flex';
-      document.getElementById('sectionTitle').innerText = cat;
-      renderContent();
-  }
+function setGenre(cat, btn) {
+    document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentGenre = cat;
+    renderContent();
+}
 
-  function setGenre(cat, btn) {
-      document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentGenre = cat;
-      renderContent();
-  }
+function checkPin() {
+    if(document.getElementById('adminPin').value === '1255') {
+        document.getElementById('adminControls').style.display = 'block';
+    } else { alert('PIN ERROR'); }
+}
 
-  function checkPin() {
-      if(document.getElementById('adminPin').value === '1255') {
-          document.getElementById('adminControls').style.display = 'block';
-      } else { alert('PIN ERROR'); }
-  }
+function addMovie() {
+    let newMovie = {
+        title: document.getElementById('mTitle').value, 
+        poster: document.getElementById('mPoster').value, 
+        videoLink: document.getElementById('mVideo').value,
+        trailerLink: document.getElementById('mTrailer').value, 
+        type: document.getElementById('mType').value, 
+        genre: document.getElementById('mGenre').value
+    };
+    allMovies.push(newMovie);
+    alert('Imeongezwa');
+    renderContent();
+    if(newMovie.trailerLink) document.getElementById('bannerVideo').src = newMovie.trailerLink;
+}
 
-  async function addMovie() {
-      await addDoc(collection(db, "movies"), {
-          title: mTitle.value, poster: mPoster.value, videoLink: mVideo.value,
-          trailerLink: mTrailer.value, type: mType.value, genre: mGenre.value, price: mPrice.value
-      });
-      alert('Added'); loadMovies(); 
-      if(mTrailer.value) document.getElementById('bannerVideo').src = mTrailer.value;
-  }
+function renderContent() {
+    let filtered = allMovies;
+    if(currentMainCat !== 'All' && currentMainCat !== 'Shop') {
+        filtered = filtered.filter(m => m.type === currentMainCat);
+    }
+    if(currentGenre !== 'All') {
+        filtered = filtered.filter(m => m.genre === currentGenre);
+    }
 
-  async function loadMovies() {
-      const snap = await getDocs(collection(db, "movies"));
-      allMovies = [];
-      snap.forEach(doc => allMovies.push(doc.data()));
-      renderContent();
-  }
-  
-  function renderContent() {
-      let filtered = allMovies;
-      if(currentMainCat !== 'All' && currentMainCat !== 'Shop') {
-          filtered = filtered.filter(m => m.type === currentMainCat);
-      }
-      if(currentGenre !== 'All') {
-          filtered = filtered.filter(m => m.genre === currentGenre);
-      }
+    const grid = document.getElementById('contentGrid');
+    grid.innerHTML = '';
+    filtered.forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'movie-card';
+        card.onclick = function(){ playMovie(m.videoLink); }
+        card.innerHTML = '<img src="'+m.poster+'"><p>'+m.title+'</p>';
+        grid.appendChild(card);
+    });
+    if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px'>Hakuna content</p>";
+}
 
-      const grid = document.getElementById('contentGrid');
-      grid.innerHTML = '';
-      filtered.forEach(m => {
-          const card = document.createElement('div');
-          card.className = 'movie-card';
-          card.dataset.link = m.videoLink;
-          card.innerHTML = `<img src="${m.poster}"><p>${m.title}</p>`;
-          grid.appendChild(card);
-      });
-      if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px'>No content</p>";
-  }
-
-  function playMovie(link) {
-      if(!link) return;
-      const player = document.getElementById('player');
-      const video = document.getElementById('videoPlayer');
-      video.src = link;
-      player.style.display = 'block';
-      video.play();
-  }
-  function closePlayer() {
-      const video = document.getElementById('videoPlayer');
-      video.pause();
-      document.getElementById('player').style.display = 'none';
-  }
+function playMovie(link) {
+    if(!link) return;
+    document.getElementById('videoPlayer').src = link;
+    document.getElementById('player').style.display = 'block';
+    document.getElementById('videoPlayer').play();
+}
+function closePlayer() {
+    document.getElementById('videoPlayer').pause();
+    document.getElementById('player').style.display = 'none';
+}
 </script>
 </body>
 </html>
