@@ -27,7 +27,7 @@
     .product-card { background: #111; border-radius: 10px; overflow: hidden; border: 1px solid #222; }
     .product-card img { width: 100%; height: 160px; object-fit: cover; background: #222; }
     .product-info { padding: 10px; }
-    .product-info h4 { font-size: 12px; color: white; margin-bottom: 5px; }
+    .product-info h4 { font-size: 12px; color: white; margin-bottom: 5px; height: 28px; overflow: hidden; }
     .product-info p { font-size: 14px; color: var(--purple); font-weight: 700; }
     .buy-btn { width: 100%; padding: 8px; background: var(--purple); color: white; border: none; font-weight: 600; font-size: 11px; }
 
@@ -39,6 +39,8 @@
     .admin-box h2 { color: var(--purple); margin-bottom: 15px; font-size: 16px; }
     .admin-box input, .admin-box select, .admin-box button, .admin-box textarea { width: 100%; padding: 10px; margin: 8px 0; background: #1A1A1A; border: 1px solid #333; color: white; border-radius: 6px; font-size: 12px; }
     .admin-box button { background: var(--purple); font-weight: 700; border: none; }
+    
+    .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--purple); color: white; padding: 10px 20px; border-radius: 20px; font-size: 12px; display: none; z-index: 40; }
 </style>
 </head>
 <body>
@@ -54,7 +56,7 @@
 <div class="categories" id="categories"></div>
 
 <h3 class="section-title" id="sectionTitle">Bidhaa Zote</h3>
-<div class="product-grid" id="productGrid"><p style="padding:20px; grid-column: span 2;">Inapakia kutoka Firebase...</p></div>
+<div class="product-grid" id="productGrid"><p style="padding:20px; grid-column: span 2; text-align:center">Tafadhali subiri... tunapakia bidhaa</p></div>
 
 <div class="bottom-nav">
     <div class="nav-btn">Home</div>
@@ -64,7 +66,7 @@
 
 <div class="admin-modal" id="adminPanel">
     <div class="admin-box">
-        <h2>ADMIN - CHILAGU SHOP</h2>
+        <h2>ADMIN PANEL</h2>
         <input type="password" id="adminPin" placeholder="Weka PIN 1255">
         <button id="loginBtn">INGIA</button>
         
@@ -82,12 +84,14 @@
     </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
 // 1. WEKA CONFIG YAKO KAMILI YA FIREBASE HAPA
 const firebaseConfig = {
   apiKey: "WEKA_HAPA",
   authDomain: "WEKA_HAPA.firebaseapp.com",
-  databaseURL: "https://WEKA_HAPA.firebaseio.com", // MUHIMU SANA HII
+  databaseURL: "https://WEKA_HAPA.firebaseio.com", // NAKILI HII KUTOKA FIREBASE
   projectId: "WEKA_HAPA",
   storageBucket: "WEKA_HAPA.appspot.com",
   messagingSenderId: "WEKA_HAPA",
@@ -95,7 +99,7 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database(); // TUMIA DATABASE SIO FIRESTORE
+const db = firebase.database();
 
 let clickCount = 0;
 let allProducts = [];
@@ -107,6 +111,13 @@ window.onload = function() {
     buildCategories();
     attachEvents();
     loadProductsFromFirebase();
+}
+
+function showToast(msg){
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.style.display = 'block';
+    setTimeout(()=>{ t.style.display = 'none'; }, 2000);
 }
 
 function buildCategories() {
@@ -147,10 +158,13 @@ function setCat(cat, btn) {
 function checkPin() {
     if(document.getElementById('adminPin').value === '1255') {
         document.getElementById('adminControls').style.display = 'block';
-    } else { alert('PIN SIO SAHI'); }
+        showToast("Karibu Admin");
+    } else { showToast('PIN SIO SAHI'); }
 }
 
 function addProductToFirebase() {
+    if(document.getElementById('pName').value == ""){ showToast("Jaza jina la bidhaa"); return; }
+    
     const newProductRef = db.ref("products").push();
     newProductRef.set({
         name: document.getElementById('pName').value, 
@@ -161,10 +175,12 @@ function addProductToFirebase() {
         whatsapp: document.getElementById('pWhatsApp').value
     })
     .then(() => {
-        alert('Bidhaa Imeongezwa');
+        showToast('Bidhaa Imehifadhiwa!');
         document.getElementById('pName').value = "";
         document.getElementById('pPrice').value = "";
-    });
+        document.getElementById('pImage').value = "";
+        document.getElementById('pDesc').value = "";
+    }).catch((e)=>{ showToast("Kosa: "+e.message) });
 }
 
 function loadProductsFromFirebase() {
@@ -175,7 +191,7 @@ function loadProductsFromFirebase() {
         });
         renderProducts();
     }, (error) => {
-        document.getElementById('productGrid').innerHTML = "<p style='padding:20px; grid-column: span 2;'>Error: Angalia databaseURL na Rules za Firebase</p>";
+        document.getElementById('productGrid').innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Tafadhali angalia muunganiko wa Internet</p>";
     });
 }
   
@@ -196,11 +212,11 @@ function renderProducts() {
                 <h4>${p.name}</h4>
                 <p>Tsh ${p.price}</p>
             </div>
-            <button class="buy-btn" onclick="buyProduct('${p.whatsapp}', '${p.name}')">NUNUA WHATSAPP</button>
+            <button class="buy-btn" onclick="buyProduct('${p.whatsapp}', '${p.name}')">AGIZA WHATSAPP</button>
         `;
         grid.appendChild(card);
     });
-    if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px; grid-column: span 2;'>Hakuna bidhaa. Ingia Admin uongeze.</p>";
+    if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Bidhaa mpya ziko njiani. Rudi baadae.</p>";
 }
 
 function buyProduct(num, name){
