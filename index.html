@@ -75,10 +75,10 @@ small { color: #888; font-size: 10px; }
 
 <div class="page" id="helpPage">
     <div class="help-page">
-        <h2>SUBCRIBE OUR YOUTUBE CHANNEL as Chilagu Legacy Cinema</h2>
+        <h2>KARIBU CHILAGU LEGACY SHOP</h2>
         <div id="helpText"></div>
         <div id="helpVideos"></div>
-        <h2>MSAADA WHATSAPP +255 686 436 004</h2>
+        <h2>TAARIFA MPYA</h2>
         <div id="updatesList"></div>
     </div>
 </div>
@@ -122,8 +122,7 @@ small { color: #888; font-size: 10px; }
 
             <h3>5. Dhibiti TAARIFA/UPDATES</h3>
             <input id="updateTitle" placeholder="Kichwa cha Taarifa">
-            <textarea id="updateText" placeholder="Andika hapa. Unaweza kutumia HTML"></textarea>
-            <small>LINK: &lt;a href='link'&gt;Bofya&lt;/a&gt; | PICHA: &lt;img src='link'&gt;</small>
+            <textarea id="updateText" placeholder="Andika hapa. Unaweza kutumia HTML: <a> na <img>"></textarea>
             <button id="addUpdateBtn">POST TAARIFA</button>
             <div class="admin-product-list" id="adminUpdateList"></div>
 
@@ -152,6 +151,8 @@ const cats = ["Zote", "Nguo", "Album", "Bidhaa Nyingine"];
 
 window.onload = function() {
     loadSettings();
+    loadVideos(); // TUMEONGEZA HII
+    loadUpdates(); // NA HII
     buildCategories();
     attachEvents();
     loadProducts();
@@ -210,6 +211,7 @@ function setCat(cat, btn) {
     renderProducts();
 }
 
+// FIX KUBWA 1: TUMETENGANISHA KUSOMA VIDEO NA UPDATES
 function loadSettings(){
     fetch(DB_URL + "/settings.json")
 .then(res => res.json())
@@ -218,26 +220,38 @@ function loadSettings(){
             if(data.adminPin) ADMIN_PIN = data.adminPin;
             if(data.adTop) document.getElementById('adTop').innerHTML = data.adTop;
             if(data.adMiddle) document.getElementById('adMiddle').innerHTML = data.adMiddle;
-            if(data.helpText) document.getElementById('helpText').innerHTML = data.helpText; // INAKUBALI HTML
+            if(data.helpText) document.getElementById('helpText').innerHTML = data.helpText;
+        }
+    });
+}
 
-            if(data.videos){
-                let videoHTML = "";
-                Object.keys(data.videos).forEach(key => {
-                    const v = data.videos[key];
-                    videoHTML += `<h4>${v.title}</h4><iframe class="help-video" height="200" src="${v.link}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
-                });
-                document.getElementById('helpVideos').innerHTML = videoHTML;
-            }
+function loadVideos(){
+    fetch(DB_URL + "/settings/videos.json")
+.then(res => res.json())
+.then(data => {
+        if(data){
+            let videoHTML = "";
+            Object.keys(data).forEach(key => {
+                const v = data[key];
+                videoHTML += `<h4>${v.title}</h4><iframe class="help-video" height="200" src="${v.link}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+            });
+            document.getElementById('helpVideos').innerHTML = videoHTML;
+        }
+    });
+}
 
-            if(data.updates){
-                let updateHTML = "";
-                Object.keys(data.updates).reverse().forEach(key => {
-                    const u = data.updates[key];
-                    // FIX KUBWA: TUMIA innerHTML ILI HTML IFANYE KAZI
-                    updateHTML += `<div class="update-box"><h4>${u.title}</h4><div>${u.text}</div></div>`;
-                });
-                document.getElementById('updatesList').innerHTML = updateHTML;
-            }
+function loadUpdates(){
+    fetch(DB_URL + "/settings/updates.json")
+.then(res => res.json())
+.then(data => {
+        if(data){
+            let updateHTML = "";
+            Object.keys(data).reverse().forEach(key => {
+                const u = data[key];
+                // FIX KUBWA 2: TUMIA innerHTML ILI LINK NA PICHA ZIFANYE KAZI
+                updateHTML += `<div class="update-box"><h4>${u.title}</h4><div>${u.text}</div></div>`;
+            });
+            document.getElementById('updatesList').innerHTML = updateHTML;
         }
     });
 }
@@ -262,23 +276,23 @@ function saveAds(){
 function saveVideo(){
     const video = { title: document.getElementById('videoTitle').value, link: document.getElementById('videoLink').value };
     fetch(DB_URL + "/settings/videos.json", { method: "POST", body: JSON.stringify(video) })
-.then(() => { showToast("Video Imeongezwa"); document.getElementById('videoTitle').value=""; document.getElementById('videoLink').value=""; loadAdminVideos(); loadSettings(); });
+.then(() => { showToast("Video Imeongezwa"); document.getElementById('videoTitle').value=""; document.getElementById('videoLink').value=""; loadAdminVideos(); loadVideos(); });
 }
 
 function deleteVideo(key){
     fetch(DB_URL + "/settings/videos/" + key + ".json", { method: "DELETE" })
-.then(() => { showToast("Video Imefutwa"); loadAdminVideos(); loadSettings(); });
+.then(() => { showToast("Video Imefutwa"); loadAdminVideos(); loadVideos(); });
 }
 
 function saveUpdate(){
     const update = { title: document.getElementById('updateTitle').value, text: document.getElementById('updateText').value, date: Date.now() };
     fetch(DB_URL + "/settings/updates.json", { method: "POST", body: JSON.stringify(update) })
-.then(() => { showToast("Taarifa Imetumwa"); document.getElementById('updateTitle').value=""; document.getElementById('updateText').value=""; loadAdminUpdates(); loadSettings(); });
+.then(() => { showToast("Taarifa Imetumwa"); document.getElementById('updateTitle').value=""; document.getElementById('updateText').value=""; loadAdminUpdates(); loadUpdates(); });
 }
 
 function deleteUpdate(key){
     fetch(DB_URL + "/settings/updates/" + key + ".json", { method: "DELETE" })
-.then(() => { showToast("Taarifa Imefutwa"); loadAdminUpdates(); loadSettings(); });
+.then(() => { showToast("Taarifa Imefutwa"); loadAdminUpdates(); loadUpdates(); });
 }
 
 function saveHelpText(){
