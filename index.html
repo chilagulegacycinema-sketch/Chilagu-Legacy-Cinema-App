@@ -39,8 +39,8 @@
 .help-video { width: 100%; border-radius: 8px; margin: 10px 0; }
 .update-box { background: #1A1A1A; padding: 12px; border-left: 3px solid var(--purple); margin: 10px 0; border-radius: 5px; }
 .update-box h4 { color: white; font-size: 13px; margin-bottom: 5px; }
-.update-box p { font-size: 11px; }
-.update-box a { color: var(--purple); }
+.update-box div { font-size: 11px; line-height: 1.5; }
+.update-box a { color: var(--purple); text-decoration: underline; }
 .update-box img { width: 100%; border-radius: 5px; margin-top: 8px; }
 .admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); z-index: 30; padding: 20px; overflow-y: auto; }
 .admin-box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid var(--purple); margin-bottom: 20px; }
@@ -52,7 +52,7 @@
 .admin-product-list { max-height: 200px; overflow-y: auto; }
 .admin-product-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: #1A1A1A; margin-bottom: 5px; border-radius: 5px; font-size: 11px; }
 .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--purple); color: white; padding: 10px 20px; border-radius: 20px; font-size: 12px; display: none; z-index: 40; }
-small { color: #888; }
+small { color: #888; font-size: 10px; }
 </style>
 </head>
 <body>
@@ -116,14 +116,14 @@ small { color: #888; }
             <h3>4. Dhibiti VIDEO ZA MSAADA</h3>
             <input id="videoTitle" placeholder="Jina la Video">
             <input id="videoLink" placeholder="Bandika LINK KAMILI ya Video">
+            <small>Mfano: https://streamable.com/xxx au https://youtu.be/xxx</small>
             <button id="addVideoBtn">ONGEZA VIDEO</button>
             <div class="admin-product-list" id="adminVideoList"></div>
 
             <h3>5. Dhibiti TAARIFA/UPDATES</h3>
             <input id="updateTitle" placeholder="Kichwa cha Taarifa">
-            <textarea id="updateText" placeholder="Unaweza kutumia HTML hapa. Mfano wa link na picha uko chini"></textarea>
-            <small>MFANO LINK: &lt;a href='https://wa.me/2556xxxx'&gt;BONYEZA HAPA&lt;/a&gt;</small><br>
-            <small>MFANO PICHA: &lt;img src='link ya picha'&gt;</small>
+            <textarea id="updateText" placeholder="Andika hapa. Unaweza kutumia HTML"></textarea>
+            <small>LINK: &lt;a href='link'&gt;Bofya&lt;/a&gt; | PICHA: &lt;img src='link'&gt;</small>
             <button id="addUpdateBtn">POST TAARIFA</button>
             <div class="admin-product-list" id="adminUpdateList"></div>
 
@@ -218,7 +218,7 @@ function loadSettings(){
             if(data.adminPin) ADMIN_PIN = data.adminPin;
             if(data.adTop) document.getElementById('adTop').innerHTML = data.adTop;
             if(data.adMiddle) document.getElementById('adMiddle').innerHTML = data.adMiddle;
-            if(data.helpText) document.getElementById('helpText').innerHTML = data.helpText; // HTML INAFANYA KAZI
+            if(data.helpText) document.getElementById('helpText').innerHTML = data.helpText; // INAKUBALI HTML
 
             if(data.videos){
                 let videoHTML = "";
@@ -233,7 +233,7 @@ function loadSettings(){
                 let updateHTML = "";
                 Object.keys(data.updates).reverse().forEach(key => {
                     const u = data.updates[key];
-                    // HAPA NDIO TULIBADILI: innerHTML BADALA YA text
+                    // FIX KUBWA: TUMIA innerHTML ILI HTML IFANYE KAZI
                     updateHTML += `<div class="update-box"><h4>${u.title}</h4><div>${u.text}</div></div>`;
                 });
                 document.getElementById('updatesList').innerHTML = updateHTML;
@@ -242,7 +242,6 @@ function loadSettings(){
     });
 }
 
-// KAZI ZOTE ZA ADMIN ZILE ZILE...
 function checkPin() {
     if(document.getElementById('adminPin').value === ADMIN_PIN) {
         document.getElementById('adminControls').style.display = 'block';
@@ -253,39 +252,47 @@ function checkPin() {
         loadAdminSettings();
     } else { showToast('PIN SIO SAHI'); }
 }
+
 function saveAds(){
-    const ads = { adTop: document.getElementById('adTopCode').value, adMiddle: document.getElementById('adMiddleCode')..value };
+    const ads = { adTop: document.getElementById('adTopCode').value, adMiddle: document.getElementById('adMiddleCode').value };
     fetch(DB_URL + "/settings.json", { method: "PATCH", body: JSON.stringify(ads) })
 .then(() => { showToast("ADS Zimehifadhiwa"); loadSettings(); });
 }
+
 function saveVideo(){
     const video = { title: document.getElementById('videoTitle').value, link: document.getElementById('videoLink').value };
     fetch(DB_URL + "/settings/videos.json", { method: "POST", body: JSON.stringify(video) })
 .then(() => { showToast("Video Imeongezwa"); document.getElementById('videoTitle').value=""; document.getElementById('videoLink').value=""; loadAdminVideos(); loadSettings(); });
 }
+
 function deleteVideo(key){
     fetch(DB_URL + "/settings/videos/" + key + ".json", { method: "DELETE" })
 .then(() => { showToast("Video Imefutwa"); loadAdminVideos(); loadSettings(); });
 }
+
 function saveUpdate(){
     const update = { title: document.getElementById('updateTitle').value, text: document.getElementById('updateText').value, date: Date.now() };
     fetch(DB_URL + "/settings/updates.json", { method: "POST", body: JSON.stringify(update) })
 .then(() => { showToast("Taarifa Imetumwa"); document.getElementById('updateTitle').value=""; document.getElementById('updateText').value=""; loadAdminUpdates(); loadSettings(); });
 }
+
 function deleteUpdate(key){
     fetch(DB_URL + "/settings/updates/" + key + ".json", { method: "DELETE" })
 .then(() => { showToast("Taarifa Imefutwa"); loadAdminUpdates(); loadSettings(); });
 }
+
 function saveHelpText(){
     fetch(DB_URL + "/settings/helpText.json", { method: "PUT", body: JSON.stringify(document.getElementById('helpTextAdmin').value) })
 .then(() => { showToast("Maelezo Yamehifadhiwa"); loadSettings(); });
 }
+
 function changePin(){
     const newPin = document.getElementById('newPin').value;
     if(newPin.length < 4){ showToast("PIN iwe angalau 4"); return; }
     fetch(DB_URL + "/settings/adminPin.json", { method: "PUT", body: JSON.stringify(newPin) })
 .then(() => { ADMIN_PIN = newPin; showToast("PIN Imebadilishwa!"); document.getElementById('newPin').value = ""; });
 }
+
 function saveProduct() {
     const newProduct = {
         name: document.getElementById('pName').value,
@@ -298,17 +305,20 @@ function saveProduct() {
     fetch(DB_URL + "/products.json", { method: "POST", body: JSON.stringify(newProduct) })
 .then(() => { showToast('Bidhaa Imehifadhiwa!'); clearInputs(); loadProducts(); loadAdminProducts(); });
 }
+
 function deleteProduct(key){
     if(confirm("Una uhakika?")){
         fetch(DB_URL + "/products/" + key + ".json", { method: "DELETE" })
 .then(() => { showToast("Bidhaa Imefutwa"); loadProducts(); loadAdminProducts(); });
     }
 }
+
 function loadProducts() {
     fetch(DB_URL + "/products.json")
 .then(res => res.json())
 .then(data => { allProducts = data || {}; renderProducts(); });
 }
+
 function loadAdminProducts(){
     const list = document.getElementById('adminProductList');
     list.innerHTML = "";
@@ -318,6 +328,7 @@ function loadAdminProducts(){
         list.innerHTML += `<div class="admin-product-item"><span>${p.name}</span><button class="btn-delete" onclick="deleteProduct('${key}')">FUTA</button></div>`;
     });
 }
+
 function loadAdminVideos(){
     fetch(DB_URL + "/settings/videos.json")
 .then(res => res.json())
@@ -329,6 +340,7 @@ function loadAdminVideos(){
         });
     });
 }
+
 function loadAdminUpdates(){
     fetch(DB_URL + "/settings/updates.json")
 .then(res => res.json())
@@ -340,6 +352,7 @@ function loadAdminUpdates(){
         });
     });
 }
+
 function loadAdminSettings(){
     fetch(DB_URL + "/settings.json")
 .then(res => res.json())
@@ -351,6 +364,7 @@ function loadAdminSettings(){
         }
     });
 }
+
 function renderProducts() {
     let filtered = {};
     if(!allProducts) { document.getElementById('productGrid').innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>KARIBUNI CHILAGU SHOP</p>"; return; }
@@ -365,6 +379,7 @@ function renderProducts() {
     });
     if(Object.keys(filtered).length === 0) grid.innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>KARIBUNI CHILAGU SHOP</p>";
 }
+
 function buyProduct(num, name){
     let msg = "Habari CHILAGU SHOP, nataka kununua: " + name;
     window.open("https://wa.me/"+num+"?text="+encodeURIComponent(msg), "_blank");
