@@ -5,42 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>CHILAGU LEGACY SHOP</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
     :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body { background: var(--black); color: var(--silver); padding-bottom: 80px; }
-    
-    .header { padding: 10px 15px; background: #0A0A0A; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--purple); }
-    .logo { height: 40px; display: block; cursor: pointer; }
-    
-    .banner-tv { width: 100%; padding: 15px; background: linear-gradient(90deg, var(--purple), #000); }
-    .banner-tv button { width: 100%; padding: 12px; background: white; color: var(--black); border: none; border-radius: 8px; font-weight: 700; font-size: 14px; }
-    
-    .categories { display: flex; gap: 10px; padding: 15px; overflow-x: auto; }
-    .cat-btn { padding: 8px 16px; background: #1A1A1A; border: 1px solid #333; border-radius: 20px; color: var(--silver); font-weight: 600; font-size: 12px; white-space: nowrap; }
-    .cat-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
-
-    .section-title { padding: 0 15px 10px; font-size: 16px; font-weight: 700; color: white; }
-    .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 15px 20px; }
-    .product-card { background: #111; border-radius: 10px; overflow: hidden; border: 1px solid #222; }
-    .product-card img { width: 100%; height: 160px; object-fit: cover; background: #222; }
-    .product-info { padding: 10px; }
-    .product-info h4 { font-size: 12px; color: white; margin-bottom: 5px; height: 28px; overflow: hidden; }
-    .product-info p { font-size: 14px; color: var(--purple); font-weight: 700; }
-    .buy-btn { width: 100%; padding: 8px; background: var(--purple); color: white; border: none; font-weight: 600; font-size: 11px; }
-
-    .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #0A0A0A; padding: 10px 0; border-top: 1px solid #1A1A1A; }
-    .nav-btn { color: var(--silver); text-align: center; font-size: 11px; font-weight: 600; }
-
-    .admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); z-index: 30; padding: 20px; overflow-y: auto; }
-    .admin-box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid var(--purple); }
-    .admin-box h2 { color: var(--purple); margin-bottom: 15px; font-size: 16px; }
-    .admin-box input, .admin-box select, .admin-box button, .admin-box textarea { width: 100%; padding: 10px; margin: 8px 0; background: #1A1A1A; border: 1px solid #333; color: white; border-radius: 6px; font-size: 12px; }
-    .admin-box button { background: var(--purple); font-weight: 700; border: none; }
-    
-    .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--purple); color: white; padding: 10px 20px; border-radius: 20px; font-size: 12px; display: none; z-index: 40; }
+   .header { padding: 10px 15px; background: #0A0A0A; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--purple); }
+   .logo { height: 40px; display: block; cursor: pointer; }
+   .banner-tv { width: 100%; padding: 15px; background: linear-gradient(90deg, var(--purple), #000); }
+   .banner-tv button { width: 100%; padding: 12px; background: white; color: var(--black); border: none; border-radius: 8px; font-weight: 700; font-size: 14px; }
+   .categories { display: flex; gap: 10px; padding: 15px; overflow-x: auto; }
+   .cat-btn { padding: 8px 16px; background: #1A1A1A; border: 1px solid #333; border-radius: 20px; color: var(--silver); font-weight: 600; font-size: 12px; white-space: nowrap; }
+   .cat-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
+   .section-title { padding: 0 15px 10px; font-size: 16px; font-weight: 700; color: white; }
+   .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 15px 20px; }
+   .product-card { background: #111; border-radius: 10px; overflow: hidden; border: 1px solid #222; }
+   .product-card img { width: 100%; height: 160px; object-fit: cover; background: #222; }
+   .product-info { padding: 10px; }
+   .product-info h4 { font-size: 12px; color: white; margin-bottom: 5px; height: 28px; overflow: hidden; }
+   .product-info p { font-size: 14px; color: var(--purple); font-weight: 700; }
+   .buy-btn { width: 100%; padding: 8px; background: var(--purple); color: white; border: none; font-weight: 600; font-size: 11px; }
+   .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #0A0A0A; padding: 10px 0; border-top: 1px solid #1A1A1A; }
+   .nav-btn { color: var(--silver); text-align: center; font-size: 11px; font-weight: 600; }
+   .admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); z-index: 30; padding: 20px; overflow-y: auto; }
+   .admin-box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid var(--purple); }
+   .admin-box h2 { color: var(--purple); margin-bottom: 15px; font-size: 16px; }
+   .admin-box input,.admin-box select,.admin-box button,.admin-box textarea { width: 100%; padding: 10px; margin: 8px 0; background: #1A1A1A; border: 1px solid #333; color: white; border-radius: 6px; font-size: 12px; }
+   .admin-box button { background: var(--purple); font-weight: 700; border: none; }
+   .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--purple); color: white; padding: 10px 20px; border-radius: 20px; font-size: 12px; display: none; z-index: 40; }
 </style>
 </head>
 <body>
@@ -56,7 +47,7 @@
 <div class="categories" id="categories"></div>
 
 <h3 class="section-title" id="sectionTitle">Bidhaa Zote</h3>
-<div class="product-grid" id="productGrid"><p style="padding:20px; grid-column: span 2; text-align:center">Tafadhali subiri... tunapakia bidhaa</p></div>
+<div class="product-grid" id="productGrid"><p style="padding:20px; grid-column: span 2; text-align:center">Inapakia bidhaa...</p></div>
 
 <div class="bottom-nav">
     <div class="nav-btn">Home</div>
@@ -69,7 +60,7 @@
         <h2>ADMIN PANEL</h2>
         <input type="password" id="adminPin" placeholder="Weka PIN 1255">
         <button id="loginBtn">INGIA</button>
-        
+
         <div id="adminControls" style="display:none">
             <h3>Ongeza Bidhaa Mpya</h3>
             <input id="pName" placeholder="Jina la Bidhaa">
@@ -87,30 +78,17 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// 1. WEKA CONFIG YAKO KAMILI YA FIREBASE HAPA
-const firebaseConfig = {
-  apiKey: "WEKA_HAPA",
-  authDomain: "WEKA_HAPA.firebaseapp.com",
-  databaseURL: "https://WEKA_HAPA.firebaseio.com", // NAKILI HII KUTOKA FIREBASE
-  projectId: "WEKA_HAPA",
-  storageBucket: "WEKA_HAPA.appspot.com",
-  messagingSenderId: "WEKA_HAPA",
-  appId: "WEKA_HAPA"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const API_URL = "api.php"; // Faili ya PHP itakuwa hapa hapa
 
 let clickCount = 0;
 let allProducts = [];
 let currentCat = "Zote";
-
 const cats = ["Zote", "Nguo", "Album", "Bidhaa Nyingine"];
 
 window.onload = function() {
     buildCategories();
     attachEvents();
-    loadProductsFromFirebase();
+    loadProducts();
 }
 
 function showToast(msg){
@@ -124,7 +102,7 @@ function buildCategories() {
     const catDiv = document.getElementById('categories');
     cats.forEach(cat => {
         const btn = document.createElement('div');
-        btn.className = 'cat-btn' + (cat === 'Zote' ? ' active' : '');
+        btn.className = 'cat-btn' + (cat === 'Zote'? ' active' : '');
         btn.innerText = cat;
         btn.onclick = function(){ setCat(cat, btn); }
         catDiv.appendChild(btn);
@@ -137,13 +115,9 @@ function attachEvents() {
         if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; }
         setTimeout(function(){ clickCount = 0; }, 3000);
     };
-    
-    document.getElementById('openTvApp').onclick = function(){
-        window.location.href = "https://studioflex38-jpg.github.io/";
-    }
-    
+    document.getElementById('openTvApp').onclick = function(){ window.open("https://studioflex38-jpg.github.io/", "_blank"); }
     document.getElementById('loginBtn').onclick = checkPin;
-    document.getElementById('addProductBtn').onclick = addProductToFirebase;
+    document.getElementById('addProductBtn').onclick = saveProduct;
     document.getElementById('logoutBtn').onclick = function(){ document.getElementById('adminPanel').style.display = 'none'; };
 }
 
@@ -162,42 +136,52 @@ function checkPin() {
     } else { showToast('PIN SIO SAHI'); }
 }
 
-function addProductToFirebase() {
-    if(document.getElementById('pName').value == ""){ showToast("Jaza jina la bidhaa"); return; }
-    
-    const newProductRef = db.ref("products").push();
-    newProductRef.set({
-        name: document.getElementById('pName').value, 
-        price: document.getElementById('pPrice').value, 
+// TUMA BIDHAA KWENDA SERVER
+function saveProduct() {
+    const product = {
+        action: "add",
+        name: document.getElementById('pName').value,
+        price: document.getElementById('pPrice').value,
         image: document.getElementById('pImage').value,
-        desc: document.getElementById('pDesc').value, 
+        desc: document.getElementById('pDesc').value,
         category: document.getElementById('pCat').value,
         whatsapp: document.getElementById('pWhatsApp').value
+    };
+
+    if(product.name == ""){ showToast("Jaza jina la bidhaa"); return; }
+
+    fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify(product),
+        headers: {"Content-Type": "application/json"}
     })
-    .then(() => {
-        showToast('Bidhaa Imehifadhiwa!');
-        document.getElementById('pName').value = "";
-        document.getElementById('pPrice').value = "";
-        document.getElementById('pImage').value = "";
-        document.getElementById('pDesc').value = "";
-    }).catch((e)=>{ showToast("Kosa: "+e.message) });
+   .then(res => res.json())
+   .then(data => {
+        if(data.status == "success"){
+            showToast('Bidhaa Imehifadhiwa!');
+            clearInputs();
+            loadProducts();
+        } else {
+            showToast('Kosa: ' + data.message);
+        }
+    }).catch((e)=>{ showToast("Kosa la mtandao") });
 }
 
-function loadProductsFromFirebase() {
-    db.ref("products").on("value", (snapshot) => {
-        allProducts = [];
-        snapshot.forEach((child) => {
-            allProducts.push(child.val());
-        });
+// PAKUA BIDHAA KUTOKA SERVER
+function loadProducts() {
+    fetch(API_URL + "?action=get")
+   .then(res => res.json())
+   .then(data => {
+        allProducts = data;
         renderProducts();
-    }, (error) => {
-        document.getElementById('productGrid').innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Tafadhali angalia muunganiko wa Internet</p>";
+    }).catch((e)=>{
+        document.getElementById('productGrid').innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Kuna tatizo la mtandao</p>";
     });
 }
-  
+
 function renderProducts() {
     let filtered = allProducts;
-    if(currentCat !== 'Zote') {
+    if(currentCat!== 'Zote') {
         filtered = filtered.filter(p => p.category === currentCat);
     }
 
@@ -216,12 +200,18 @@ function renderProducts() {
         `;
         grid.appendChild(card);
     });
-    if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Bidhaa mpya ziko njiani. Rudi baadae.</p>";
+    if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Bado hakuna bidhaa. Rudi baadae.</p>";
 }
 
 function buyProduct(num, name){
     let msg = "Habari CHILAGU SHOP, nataka kununua: " + name;
     window.open("https://wa.me/"+num+"?text="+encodeURIComponent(msg), "_blank");
+}
+function clearInputs(){
+    document.getElementById('pName').value = "";
+    document.getElementById('pPrice').value = "";
+    document.getElementById('pImage').value = "";
+    document.getElementById('pDesc').value = "";
 }
 </script>
 </body>
