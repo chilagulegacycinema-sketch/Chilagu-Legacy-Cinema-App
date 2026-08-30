@@ -5,452 +5,152 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>CHILAGU LEGACY SHOP</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
 <style>
-    :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; --red: #D32F2F; --green: #2E7D32; }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background: var(--black); color: var(--silver); padding-bottom: 80px; }
-.header { padding: 10px 15px; background: #0A0A0A; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--purple); }
-.logo { height: 40px; display: block; cursor: pointer; }
-.banner-ad { width: 100%; padding: 10px 15px; background: #111; text-align: center; }
-.banner-ad iframe,.banner-ad div { width: 100%; height: 60px; border: none; }
-.banner-tv { width: 100%; padding: 15px; background: linear-gradient(90deg, var(--purple), #000); }
-.banner-tv button { width: 100%; padding: 12px; background: white; color: var(--black); border: none; border-radius: 8px; font-weight: 700; font-size: 14px; }
-.categories { display: flex; gap: 10px; padding: 15px; overflow-x: auto; }
-.cat-btn { padding: 8px 16px; background: #1A1A1A; border: 1px solid #333; border-radius: 20px; color: var(--silver); font-weight: 600; font-size: 12px; white-space: nowrap; }
-.cat-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
-.section-title { padding: 0 15px 10px; font-size: 16px; font-weight: 700; color: white; }
-.product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 15px 20px; }
-.product-card { background: #111; border-radius: 10px; overflow: hidden; border: 1px solid #222; }
-.product-card img { width: 100%; height: 160px; object-fit: cover; background: #222; }
-.product-info { padding: 10px; }
-.product-info h4 { font-size: 12px; color: white; margin-bottom: 5px; height: 28px; overflow: hidden; }
-.product-info p { font-size: 14px; color: var(--purple); font-weight: 700; }
-.buy-btn { width: 100%; padding: 8px; background: var(--purple); color: white; border: none; font-weight: 600; font-size: 11px; cursor: pointer; }
-.bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #0A0A0A; padding: 10px 0; border-top: 1px solid #1A1A1A; z-index: 20; }
-.nav-btn { color: var(--silver); text-align: center; font-size: 11px; font-weight: 600; cursor: pointer; }
-.nav-btn.active { color: var(--purple); }
-.page { display: none; }
-.page.active { display: block; }
-.help-page { padding: 20px 15px; color: var(--silver); font-size: 13px; line-height: 1.6; }
-.help-page h2 { color: var(--purple); margin-bottom: 15px; }
-.help-page a { color: var(--purple); text-decoration: underline; }
-.help-page img { width: 100%; border-radius: 8px; margin: 10px 0; }
-.help-video { width: 100%; border-radius: 8px; margin: 10px 0; }
-.update-box { background: #1A1A1A; padding: 12px; border-left: 3px solid var(--purple); margin: 10px 0; border-radius: 5px; }
-.update-box h4 { color: white; font-size: 13px; margin-bottom: 5px; }
-.update-box div { font-size: 11px; line-height: 1.5; }
-.update-box a { color: var(--purple); text-decoration: underline; }
-.update-box img { width: 100%; border-radius: 5px; margin-top: 8px; }
-.admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); z-index: 30; padding: 20px; overflow-y: auto; }
-.admin-box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid var(--purple); margin-bottom: 20px; }
-.admin-box h2 { color: var(--purple); margin-bottom: 15px; font-size: 16px; }
-.admin-box h3 { color: white; font-size: 14px; margin: 15px 0 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-.admin-box input,.admin-box select,.admin-box button,.admin-box textarea { width: 100%; padding: 10px; margin: 8px 0; background: #1A1A1A; border: 1px solid #333; color: white; border-radius: 6px; font-size: 12px; }
-.admin-box button { background: var(--purple); font-weight: 700; border: none; cursor: pointer; }
-.btn-delete { background: var(--red)!important; }
-.btn-edit { background: var(--green)!important; }
-.admin-product-list { max-height: 200px; overflow-y: auto; }
-.admin-product-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: #1A1A1A; margin-bottom: 5px; border-radius: 5px; font-size: 11px; }
-.admin-product-item div { display: flex; gap: 5px; }
-.toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--purple); color: white; padding: 10px 20px; border-radius: 20px; font-size: 12px; display: none; z-index: 40; }
-small { color: #888; font-size: 10px; }
+:root{--purple:#6A0DAD;--silver:#C0C0C0;--black:#000;--red:#D32F2F;--green:#2E7D32}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:var(--black);color:var(--silver);padding-bottom:80px}
+.header{padding:10px 15px;background:#0A0A0A;position:sticky;top:0;z-index:10;border-bottom:1px solid var(--purple)}
+.logo{height:40px;display:block;cursor:pointer}
+.page{display:none}.page.active{display:block}
+.help-page{padding:20px 15px}.help-page h2{color:var(--purple);margin:15px 0}
+.help-video{width:100%;border-radius:8px;margin:10px 0}
+.update-box{background:#1A1A1A;padding:12px;border-left:3px solid var(--purple);margin:10px 0;border-radius:5px}
+.update-box a{color:var(--purple);text-decoration:underline}.update-box img{width:100%;border-radius:5px;margin-top:8px}
+.admin-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.98);z-index:30;padding:20px;overflow-y:auto}
+.admin-box{background:#111;padding:20px;border-radius:8px;border:1px solid var(--purple)}
+.admin-box input,.admin-box textarea,.admin-box button{width:100%;padding:10px;margin:8px 0;background:#1A1A1A;border:1px solid #333;color:white;border-radius:6px}
+.admin-box button{background:var(--purple);font-weight:700;border:none;cursor:pointer}
+.btn-delete{background:var(--red)!important}.btn-edit{background:var(--green)!important}
+.admin-product-item{display:flex;justify-content:space-between;align-items:center;padding:8px;background:#1A1A1A;margin-bottom:5px;border-radius:5px;font-size:11px}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--purple);color:white;padding:10px 20px;border-radius:20px;display:none;z-index:40}
+.bottom-nav{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#0A0A0A;padding:10px 0;border-top:1px solid #1A1A1A;z-index:20}
+.nav-btn{color:var(--silver);text-align:center;font-size:11px;font-weight:600;cursor:pointer}
+.nav-btn.active{color:var(--purple)}
 </style>
 </head>
 <body>
 
-<div class="header">
-    <img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg" class="logo" id="logoBtn">
-</div>
+<div class="header"><img src="https://i.postimg.cc/sgdFWWny/730381752-122095308855376480-8982864997012554160-n.jpg" class="logo" id="logoBtn"></div>
 
-<div class="banner-ad" id="adTop"></div>
-
-<div class="page active" id="homePage">
-    <div class="banner-tv">
-        <button id="openTvApp">TAZAMA FILAMU ZETU > FUNGUA TV APP</button>
-    </div>
-    <div class="categories" id="categories"></div>
-    <h3 class="section-title" id="sectionTitle">Bidhaa Zote</h3>
-    <div class="product-grid" id="productGrid"><p style="padding:20px; grid-column: span 2; text-align:center">Inapakia bidhaa...</p></div>
-    <div class="banner-ad" id="adMiddle" style="margin: 0 15px 20px;"></div>
-</div>
+<div class="page active" id="homePage"><h3 style="padding:20px">HOME</h3></div>
 
 <div class="page" id="helpPage">
-    <div class="help-page">
-        <h2>KARIBU CHILAGU LEGACY SHOP</h2>
-        <div id="helpText"></div>
-        <div id="helpVideos"></div>
-        <h2>TAARIFA MPYA</h2>
-        <div id="updatesList"></div>
-    </div>
+<div class="help-page">
+<h2>VIDEO ZA MSAADA</h2><div id="helpVideos"></div>
+<h2>TAARIFA MPYA</h2><div id="updatesList"></div>
+</div>
 </div>
 
 <div class="bottom-nav">
-    <div class="nav-btn active" id="navHome">Home</div>
-    <div class="nav-btn" id="navHelp">Msaada</div>
-    <div class="nav-btn">Profile</div>
+<div class="nav-btn active" id="navHome">Home</div>
+<div class="nav-btn" id="navHelp">Msaada</div>
 </div>
 
 <div class="admin-modal" id="adminPanel">
-    <div class="admin-box">
-        <h2>ADMIN PANEL</h2>
-        <input type="password" id="adminPin" placeholder="Weka PIN">
-        <button id="loginBtn">INGIA</button>
-        <div id="adminControls" style="display:none">
+<div class="admin-box">
+<h2>ADMIN PANEL</h2>
+<input type="password" id="adminPin" placeholder="Weka PIN: 1255">
+<button id="loginBtn">INGIA</button>
+<div id="adminControls" style="display:none">
 
-            <h3>1. Ongeza Bidhaa</h3>
-            <input id="pName" placeholder="Jina la Bidhaa">
-            <input id="pPrice" type="number" placeholder="Bei Tsh">
-            <input id="pImage" placeholder="Link ya Picha">
-            <textarea id="pDesc" placeholder="Maelezo mafupi"></textarea>
-            <select id="pCat"><option>Nguo</option><option>Album</option><option>Bidhaa Nyingine</option></select>
-            <input id="pWhatsApp" placeholder="Namba yako WhatsApp 2556...">
-            <button id="addProductBtn">WEKA BIDHAA</button>
+<h3>VIDEO ZA MSAADA</h3>
+<input id="videoTitle" placeholder="Jina la Video">
+<input id="videoLink" placeholder="Link ya Video">
+<input type="hidden" id="videoEditKey">
+<button id="addVideoBtn">ONGEZA VIDEO</button>
+<div id="adminVideoList"></div>
 
-            <h3>2. Dhibiti Bidhaa</h3>
-            <div class="admin-product-list" id="adminProductList"></div>
+<h3>TAARIFA MPYA</h3>
+<input id="updateTitle" placeholder="Kichwa">
+<textarea id="updateText" placeholder="Andika hapa. Tumia <a href='link'>link</a> na <img src='link'>"></textarea>
+<input type="hidden" id="updateEditKey">
+<button id="addUpdateBtn">POST TAARIFA</button>
+<div id="adminUpdateList"></div>
 
-            <h3>3. Dhibiti ADS</h3>
-            <textarea id="adTopCode" placeholder="Weka Code ya Ad ya Juu"></textarea>
-            <textarea id="adMiddleCode" placeholder="Weka Code ya Ad ya Kati"></textarea>
-            <button id="saveAdsBtn">HIFADHI ADS</button>
-
-            <h3>4. Dhibiti VIDEO ZA MSAADA</h3>
-            <input id="videoTitle" placeholder="Jina la Video">
-            <input id="videoLink" placeholder="Bandika LINK KAMILI ya Video">
-            <input type="hidden" id="videoEditKey">
-            <button id="addVideoBtn">ONGEZA VIDEO</button>
-            <div class="admin-product-list" id="adminVideoList"></div>
-
-            <h3>5. Dhibiti TAARIFA/UPDATES</h3>
-            <input id="updateTitle" placeholder="Kichwa cha Taarifa">
-            <textarea id="updateText" placeholder="Andika hapa. Unaweza kutumia HTML: <a> na <img>"></textarea>
-            <input type="hidden" id="updateEditKey">
-            <button id="addUpdateBtn">POST TAARIFA</button>
-            <div class="admin-product-list" id="adminUpdateList"></div>
-
-            <h3>6. Dhibiti MAELEZO YA MSAADA</h3>
-            <textarea id="helpTextAdmin" placeholder="Andika maelezo ya msaada hapa. HTML inafanya kazi"></textarea>
-            <button id="saveHelpTextBtn">HIFADHI MAELEZO</button>
-
-            <h3>7. Badili PIN</h3>
-            <input id="newPin" type="password" placeholder="Weka PIN Mpya">
-            <button id="changePinBtn">BADILI PIN</button>
-
-            <button id="logoutBtn" style="background:#550000; margin-top:20px">FUNGA ADMIN</button>
-        </div>
-    </div>
-</div>
+<button id="logoutBtn" style="background:#550000;margin-top:20px">FUNGA</button>
+</div></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
-const DB_URL = "https://chilagu-shop-859ec-default-rtdb.firebaseio.com";
-let ADMIN_PIN = "1255";
+const DB_URL="https://chilagu-shop-859ec-default-rtdb.firebaseio.com";
+let ADMIN_PIN="1255";
 
-let clickCount = 0;
-let allProducts = {};
-let currentCat = "Zote";
-const cats = ["Zote", "Nguo", "Album", "Bidhaa Nyingine"];
-
-window.onload = function() {
-    loadSettings();
-    loadVideos();
-    loadUpdates();
-    buildCategories();
-    attachEvents();
-    loadProducts();
+window.onload=function(){
+loadVideos(); // HII NDIO ILIKUA INAKOSEA
+loadUpdates(); // HII PIA
+attachEvents();
 }
 
-function showToast(msg){
-    const t = document.getElementById('toast');
-    t.innerText = msg;
-    t.style.display = 'block';
-    setTimeout(()=>{ t.style.display = 'none'; }, 2000);
+function showToast(m){const t=document.getElementById('toast');t.innerText=m;t.style.display='block';setTimeout(()=>t.style.display='none',2000)}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));if(id=='homePage')navHome.classList.add('active');if(id=='helpPage')navHelp.classList.add('active')}
+
+function attachEvents(){
+logoBtn.onclick=()=>{adminPanel.style.display='block'}
+loginBtn.onclick=checkPin
+addVideoBtn.onclick=saveVideo
+addUpdateBtn.onclick=saveUpdate
+logoutBtn.onclick=()=>adminPanel.style.display='none'
+navHome.onclick=()=>showPage('homePage')
+navHelp.onclick=()=>showPage('helpPage')
 }
 
-function showPage(pageId){
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    if(pageId === 'homePage') document.getElementById('navHome').classList.add('active');
-    if(pageId === 'helpPage') document.getElementById('navHelp').classList.add('active');
+function checkPin(){
+if(adminPin.value===ADMIN_PIN){
+adminControls.style.display='block';showToast("Karibu Admin");
+loadAdminVideos();loadAdminUpdates();
+}else{showToast('PIN SIO SAHI')}
 }
 
-function buildCategories() {
-    const catDiv = document.getElementById('categories');
-    cats.forEach(cat => {
-        const btn = document.createElement('div');
-        btn.className = 'cat-btn' + (cat === 'Zote'? ' active' : '');
-        btn.innerText = cat;
-        btn.onclick = function(){ setCat(cat, btn); }
-        catDiv.appendChild(btn);
-    });
-}
-
-function attachEvents() {
-    document.getElementById('logoBtn').onclick = function(){
-        clickCount++;
-        if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; }
-        setTimeout(function(){ clickCount = 0; }, 3000);
-    };
-    document.getElementById('openTvApp').onclick = function(){ window.open("https://studioflex38-jpg.github.io/", "_blank"); }
-    document.getElementById('loginBtn').onclick = checkPin;
-    document.getElementById('addProductBtn').onclick = saveProduct;
-    document.getElementById('saveAdsBtn').onclick = saveAds;
-    document.getElementById('addVideoBtn').onclick = saveVideo;
-    document.getElementById('addUpdateBtn').onclick = saveUpdate;
-    document.getElementById('saveHelpTextBtn').onclick = saveHelpText;
-    document.getElementById('changePinBtn').onclick = changePin;
-    document.getElementById('logoutBtn').onclick = function(){ document.getElementById('adminPanel').style.display = 'none'; };
-    document.getElementById('navHome').onclick = function(){ showPage('homePage'); }
-    document.getElementById('navHelp').onclick = function(){ showPage('helpPage'); }
-}
-
-function setCat(cat, btn) {
-    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentCat = cat;
-    document.getElementById('sectionTitle').innerText = cat;
-    renderProducts();
-}
-
-function loadSettings(){
-    fetch(DB_URL + "/settings.json")
-.then(res => res.json())
-.then(data => {
-        if(data){
-            if(data.adminPin) ADMIN_PIN = data.adminPin;
-            if(data.adTop) document.getElementById('adTop').innerHTML = data.adTop;
-            if(data.adMiddle) document.getElementById('adMiddle').innerHTML = data.adMiddle;
-            if(data.helpText) document.getElementById('helpText').innerHTML = data.helpText; // HAPA NDIO SIRI: innerHTML
-        }
-    });
-}
-
+// KAZI KUBWA IKO HAPA CHINI - ZOTE ZINASOMA FIREBASE DIRECT
 function loadVideos(){
-    fetch(DB_URL + "/settings/videos.json")
-.then(res => res.json())
-.then(data => {
-        let videoHTML = "";
-        if(data){
-            Object.keys(data).forEach(key => {
-                const v = data[key];
-                videoHTML += `<h4>${v.title}</h4><iframe class="help-video" height="200" src="${v.link}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
-            });
-        }
-        document.getElementById('helpVideos').innerHTML = videoHTML;
-    });
-}
+fetch(DB_URL+"/settings/videos.json").then(r=>r.json()).then(d=>{
+let html="";if(d){Object.keys(d).forEach(k=>{html+=`<h4>${d[k].title}</h4><iframe class="help-video" height="200" src="${d[k].link}" frameborder="0" allowfullscreen></iframe>`})}
+helpVideos.innerHTML=html;
+})}
 
 function loadUpdates(){
-    fetch(DB_URL + "/settings/updates.json")
-.then(res => res.json())
-.then(data => {
-        let updateHTML = "";
-        if(data){
-            Object.keys(data).reverse().forEach(key => {
-                const u = data[key];
-                updateHTML += `<div class="update-box"><h4>${u.title}</h4><div>${u.text}</div></div>`; // HAPA NDIO SIRI: innerHTML
-            });
-        }
-        document.getElementById('updatesList').innerHTML = updateHTML;
-    });
-}
-
-function checkPin() {
-    if(document.getElementById('adminPin').value === ADMIN_PIN) {
-        document.getElementById('adminControls').style.display = 'block';
-        showToast("Karibu Admin");
-        loadAdminProducts();
-        loadAdminVideos();
-        loadAdminUpdates();
-        loadAdminSettings();
-    } else { showToast('PIN SIO SAHI'); }
-}
-
-function saveAds(){
-    const ads = { adTop: document.getElementById('adTopCode').value, adMiddle: document.getElementById('adMiddleCode').value };
-    fetch(DB_URL + "/settings.json", { method: "PATCH", body: JSON.stringify(ads) })
-.then(() => { showToast("ADS Zimehifadhiwa"); loadSettings(); });
-}
+fetch(DB_URL+"/settings/updates.json").then(r=>r.json()).then(d=>{
+let html="";if(d){Object.keys(d).reverse().forEach(k=>{html+=`<div class="update-box"><h4>${d[k].title}</h4><div>${d[k].text}</div></div>`})}
+updatesList.innerHTML=html;
+})}
 
 function saveVideo(){
-    const key = document.getElementById('videoEditKey').value;
-    const video = { title: document.getElementById('videoTitle').value, link: document.getElementById('videoLink').value };
-    if(!video.title ||!video.link){ showToast("Jaza yote"); return; }
+let k=videoEditKey.value;let v={title:videoTitle.value,link:videoLink.value};
+let url=k?`${DB_URL}/settings/videos/${k}.json`:`${DB_URL}/settings/videos.json`;
+fetch(url,{method:k?"PUT":"POST",body:JSON.stringify(v)}).then(()=>{
+showToast(k?"Imehaririwa":"Imeongezwa");
+videoTitle.value="";videoLink.value="";videoEditKey.value="";
+addVideoBtn.innerText="ONGEZA VIDEO";
+loadAdminVideos();loadVideos();
+})}
 
-    let url = DB_URL + "/settings/videos.json";
-    let method = "POST";
-    if(key){ url = DB_URL + "/settings/videos/" + key + ".json"; method = "PUT"; }
-
-    fetch(url, { method: method, body: JSON.stringify(video) })
-.then(() => {
-        showToast(key? "Video Imehaririwa": "Video Imeongezwa");
-        document.getElementById('videoTitle').value="";
-        document.getElementById('videoLink').value="";
-        document.getElementById('videoEditKey').value="";
-        document.getElementById('addVideoBtn').innerText = "ONGEZA VIDEO";
-        loadAdminVideos(); loadVideos();
-    });
-}
-
-function editVideo(key, title, link){
-    document.getElementById('videoEditKey').value = key;
-    document.getElementById('videoTitle').value = title;
-    document.getElementById('videoLink').value = link;
-    document.getElementById('addVideoBtn').innerText = "SASISHA VIDEO";
-}
-
-function deleteVideo(key){
-    if(confirm("Una uhakika unataka kufuta video hii?")){
-        fetch(DB_URL + "/settings/videos/" + key + ".json", { method: "DELETE" })
-.then(() => { showToast("Video Imefutwa"); loadAdminVideos(); loadVideos(); });
-    }
-}
-
-function saveUpdate(){
-    const key = document.getElementById('updateEditKey').value;
-    const update = { title: document.getElementById('updateTitle').value, text: document.getElementById('updateText').value, date: Date.now() };
-    if(!update.title ||!update.text){ showToast("Jaza yote"); return; }
-
-    let url = DB_URL + "/settings/updates.json";
-    let method = "POST";
-    if(key){ url = DB_URL + "/settings/updates/" + key + ".json"; method = "PUT"; }
-
-    fetch(url, { method: method, body: JSON.stringify(update) })
-.then(() => {
-        showToast(key? "Taarifa Imehaririwa": "Taarifa Imetumwa");
-        document.getElementById('updateTitle').value="";
-        document.getElementById('updateText').value="";
-        document.getElementById('updateEditKey').value="";
-        document.getElementById('addUpdateBtn').innerText = "POST TAARIFA";
-        loadAdminUpdates(); loadUpdates();
-    });
-}
-
-function editUpdate(key, title, text){
-    document.getElementById('updateEditKey').value = key;
-    document.getElementById('updateTitle').value = title;
-    document.getElementById('updateText').value = decodeURIComponent(text); // TUMETENGENEZA HII
-    document.getElementById('addUpdateBtn').innerText = "SASISHA TAARIFA";
-}
-
-function deleteUpdate(key){
-    if(confirm("Una uhakika unataka kufuta taarifa hii?")){
-        fetch(DB_URL + "/settings/updates/" + key + ".json", { method: "DELETE" })
-.then(() => { showToast("Taarifa Imefutwa"); loadAdminUpdates(); loadUpdates(); });
-    }
-}
-
-function saveHelpText(){
-    fetch(DB_URL + "/settings/helpText.json", { method: "PUT", body: JSON.stringify(document.getElementById('helpTextAdmin').value) })
-.then(() => { showToast("Maelezo Yamehifadhiwa"); loadSettings(); });
-}
-
-function changePin(){
-    const newPin = document.getElementById('newPin').value;
-    if(newPin.length < 4){ showToast("PIN iwe angalau 4"); return; }
-    fetch(DB_URL + "/settings/adminPin.json", { method: "PUT", body: JSON.stringify(newPin) })
-.then(() => { ADMIN_PIN = newPin; showToast("PIN Imebadilishwa!"); document.getElementById('newPin').value = ""; });
-}
-
-function saveProduct() {
-    const newProduct = {
-        name: document.getElementById('pName').value,
-        price: document.getElementById('pPrice').value,
-        image: document.getElementById('pImage').value,
-        desc: document.getElementById('pDesc').value,
-        category: document.getElementById('pCat').value,
-        whatsapp: document.getElementById('pWhatsApp').value
-    };
-    fetch(DB_URL + "/products.json", { method: "POST", body: JSON.stringify(newProduct) })
-.then(() => { showToast('Bidhaa Imehifadhiwa!'); clearInputs(); loadProducts(); loadAdminProducts(); });
-}
-
-function deleteProduct(key){
-    if(confirm("Una uhakika?")){
-        fetch(DB_URL + "/products/" + key + ".json", { method: "DELETE" })
-.then(() => { showToast("Bidhaa Imefutwa"); loadProducts(); loadAdminProducts(); });
-    }
-}
-
-function loadProducts() {
-    fetch(DB_URL + "/products.json")
-.then(res => res.json())
-.then(data => { allProducts = data || {}; renderProducts(); });
-}
-
-function loadAdminProducts(){
-    const list = document.getElementById('adminProductList');
-    list.innerHTML = "";
-    if(!allProducts) return;
-    Object.keys(allProducts).forEach(key => {
-        const p = allProducts[key];
-        list.innerHTML += `<div class="admin-product-item"><span>${p.name}</span><button class="btn-delete" onclick="deleteProduct('${key}')">FUTA</button></div>`;
-    });
-}
+function editVideo(k,t,l){videoEditKey.value=k;videoTitle.value=t;videoLink.value=l;addVideoBtn.innerText="SASISHA VIDEO"}
+function deleteVideo(k){if(confirm("Futa?")){fetch(`${DB_URL}/settings/videos/${k}.json`,{method:"DELETE"}).then(()=>{showToast("Imefutwa");loadAdminVideos();loadVideos()})}}
 
 function loadAdminVideos(){
-    fetch(DB_URL + "/settings/videos.json")
-.then(res => res.json())
-.then(data => {
-        const list = document.getElementById('adminVideoList');
-        list.innerHTML = "";
-        if(data) Object.keys(data).forEach(key => {
-            list.innerHTML += `<div class="admin-product-item"><span>${data[key].title}</span><div><button class="btn-edit" onclick="editVideo('${key}','${data[key].title.replace(/'/g,"\\'")}','${data[key].link}')">HARIRI</button><button class="btn-delete" onclick="deleteVideo('${key}')">FUTA</button></div></div>`;
-        });
-    });
-}
+fetch(DB_URL+"/settings/videos.json").then(r=>r.json()).then(d=>{
+let html="";if(d){Object.keys(d).forEach(k=>{html+=`<div class="admin-product-item"><span>${d[k].title}</span><div><button class="btn-edit" onclick="editVideo('${k}','${d[k].title}','${d[k].link}')">HARIRI</button><button class="btn-delete" onclick="deleteVideo('${k}')">FUTA</button></div></div>`})}
+adminVideoList.innerHTML=html;
+})}
+
+function saveUpdate(){
+let k=updateEditKey.value;let u={title:updateTitle.value,text:updateText.value};
+let url=k?`${DB_URL}/settings/updates/${k}.json`:`${DB_URL}/settings/updates.json`;
+fetch(url,{method:k?"PUT":"POST",body:JSON.stringify(u)}).then(()=>{
+showToast(k?"Imehaririwa":"Imetumwa");
+updateTitle.value="";updateText.value="";updateEditKey.value="";
+addUpdateBtn.innerText="POST TAARIFA";
+loadAdminUpdates();loadUpdates();
+})}
+
+function editUpdate(k,t,x){updateEditKey.value=k;updateTitle.value=t;updateText.value=decodeURIComponent(x);addUpdateBtn.innerText="SASISHA TAARIFA"}
+function deleteUpdate(k){if(confirm("Futa?")){fetch(`${DB_URL}/settings/updates/${k}.json`,{method:"DELETE"}).then(()=>{showToast("Imefutwa");loadAdminUpdates();loadUpdates()})}}
 
 function loadAdminUpdates(){
-    fetch(DB_URL + "/settings/updates.json")
-.then(res => res.json())
-.then(data => {
-        const list = document.getElementById('adminUpdateList');
-        list.innerHTML = "";
-        if(data) Object.keys(data).reverse().forEach(key => {
-            list.innerHTML += `<div class="admin-product-item"><span>${data[key].title}</span><div><button class="btn-edit" onclick="editUpdate('${key}','${data[key].title.replace(/'/g,"\\'")}','${encodeURIComponent(data[key].text)}')">HARIRI</button><button class="btn-delete" onclick="deleteUpdate('${key}')">FUTA</button></div></div>`;
-        });
-    });
-}
-
-function loadAdminSettings(){
-    fetch(DB_URL + "/settings.json")
-.then(res => res.json())
-.then(data => {
-        if(data){
-            document.getElementById('adTopCode').value = data.adTop || "";
-            document.getElementById('adMiddleCode').value = data.adMiddle || "";
-            document.getElementById('helpTextAdmin').value = data.helpText || "";
-        }
-    });
-}
-
-function renderProducts() {
-    let filtered = {};
-    if(!allProducts) { document.getElementById('productGrid').innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>KARIBUNI CHILAGU SHOP</p>"; return; }
-    Object.keys(allProducts).forEach(key => {
-        if(currentCat === 'Zote' || allProducts[key].category === currentCat){ filtered[key] = allProducts[key]; }
-    });
-    const grid = document.getElementById('productGrid');
-    grid.innerHTML = '';
-    Object.keys(filtered).forEach(key => {
-        const p = filtered[key];
-        grid.innerHTML += `<div class="product-card"><img src="${p.image}"><div class="product-info"><h4>${p.name}</h4><p>Tsh ${p.price}</p></div><button class="buy-btn" onclick="buyProduct('${p.whatsapp}', '${p.name}')">AGIZA WHATSAPP</button></div>`;
-    });
-    if(Object.keys(filtered).length === 0) grid.innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>KARIBUNI CHILAGU SHOP</p>";
-}
-
-function buyProduct(num, name){
-    let msg = "Habari CHILAGU SHOP, nataka kununua: " + name;
-    window.open("https://wa.me/"+num+"?text="+encodeURIComponent(msg), "_blank");
-}
-function clearInputs(){
-    document.getElementById('pName').value = "";
-    document.getElementById('pPrice').value = "";
-    document.getElementById('pImage').value = "";
-    document.getElementById('pDesc').value = "";
-}
+fetch(DB_URL+"/settings/updates.json").then(r=>r.json()).then(d=>{
+let html="";if(d){Object.keys(d).reverse().forEach(k=>{html+=`<div class="admin-product-item"><span>${d[k].title}</span><div><button class="btn-edit" onclick="editUpdate('${k}','${d[k].title}','${encodeURIComponent(d[k].text)}')">HARIRI</button><button class="btn-delete" onclick="deleteUpdate('${k}')">FUTA</button></div></div>`})}
+adminUpdateList.innerHTML=html;
+})}
 </script>
 </body>
 </html>
