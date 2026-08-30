@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-    :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; --red: #D32F2F; }
+    :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; --red: #D32F2F; --green: #2E7D32; }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body { background: var(--black); color: var(--silver); padding-bottom: 80px; }
 .header { padding: 10px 15px; background: #0A0A0A; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--purple); }
@@ -49,8 +49,10 @@
 .admin-box input,.admin-box select,.admin-box button,.admin-box textarea { width: 100%; padding: 10px; margin: 8px 0; background: #1A1A1A; border: 1px solid #333; color: white; border-radius: 6px; font-size: 12px; }
 .admin-box button { background: var(--purple); font-weight: 700; border: none; cursor: pointer; }
 .btn-delete { background: var(--red)!important; }
+.btn-edit { background: var(--green)!important; }
 .admin-product-list { max-height: 200px; overflow-y: auto; }
 .admin-product-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: #1A1A1A; margin-bottom: 5px; border-radius: 5px; font-size: 11px; }
+.admin-product-item div { display: flex; gap: 5px; }
 .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--purple); color: white; padding: 10px 20px; border-radius: 20px; font-size: 12px; display: none; z-index: 40; }
 small { color: #888; font-size: 10px; }
 </style>
@@ -116,13 +118,14 @@ small { color: #888; font-size: 10px; }
             <h3>4. Dhibiti VIDEO ZA MSAADA</h3>
             <input id="videoTitle" placeholder="Jina la Video">
             <input id="videoLink" placeholder="Bandika LINK KAMILI ya Video">
-            <small>Mfano: https://streamable.com/xxx au https://youtu.be/xxx</small>
+            <input type="hidden" id="videoEditKey">
             <button id="addVideoBtn">ONGEZA VIDEO</button>
             <div class="admin-product-list" id="adminVideoList"></div>
 
             <h3>5. Dhibiti TAARIFA/UPDATES</h3>
             <input id="updateTitle" placeholder="Kichwa cha Taarifa">
             <textarea id="updateText" placeholder="Andika hapa. Unaweza kutumia HTML: <a> na <img>"></textarea>
+            <input type="hidden" id="updateEditKey">
             <button id="addUpdateBtn">POST TAARIFA</button>
             <div class="admin-product-list" id="adminUpdateList"></div>
 
@@ -234,8 +237,6 @@ function loadVideos(){
                 const v = data[key];
                 videoHTML += `<h4>${v.title}</h4><iframe class="help-video" height="200" src="${v.link}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
             });
-        } else {
-            videoHTML = "<p style='font-size:11px'>Hakuna video bado. Ongeza kutoka Admin.</p>";
         }
         document.getElementById('helpVideos').innerHTML = videoHTML;
     });
@@ -251,8 +252,6 @@ function loadUpdates(){
                 const u = data[key];
                 updateHTML += `<div class="update-box"><h4>${u.title}</h4><div>${u.text}</div></div>`;
             });
-        } else {
-            updateHTML = "<p style='font-size:11px'>Hakuna taarifa bado. Ongeza kutoka Admin.</p>";
         }
         document.getElementById('updatesList').innerHTML = updateHTML;
     });
@@ -275,28 +274,76 @@ function saveAds(){
 .then(() => { showToast("ADS Zimehifadhiwa"); loadSettings(); });
 }
 
+// VIDEO: ONGEZA + HARIRI + FUTA
 function saveVideo(){
-    if(!document.getElementById('videoTitle').value ||!document.getElementById('videoLink').value){ showToast("Jaza yote"); return; }
+    const key = document.getElementById('videoEditKey').value;
     const video = { title: document.getElementById('videoTitle').value, link: document.getElementById('videoLink').value };
-    fetch(DB_URL + "/settings/videos.json", { method: "POST", body: JSON.stringify(video) })
-.then(() => { showToast("Video Imeongezwa"); document.getElementById('videoTitle').value=""; document.getElementById('videoLink').value=""; loadAdminVideos(); loadVideos(); });
+    if(!video.title ||!video.link){ showToast("Jaza yote"); return; }
+
+    let url = DB_URL + "/settings/videos.json";
+    let method = "POST";
+    if(key){ url = DB_URL + "/settings/videos/" + key + ".json"; method = "PUT"; }
+
+    fetch(url, { method: method, body: JSON.stringify(video) })
+.then(() => {
+        showToast(key? "Video Imehaririwa": "Video Imeongezwa");
+        document.getElementById('videoTitle').value="";
+        document.getElementById('videoLink').value="";
+        document.getElementById('videoEditKey').value="";
+        document.getElementById('addVideoBtn').innerText = "ONGEZA VIDEO";
+        loadAdminVideos(); loadVideos();
+    });
+}
+
+function editVideo(key, title, link){
+    document.getElementById('videoEditKey').value = key;
+    document.getElementById('videoTitle').value = title;
+    document.getElementById('videoLink').value = link;
+    document.getElementById('addVideoBtn').innerText = "SASISHA VIDEO";
+    window.scrollTo(0,0);
 }
 
 function deleteVideo(key){
-    fetch(DB_URL + "/settings/videos/" + key + ".json", { method: "DELETE" })
+    if(confirm("Una uhakika unataka kufuta video hii?")){
+        fetch(DB_URL + "/settings/videos/" + key + ".json", { method: "DELETE" })
 .then(() => { showToast("Video Imefutwa"); loadAdminVideos(); loadVideos(); });
+    }
 }
 
+// UPDATE: ONGEZA + HARIRI + FUTA
 function saveUpdate(){
-    if(!document.getElementById('updateTitle').value ||!document.getElementById('updateText').value){ showToast("Jaza yote"); return; }
+    const key = document.getElementById('updateEditKey').value;
     const update = { title: document.getElementById('updateTitle').value, text: document.getElementById('updateText').value, date: Date.now() };
-    fetch(DB_URL + "/settings/updates.json", { method: "POST", body: JSON.stringify(update) })
-.then(() => { showToast("Taarifa Imetumwa"); document.getElementById('updateTitle').value=""; document.getElementById('updateText').value=""; loadAdminUpdates(); loadUpdates(); });
+    if(!update.title ||!update.text){ showToast("Jaza yote"); return; }
+
+    let url = DB_URL + "/settings/updates.json";
+    let method = "POST";
+    if(key){ url = DB_URL + "/settings/updates/" + key + ".json"; method = "PUT"; }
+
+    fetch(url, { method: method, body: JSON.stringify(update) })
+.then(() => {
+        showToast(key? "Taarifa Imehaririwa": "Taarifa Imetumwa");
+        document.getElementById('updateTitle').value="";
+        document.getElementById('updateText').value="";
+        document.getElementById('updateEditKey').value="";
+        document.getElementById('addUpdateBtn').innerText = "POST TAARIFA";
+        loadAdminUpdates(); loadUpdates();
+    });
+}
+
+function editUpdate(key, title, text){
+    document.getElementById('updateEditKey').value = key;
+    document.getElementById('updateTitle').value = title;
+    document.getElementById('updateText').value = text;
+    document.getElementById('addUpdateBtn').innerText = "SASISHA TAARIFA";
+    window.scrollTo(0,0);
 }
 
 function deleteUpdate(key){
-    fetch(DB_URL + "/settings/updates/" + key + ".json", { method: "DELETE" })
+    if(confirm("Una uhakika unataka kufuta taarifa hii?")){
+        fetch(DB_URL + "/settings/updates/" + key + ".json", { method: "DELETE" })
 .then(() => { showToast("Taarifa Imefutwa"); loadAdminUpdates(); loadUpdates(); });
+    }
 }
 
 function saveHelpText(){
@@ -354,7 +401,7 @@ function loadAdminVideos(){
         const list = document.getElementById('adminVideoList');
         list.innerHTML = "";
         if(data) Object.keys(data).forEach(key => {
-            list.innerHTML += `<div class="admin-product-item"><span>${data[key].title}</span><button class="btn-delete" onclick="deleteVideo('${key}')">FUTA</button></div>`;
+            list.innerHTML += `<div class="admin-product-item"><span>${data[key].title}</span><div><button class="btn-edit" onclick="editVideo('${key}','${data[key].title}','${data[key].link}')">HARIRI</button><button class="btn-delete" onclick="deleteVideo('${key}')">FUTA</button></div></div>`;
         });
     });
 }
@@ -366,7 +413,8 @@ function loadAdminUpdates(){
         const list = document.getElementById('adminUpdateList');
         list.innerHTML = "";
         if(data) Object.keys(data).reverse().forEach(key => {
-            list.innerHTML += `<div class="admin-product-item"><span>${data[key].title}</span><button class="btn-delete" onclick="deleteUpdate('${key}')">FUTA</button></div>`;
+            // tunatumia encodeURIComponent ili maandishi marefu yasiharibike
+            list.innerHTML += `<div class="admin-product-item"><span>${data[key].title}</span><div><button class="btn-edit" onclick="editUpdate('${key}','${data[key].title}','${encodeURIComponent(data[key].text)}')">HARIRI</button><button class="btn-delete" onclick="deleteUpdate('${key}')">FUTA</button></div></div>`;
         });
     });
 }
@@ -404,7 +452,7 @@ function buyProduct(num, name){
 }
 function clearInputs(){
     document.getElementById('pName').value = "";
-    document.getElementById('pPrice').value = "";
+    document.getElementById('pPrice')..value = "";
     document.getElementById('pImage').value = "";
     document.getElementById('pDesc').value = "";
 }
