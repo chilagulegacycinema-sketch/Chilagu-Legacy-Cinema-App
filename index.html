@@ -222,7 +222,7 @@ function loadSettings(){
             if(data.adminPin) ADMIN_PIN = data.adminPin;
             if(data.adTop) document.getElementById('adTop').innerHTML = data.adTop;
             if(data.adMiddle) document.getElementById('adMiddle').innerHTML = data.adMiddle;
-            if(data.helpText) document.getElementById('helpText').innerHTML = data.helpText;
+            if(data.helpText) document.getElementById('helpText').innerHTML = data.helpText; // HAPA NDIO SIRI: innerHTML
         }
     });
 }
@@ -250,7 +250,7 @@ function loadUpdates(){
         if(data){
             Object.keys(data).reverse().forEach(key => {
                 const u = data[key];
-                updateHTML += `<div class="update-box"><h4>${u.title}</h4><div>${u.text}</div></div>`;
+                updateHTML += `<div class="update-box"><h4>${u.title}</h4><div>${u.text}</div></div>`; // HAPA NDIO SIRI: innerHTML
             });
         }
         document.getElementById('updatesList').innerHTML = updateHTML;
@@ -274,7 +274,6 @@ function saveAds(){
 .then(() => { showToast("ADS Zimehifadhiwa"); loadSettings(); });
 }
 
-// VIDEO: ONGEZA + HARIRI + FUTA
 function saveVideo(){
     const key = document.getElementById('videoEditKey').value;
     const video = { title: document.getElementById('videoTitle').value, link: document.getElementById('videoLink').value };
@@ -300,7 +299,6 @@ function editVideo(key, title, link){
     document.getElementById('videoTitle').value = title;
     document.getElementById('videoLink').value = link;
     document.getElementById('addVideoBtn').innerText = "SASISHA VIDEO";
-    window.scrollTo(0,0);
 }
 
 function deleteVideo(key){
@@ -310,7 +308,6 @@ function deleteVideo(key){
     }
 }
 
-// UPDATE: ONGEZA + HARIRI + FUTA
 function saveUpdate(){
     const key = document.getElementById('updateEditKey').value;
     const update = { title: document.getElementById('updateTitle').value, text: document.getElementById('updateText').value, date: Date.now() };
@@ -334,9 +331,8 @@ function saveUpdate(){
 function editUpdate(key, title, text){
     document.getElementById('updateEditKey').value = key;
     document.getElementById('updateTitle').value = title;
-    document.getElementById('updateText').value = text;
+    document.getElementById('updateText').value = decodeURIComponent(text); // TUMETENGENEZA HII
     document.getElementById('addUpdateBtn').innerText = "SASISHA TAARIFA";
-    window.scrollTo(0,0);
 }
 
 function deleteUpdate(key){
@@ -401,7 +397,7 @@ function loadAdminVideos(){
         const list = document.getElementById('adminVideoList');
         list.innerHTML = "";
         if(data) Object.keys(data).forEach(key => {
-            list.innerHTML += `<div class="admin-product-item"><span>${data[key].title}</span><div><button class="btn-edit" onclick="editVideo('${key}','${data[key].title}','${data[key].link}')">HARIRI</button><button class="btn-delete" onclick="deleteVideo('${key}')">FUTA</button></div></div>`;
+            list.innerHTML += `<div class="admin-product-item"><span>${data[key].title}</span><div><button class="btn-edit" onclick="editVideo('${key}','${data[key].title.replace(/'/g,"\\'")}','${data[key].link}')">HARIRI</button><button class="btn-delete" onclick="deleteVideo('${key}')">FUTA</button></div></div>`;
         });
     });
 }
@@ -413,8 +409,7 @@ function loadAdminUpdates(){
         const list = document.getElementById('adminUpdateList');
         list.innerHTML = "";
         if(data) Object.keys(data).reverse().forEach(key => {
-            // tunatumia encodeURIComponent ili maandishi marefu yasiharibike
-            list.innerHTML += `<div class="admin-product-item"><span>${data[key].title}</span><div><button class="btn-edit" onclick="editUpdate('${key}','${data[key].title}','${encodeURIComponent(data[key].text)}')">HARIRI</button><button class="btn-delete" onclick="deleteUpdate('${key}')">FUTA</button></div></div>`;
+            list.innerHTML += `<div class="admin-product-item"><span>${data[key].title}</span><div><button class="btn-edit" onclick="editUpdate('${key}','${data[key].title.replace(/'/g,"\\'")}','${encodeURIComponent(data[key].text)}')">HARIRI</button><button class="btn-delete" onclick="deleteUpdate('${key}')">FUTA</button></div></div>`;
         });
     });
 }
@@ -452,7 +447,7 @@ function buyProduct(num, name){
 }
 function clearInputs(){
     document.getElementById('pName').value = "";
-    document.getElementById('pPrice')..value = "";
+    document.getElementById('pPrice').value = "";
     document.getElementById('pImage').value = "";
     document.getElementById('pDesc').value = "";
 }
