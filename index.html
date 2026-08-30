@@ -151,8 +151,8 @@ const cats = ["Zote", "Nguo", "Album", "Bidhaa Nyingine"];
 
 window.onload = function() {
     loadSettings();
-    loadVideos(); // TUMEONGEZA HII
-    loadUpdates(); // NA HII
+    loadVideos();
+    loadUpdates();
     buildCategories();
     attachEvents();
     loadProducts();
@@ -211,7 +211,6 @@ function setCat(cat, btn) {
     renderProducts();
 }
 
-// FIX KUBWA 1: TUMETENGANISHA KUSOMA VIDEO NA UPDATES
 function loadSettings(){
     fetch(DB_URL + "/settings.json")
 .then(res => res.json())
@@ -229,14 +228,16 @@ function loadVideos(){
     fetch(DB_URL + "/settings/videos.json")
 .then(res => res.json())
 .then(data => {
+        let videoHTML = "";
         if(data){
-            let videoHTML = "";
             Object.keys(data).forEach(key => {
                 const v = data[key];
                 videoHTML += `<h4>${v.title}</h4><iframe class="help-video" height="200" src="${v.link}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
             });
-            document.getElementById('helpVideos').innerHTML = videoHTML;
+        } else {
+            videoHTML = "<p style='font-size:11px'>Hakuna video bado. Ongeza kutoka Admin.</p>";
         }
+        document.getElementById('helpVideos').innerHTML = videoHTML;
     });
 }
 
@@ -244,15 +245,16 @@ function loadUpdates(){
     fetch(DB_URL + "/settings/updates.json")
 .then(res => res.json())
 .then(data => {
+        let updateHTML = "";
         if(data){
-            let updateHTML = "";
             Object.keys(data).reverse().forEach(key => {
                 const u = data[key];
-                // FIX KUBWA 2: TUMIA innerHTML ILI LINK NA PICHA ZIFANYE KAZI
                 updateHTML += `<div class="update-box"><h4>${u.title}</h4><div>${u.text}</div></div>`;
             });
-            document.getElementById('updatesList').innerHTML = updateHTML;
+        } else {
+            updateHTML = "<p style='font-size:11px'>Hakuna taarifa bado. Ongeza kutoka Admin.</p>";
         }
+        document.getElementById('updatesList').innerHTML = updateHTML;
     });
 }
 
@@ -274,6 +276,7 @@ function saveAds(){
 }
 
 function saveVideo(){
+    if(!document.getElementById('videoTitle').value ||!document.getElementById('videoLink').value){ showToast("Jaza yote"); return; }
     const video = { title: document.getElementById('videoTitle').value, link: document.getElementById('videoLink').value };
     fetch(DB_URL + "/settings/videos.json", { method: "POST", body: JSON.stringify(video) })
 .then(() => { showToast("Video Imeongezwa"); document.getElementById('videoTitle').value=""; document.getElementById('videoLink').value=""; loadAdminVideos(); loadVideos(); });
@@ -285,6 +288,7 @@ function deleteVideo(key){
 }
 
 function saveUpdate(){
+    if(!document.getElementById('updateTitle').value ||!document.getElementById('updateText').value){ showToast("Jaza yote"); return; }
     const update = { title: document.getElementById('updateTitle').value, text: document.getElementById('updateText').value, date: Date.now() };
     fetch(DB_URL + "/settings/updates.json", { method: "POST", body: JSON.stringify(update) })
 .then(() => { showToast("Taarifa Imetumwa"); document.getElementById('updateTitle').value=""; document.getElementById('updateText').value=""; loadAdminUpdates(); loadUpdates(); });
