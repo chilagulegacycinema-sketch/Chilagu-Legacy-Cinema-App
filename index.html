@@ -5,35 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>CHILAGU LEGACY SHOP</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
 
 <style>
     :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body { background: var(--black); color: var(--silver); padding-bottom: 80px; }
-   .header { padding: 10px 15px; background: #0A0A0A; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--purple); }
-   .logo { height: 40px; display: block; cursor: pointer; }
-   .banner-tv { width: 100%; padding: 15px; background: linear-gradient(90deg, var(--purple), #000); }
-   .banner-tv button { width: 100%; padding: 12px; background: white; color: var(--black); border: none; border-radius: 8px; font-weight: 700; font-size: 14px; }
-   .categories { display: flex; gap: 10px; padding: 15px; overflow-x: auto; }
-   .cat-btn { padding: 8px 16px; background: #1A1A1A; border: 1px solid #333; border-radius: 20px; color: var(--silver); font-weight: 600; font-size: 12px; white-space: nowrap; }
-   .cat-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
-   .section-title { padding: 0 15px 10px; font-size: 16px; font-weight: 700; color: white; }
-   .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 15px 20px; }
-   .product-card { background: #111; border-radius: 10px; overflow: hidden; border: 1px solid #222; }
-   .product-card img { width: 100%; height: 160px; object-fit: cover; background: #222; }
-   .product-info { padding: 10px; }
-   .product-info h4 { font-size: 12px; color: white; margin-bottom: 5px; height: 28px; overflow: hidden; }
-   .product-info p { font-size: 14px; color: var(--purple); font-weight: 700; }
-   .buy-btn { width: 100%; padding: 8px; background: var(--purple); color: white; border: none; font-weight: 600; font-size: 11px; }
-   .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #0A0A0A; padding: 10px 0; border-top: 1px solid #1A1A1A; }
-   .nav-btn { color: var(--silver); text-align: center; font-size: 11px; font-weight: 600; }
-   .admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); z-index: 30; padding: 20px; overflow-y: auto; }
-   .admin-box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid var(--purple); }
-   .admin-box h2 { color: var(--purple); margin-bottom: 15px; font-size: 16px; }
-   .admin-box input,.admin-box select,.admin-box button,.admin-box textarea { width: 100%; padding: 10px; margin: 8px 0; background: #1A1A1A; border: 1px solid #333; color: white; border-radius: 6px; font-size: 12px; }
-   .admin-box button { background: var(--purple); font-weight: 700; border: none; }
-   .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--purple); color: white; padding: 10px 20px; border-radius: 20px; font-size: 12px; display: none; z-index: 40; }
+  .header { padding: 10px 15px; background: #0A0A0A; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--purple); }
+  .logo { height: 40px; display: block; cursor: pointer; }
+  .banner-tv { width: 100%; padding: 15px; background: linear-gradient(90deg, var(--purple), #000); }
+  .banner-tv button { width: 100%; padding: 12px; background: white; color: var(--black); border: none; border-radius: 8px; font-weight: 700; font-size: 14px; }
+  .categories { display: flex; gap: 10px; padding: 15px; overflow-x: auto; }
+  .cat-btn { padding: 8px 16px; background: #1A1A1A; border: 1px solid #333; border-radius: 20px; color: var(--silver); font-weight: 600; font-size: 12px; white-space: nowrap; }
+  .cat-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
+  .section-title { padding: 0 15px 10px; font-size: 16px; font-weight: 700; color: white; }
+  .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 15px 20px; }
+  .product-card { background: #111; border-radius: 10px; overflow: hidden; border: 1px solid #222; }
+  .product-card img { width: 100%; height: 160px; object-fit: cover; background: #222; }
+  .product-info { padding: 10px; }
+  .product-info h4 { font-size: 12px; color: white; margin-bottom: 5px; height: 28px; overflow: hidden; }
+  .product-info p { font-size: 14px; color: var(--purple); font-weight: 700; }
+  .buy-btn { width: 100%; padding: 8px; background: var(--purple); color: white; border: none; font-weight: 600; font-size: 11px; cursor: pointer; }
+  .bottom-nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: #0A0A0A; padding: 10px 0; border-top: 1px solid #1A1A1A; }
+  .nav-btn { color: var(--silver); text-align: center; font-size: 11px; font-weight: 600; }
+  .admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); z-index: 30; padding: 20px; overflow-y: auto; }
+  .admin-box { background: #111; padding: 20px; border-radius: 8px; border: 1px solid var(--purple); }
+  .admin-box h2 { color: var(--purple); margin-bottom: 15px; font-size: 16px; }
+  .admin-box input,.admin-box select,.admin-box button,.admin-box textarea { width: 100%; padding: 10px; margin: 8px 0; background: #1A1A1A; border: 1px solid #333; color: white; border-radius: 6px; font-size: 12px; }
+  .admin-box button { background: var(--purple); font-weight: 700; border: none; cursor: pointer; }
+  .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--purple); color: white; padding: 10px 20px; border-radius: 20px; font-size: 12px; display: none; z-index: 40; }
 </style>
 </head>
 <body>
@@ -77,34 +76,140 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// CONFIG YAKO KAMILI - TAYARI
-const firebaseConfig = {
-  apiKey: "WEKA_APIKEY_YAKO_HAPA", // HII TU NDIO IMEBAKI. Nenda Firebase > Project Settings > Web API Key
-  authDomain: "chilagu-shop-859ec.firebaseapp.com",
-  databaseURL: "https://chilagu-shop-859ec-default-rtdb.firebaseio.com",
-  projectId: "chilagu-shop-859ec",
-  storageBucket: "chilagu-shop-859ec.appspot.com",
-  messagingSenderId: "314680820609",
-  appId: "1:314680820609:web:c37a6ec9472e635ddf9e80"
-};
+const DB_URL = "https://chilagu-shop-859ec-default-rtdb.firebaseio.com"; // LINK YAKO
 
-firebase.initializeApp(firebaseConfig);
-var database = firebase.database();
-
-let clickCount = 0; let allProducts = []; let currentCat = "Zote";
+let clickCount = 0;
+let allProducts = [];
+let currentCat = "Zote";
 const cats = ["Zote", "Nguo", "Album", "Bidhaa Nyingine"];
 
-window.onload = function() { buildCategories(); attachEvents(); loadProducts(); }
-function showToast(msg){ const t = document.getElementById('toast'); t.innerText = msg; t.style.display = 'block'; setTimeout(()=>{ t.style.display = 'none'; }, 2000); }
-function buildCategories() { const catDiv = document.getElementById('categories'); cats.forEach(cat => { const btn = document.createElement('div'); btn.className = 'cat-btn' + (cat === 'Zote'? ' active' : ''); btn.innerText = cat; btn.onclick = function(){ setCat(cat, btn); } catDiv.appendChild(btn); }); }
-function attachEvents() { document.getElementById('logoBtn').onclick = function(){ clickCount++; if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; } setTimeout(function(){ clickCount = 0; }, 3000); }; document.getElementById('openTvApp').onclick = function(){ window.open("https://studioflex38-jpg.github.io/", "_blank"); } document.getElementById('loginBtn').onclick = checkPin; document.getElementById('addProductBtn').onclick = saveProduct; document.getElementById('logoutBtn').onclick = function(){ document.getElementById('adminPanel').style.display = 'none'; }; }
-function setCat(cat, btn) { document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentCat = cat; document.getElementById('sectionTitle').innerText = cat; renderProducts(); }
-function checkPin() { if(document.getElementById('adminPin').value === '1255') { document.getElementById('adminControls').style.display = 'block'; showToast("Karibu Admin"); } else { showToast('PIN SIO SAHI'); } }
-function saveProduct() { var newProductRef = database.ref("products").push(); newProductRef.set({ name: document.getElementById('pName').value, price: document.getElementById('pPrice').value, image: document.getElementById('pImage').value, desc: document.getElementById('pDesc').value, category: document.getElementById('pCat').value, whatsapp: document.getElementById('pWhatsApp').value }, function(error) { if (error) { showToast("Kosa: " + error); } else { showToast('Bidhaa Imehifadhiwa!'); clearInputs(); } }); }
-function loadProducts() { database.ref("products").on("value", function(snapshot) { allProducts = []; snapshot.forEach(function(childSnapshot) { allProducts.push(childSnapshot.val()); }); renderProducts(); }, function(error) { document.getElementById('productGrid').innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Fungua RULES za Firebase</p>"; }); }
-function renderProducts() { let filtered = allProducts; if(currentCat!== 'Zote') { filtered = filtered.filter(p => p.category === currentCat); } const grid = document.getElementById('productGrid'); grid.innerHTML = ''; filtered.forEach(p => { const card = document.createElement('div'); card.className = 'product-card'; card.innerHTML = `<img src="${p.image}"><div class="product-info"><h4>${p.name}</h4><p>Tsh ${p.price}</p></div><button class="buy-btn" onclick="buyProduct('${p.whatsapp}', '${p.name}')">AGIZA WHATSAPP</button>`; grid.appendChild(card); }); if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Bado hakuna bidhaa. Gonga logo mara 5 uanze kuongeza.</p>"; }
-function buyProduct(num, name){ let msg = "Habari CHILAGU SHOP, nataka kununua: " + name; window.open("https://wa.me/"+num+"?text="+encodeURIComponent(msg), "_blank"); }
-function clearInputs(){ document.getElementById('pName').value = ""; document.getElementById('pPrice').value = ""; document.getElementById('pImage').value = ""; document.getElementById('pDesc').value = ""; }
+window.onload = function() {
+    buildCategories();
+    attachEvents();
+    loadProducts();
+}
+
+function showToast(msg){
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.style.display = 'block';
+    setTimeout(()=>{ t.style.display = 'none'; }, 2000);
+}
+
+function buildCategories() {
+    const catDiv = document.getElementById('categories');
+    cats.forEach(cat => {
+        const btn = document.createElement('div');
+        btn.className = 'cat-btn' + (cat === 'Zote'? ' active' : '');
+        btn.innerText = cat;
+        btn.onclick = function(){ setCat(cat, btn); }
+        catDiv.appendChild(btn);
+    });
+}
+
+function attachEvents() {
+    document.getElementById('logoBtn').onclick = function(){
+        clickCount++;
+        if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; }
+        setTimeout(function(){ clickCount = 0; }, 3000);
+    };
+    document.getElementById('openTvApp').onclick = function(){ window.open("https://studioflex38-jpg.github.io/", "_blank"); }
+    document.getElementById('loginBtn').onclick = checkPin;
+    document.getElementById('addProductBtn').onclick = saveProduct;
+    document.getElementById('logoutBtn').onclick = function(){ document.getElementById('adminPanel').style.display = 'none'; };
+}
+
+function setCat(cat, btn) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCat = cat;
+    document.getElementById('sectionTitle').innerText = cat;
+    renderProducts();
+}
+
+function checkPin() {
+    if(document.getElementById('adminPin').value === '1255') {
+        document.getElementById('adminControls').style.display = 'block';
+        showToast("Karibu Admin");
+    } else { showToast('PIN SIO SAHI'); }
+}
+
+// TUMIA FETCH KUSAVE KWENDA FIREBASE
+function saveProduct() {
+    const newProduct = {
+        name: document.getElementById('pName').value,
+        price: document.getElementById('pPrice').value,
+        image: document.getElementById('pImage').value,
+        desc: document.getElementById('pDesc').value,
+        category: document.getElementById('pCat').value,
+        whatsapp: document.getElementById('pWhatsApp').value
+    };
+
+    fetch(DB_URL + "/products.json", {
+        method: "POST",
+        body: JSON.stringify(newProduct)
+    })
+   .then(res => res.json())
+   .then(data => {
+        showToast('Bidhaa Imehifadhiwa!');
+        clearInputs();
+        loadProducts();
+    })
+   .catch(err => showToast("Kosa: " + err));
+}
+
+// TUMIA FETCH KUPATA BIDHAA
+function loadProducts() {
+    fetch(DB_URL + "/products.json")
+   .then(res => res.json())
+   .then(data => {
+        allProducts = [];
+        if(data){
+            Object.keys(data).forEach(key => {
+                allProducts.push(data[key]);
+            });
+        }
+        renderProducts();
+    })
+   .catch(err => {
+        document.getElementById('productGrid').innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Fungua RULES za Firebase</p>";
+    });
+}
+
+function renderProducts() {
+    let filtered = allProducts;
+    if(currentCat!== 'Zote') {
+        filtered = filtered.filter(p => p.category === currentCat);
+    }
+
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = '';
+    filtered.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <img src="${p.image}">
+            <div class="product-info">
+                <h4>${p.name}</h4>
+                <p>Tsh ${p.price}</p>
+            </div>
+            <button class="buy-btn" onclick="buyProduct('${p.whatsapp}', '${p.name}')">AGIZA WHATSAPP</button>
+        `;
+        grid.appendChild(card);
+    });
+    if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Bado hakuna bidhaa. Gonga logo mara 5 uanze kuongeza.</p>";
+}
+
+function buyProduct(num, name){
+    let msg = "Habari CHILAGU SHOP, nataka kununua: " + name;
+    window.open("https://wa.me/"+num+"?text="+encodeURIComponent(msg), "_blank");
+}
+function clearInputs(){
+    document.getElementById('pName').value = "";
+    document.getElementById('pPrice').value = "";
+    document.getElementById('pImage').value = "";
+    document.getElementById('pDesc').value = "";
+}
 </script>
 </body>
 </html>
