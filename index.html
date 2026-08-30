@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>CHILAGU LEGACY SHOP</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
+
 <style>
     :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -45,7 +47,6 @@
 </div>
 
 <div class="categories" id="categories"></div>
-
 <h3 class="section-title" id="sectionTitle">Bidhaa Zote</h3>
 <div class="product-grid" id="productGrid"><p style="padding:20px; grid-column: span 2; text-align:center">Inapakia bidhaa...</p></div>
 
@@ -60,7 +61,6 @@
         <h2>ADMIN PANEL</h2>
         <input type="password" id="adminPin" placeholder="Weka PIN 1255">
         <button id="loginBtn">INGIA</button>
-
         <div id="adminControls" style="display:none">
             <h3>Ongeza Bidhaa Mpya</h3>
             <input id="pName" placeholder="Jina la Bidhaa">
@@ -74,145 +74,33 @@
         </div>
     </div>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-const API_URL = "api.php"; // Faili ya PHP itakuwa hapa hapa
+// CONFIG YAKO - HAKUNA API KEY
+const firebaseConfig = {
+  databaseURL: "https://chilagu-shop-859ec-default-rtdb.firebaseio.com", // HII TU
+  projectId: "chilagu-shop-859ec",
+  appId: "1:314680820609:web:c37a6ec9472e635ddf9e80"
+};
 
-let clickCount = 0;
-let allProducts = [];
-let currentCat = "Zote";
+firebase.initializeApp(firebaseConfig);
+var database = firebase.database();
+
+let clickCount = 0; let allProducts = []; let currentCat = "Zote";
 const cats = ["Zote", "Nguo", "Album", "Bidhaa Nyingine"];
 
-window.onload = function() {
-    buildCategories();
-    attachEvents();
-    loadProducts();
-}
-
-function showToast(msg){
-    const t = document.getElementById('toast');
-    t.innerText = msg;
-    t.style.display = 'block';
-    setTimeout(()=>{ t.style.display = 'none'; }, 2000);
-}
-
-function buildCategories() {
-    const catDiv = document.getElementById('categories');
-    cats.forEach(cat => {
-        const btn = document.createElement('div');
-        btn.className = 'cat-btn' + (cat === 'Zote'? ' active' : '');
-        btn.innerText = cat;
-        btn.onclick = function(){ setCat(cat, btn); }
-        catDiv.appendChild(btn);
-    });
-}
-
-function attachEvents() {
-    document.getElementById('logoBtn').onclick = function(){
-        clickCount++;
-        if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; }
-        setTimeout(function(){ clickCount = 0; }, 3000);
-    };
-    document.getElementById('openTvApp').onclick = function(){ window.open("https://studioflex38-jpg.github.io/", "_blank"); }
-    document.getElementById('loginBtn').onclick = checkPin;
-    document.getElementById('addProductBtn').onclick = saveProduct;
-    document.getElementById('logoutBtn').onclick = function(){ document.getElementById('adminPanel').style.display = 'none'; };
-}
-
-function setCat(cat, btn) {
-    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentCat = cat;
-    document.getElementById('sectionTitle').innerText = cat;
-    renderProducts();
-}
-
-function checkPin() {
-    if(document.getElementById('adminPin').value === '1255') {
-        document.getElementById('adminControls').style.display = 'block';
-        showToast("Karibu Admin");
-    } else { showToast('PIN SIO SAHI'); }
-}
-
-// TUMA BIDHAA KWENDA SERVER
-function saveProduct() {
-    const product = {
-        action: "add",
-        name: document.getElementById('pName').value,
-        price: document.getElementById('pPrice').value,
-        image: document.getElementById('pImage').value,
-        desc: document.getElementById('pDesc').value,
-        category: document.getElementById('pCat').value,
-        whatsapp: document.getElementById('pWhatsApp').value
-    };
-
-    if(product.name == ""){ showToast("Jaza jina la bidhaa"); return; }
-
-    fetch(API_URL, {
-        method: "POST",
-        body: JSON.stringify(product),
-        headers: {"Content-Type": "application/json"}
-    })
-   .then(res => res.json())
-   .then(data => {
-        if(data.status == "success"){
-            showToast('Bidhaa Imehifadhiwa!');
-            clearInputs();
-            loadProducts();
-        } else {
-            showToast('Kosa: ' + data.message);
-        }
-    }).catch((e)=>{ showToast("Kosa la mtandao") });
-}
-
-// PAKUA BIDHAA KUTOKA SERVER
-function loadProducts() {
-    fetch(API_URL + "?action=get")
-   .then(res => res.json())
-   .then(data => {
-        allProducts = data;
-        renderProducts();
-    }).catch((e)=>{
-        document.getElementById('productGrid').innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Kuna tatizo la mtandao</p>";
-    });
-}
-
-function renderProducts() {
-    let filtered = allProducts;
-    if(currentCat!== 'Zote') {
-        filtered = filtered.filter(p => p.category === currentCat);
-    }
-
-    const grid = document.getElementById('productGrid');
-    grid.innerHTML = '';
-    filtered.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-            <img src="${p.image}">
-            <div class="product-info">
-                <h4>${p.name}</h4>
-                <p>Tsh ${p.price}</p>
-            </div>
-            <button class="buy-btn" onclick="buyProduct('${p.whatsapp}', '${p.name}')">AGIZA WHATSAPP</button>
-        `;
-        grid.appendChild(card);
-    });
-    if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Bado hakuna bidhaa. Rudi baadae.</p>";
-}
-
-function buyProduct(num, name){
-    let msg = "Habari CHILAGU SHOP, nataka kununua: " + name;
-    window.open("https://wa.me/"+num+"?text="+encodeURIComponent(msg), "_blank");
-}
-function clearInputs(){
-    document.getElementById('pName').value = "";
-    document.getElementById('pPrice').value = "";
-    document.getElementById('pImage').value = "";
-    document.getElementById('pDesc').value = "";
-}
+window.onload = function() { buildCategories(); attachEvents(); loadProducts(); }
+function showToast(msg){ const t = document.getElementById('toast'); t.innerText = msg; t.style.display = 'block'; setTimeout(()=>{ t.style.display = 'none'; }, 2000); }
+function buildCategories() { const catDiv = document.getElementById('categories'); cats.forEach(cat => { const btn = document.createElement('div'); btn.className = 'cat-btn' + (cat === 'Zote'? ' active' : ''); btn.innerText = cat; btn.onclick = function(){ setCat(cat, btn); } catDiv.appendChild(btn); }); }
+function attachEvents() { document.getElementById('logoBtn').onclick = function(){ clickCount++; if(clickCount >= 5) { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; } setTimeout(function(){ clickCount = 0; }, 3000); }; document.getElementById('openTvApp').onclick = function(){ window.open("https://studioflex38-jpg.github.io/", "_blank"); } document.getElementById('loginBtn').onclick = checkPin; document.getElementById('addProductBtn').onclick = saveProduct; document.getElementById('logoutBtn').onclick = function(){ document.getElementById('adminPanel').style.display = 'none'; }; }
+function setCat(cat, btn) { document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentCat = cat; document.getElementById('sectionTitle').innerText = cat; renderProducts(); }
+function checkPin() { if(document.getElementById('adminPin').value === '1255') { document.getElementById('adminControls').style.display = 'block'; showToast("Karibu Admin"); } else { showToast('PIN SIO SAHI'); } }
+function saveProduct() { var newProductRef = database.ref("products").push(); newProductRef.set({ name: document.getElementById('pName').value, price: document.getElementById('pPrice').value, image: document.getElementById('pImage').value, desc: document.getElementById('pDesc').value, category: document.getElementById('pCat').value, whatsapp: document.getElementById('pWhatsApp').value }, function(error) { if (error) { showToast("Kosa: Hakuna ruhusa. Angalia Rules"); } else { showToast('Bidhaa Imehifadhiwa!'); clearInputs(); } }); }
+function loadProducts() { database.ref("products").on("value", function(snapshot) { allProducts = []; snapshot.forEach(function(childSnapshot) { allProducts.push(childSnapshot.val()); }); renderProducts(); }, function(error) { document.getElementById('productGrid').innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Fungua RULES za Firebase</p>"; }); }
+function renderProducts() { let filtered = allProducts; if(currentCat!== 'Zote') { filtered = filtered.filter(p => p.category === currentCat); } const grid = document.getElementById('productGrid'); grid.innerHTML = ''; filtered.forEach(p => { const card = document.createElement('div'); card.className = 'product-card'; card.innerHTML = `<img src="${p.image}"><div class="product-info"><h4>${p.name}</h4><p>Tsh ${p.price}</p></div><button class="buy-btn" onclick="buyProduct('${p.whatsapp}', '${p.name}')">AGIZA WHATSAPP</button>`; grid.appendChild(card); }); if(filtered.length === 0) grid.innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>Bado hakuna bidhaa. Gonga logo mara 5 uanze kuongeza.</p>"; }
+function buyProduct(num, name){ let msg = "Habari CHILAGU SHOP, nataka kununua: " + name; window.open("https://wa.me/"+num+"?text="+encodeURIComponent(msg), "_blank"); }
+function clearInputs(){ document.getElementById('pName').value = ""; document.getElementById('pPrice').value = ""; document.getElementById('pImage').value = ""; document.getElementById('pDesc').value = ""; }
 </script>
 </body>
 </html>
