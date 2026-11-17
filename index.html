@@ -9,7 +9,7 @@
     :root { --purple: #6A0DAD; --silver: #C0C0C0; --black: #000; --red: #D32F2F; --green:#2E7D32; }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body { background: var(--black); color: var(--silver); padding-bottom: 80px; }
-    .header { padding: 10px 15px; background: #0A0A0A; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--purple); }
+    .header { padding: 10px 15px; background: #0A0A0A; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--purple); display:flex; align-items:center; justify-content:space-between; }
     .logo { height: 40px; display: block; cursor: pointer; }
     .banner-ad { width: 100%; padding: 10px 15px; background: #111; text-align: center; }
     .banner-ad iframe,.banner-ad div { width: 100%; height: 60px; border: none; }
@@ -35,7 +35,7 @@
     .page { display: none; }
     .page.active { display: block; }
     .help-page { padding: 20px 15px; color: var(--silver); font-size: 13px; line-height: 1.6; }
-    .help-page h2 { color: var(--purple); margin-bottom: 15px; }
+    .help-page h2 { color: var(--purple); margin-bottom: 10px; font-size:15px; }
     .help-page a { color: var(--purple); text-decoration: underline; }
     .help-page img { width: 100%; border-radius: 8px; margin: 10px 0; }
     .help-video { width: 100%; border-radius: 8px; margin: 10px 0; }
@@ -57,6 +57,14 @@
     .admin-product-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: #1A1A1A; margin-bottom: 5px; border-radius: 5px; font-size: 11px; }
     .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--purple); color: white; padding: 10px 20px; border-radius: 20px; font-size: 12px; display: none; z-index: 60; text-align:center; max-width:90%; }
     small { color: #888; font-size: 10px; }
+    /* ===== SOCIAL ICONS - PROFESSIONAL ===== */
+    .social-bar { display:flex; justify-content:center; gap:14px; padding:16px 15px 6px; }
+    .social-item { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; }
+    .social-icon { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#1A1A1A; border:1px solid #333; }
+    .social-icon svg { width:22px; height:22px; }
+    .social-item span { font-size:9px; color:#999; font-weight:600; text-align:center; line-height:1.2; }
+    .social-divider { height:1px; background:#1A1A1A; margin:14px 15px 0; }
+    .social-title { text-align:center; font-size:11px; color:#777; padding:8px 0 0; letter-spacing:0.5px; }
     #chilaguCinemaAd{ position:fixed; bottom:62px; left:50%; transform:translateX(-50%) translateY(180%); width:92%; max-width:360px; background:rgba(18,18,18,.97); border:1px solid rgba(255,255,255,.12); border-left:3px solid #6A0DAD; border-radius:14px; padding:9px 10px; display:flex; gap:9px; align-items:center; z-index:9999; transition:transform .55s ease; box-shadow:0 10px 28px rgba(0,0,0,.65); color:#fff; }
     #chilaguCinemaAd.show{ transform:translateX(-50%) translateY(0); }
     #chilaguCinemaAd .ad-logo{ width:42px; height:42px; border-radius:10px; background:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0; overflow:hidden; }
@@ -90,29 +98,61 @@
     <div class="section-sub" id="sectionSub"></div>
     <div class="product-grid" id="productGrid"><p style="padding:20px; grid-column: span 2; text-align:center">Inapakia bidhaa...</p></div>
     <div class="banner-ad" id="adMiddle" style="margin: 0 15px 20px;"></div>
+    <!-- SOCIAL - ICON TU, HAKUNA LINK NDEFU -->
+    <div class="social-divider"></div>
+    <div class="social-title">TUFUATILIE</div>
+    <div class="social-bar">
+        <div class="social-item" onclick="openExternal('https://www.youtube.com/@chilagucinema')">
+            <div class="social-icon" style="background:#FF0000; border-color:#FF0000;">
+                <svg viewBox="0 0 24 24" fill="white"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg>
+            </div>
+            <span>Chilagu<br>Legacy Cinema</span>
+        </div>
+        <div class="social-item" onclick="openExternal('https://www.youtube.com/@ystarprotv')">
+            <div class="social-icon" style="background:#FF0000; border-color:#FF0000;">
+                <svg viewBox="0 0 24 24" fill="white"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg>
+            </div>
+            <span>YstarPro<br>TV</span>
+        </div>
+        <div class="social-item" onclick="openExternal('https://www.tiktok.com/@ystarprotv')">
+            <div class="social-icon" style="background:#000; border-color:#fff;">
+                <svg viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+            </div>
+            <span>TikTok<br>@ystarprotv</span>
+        </div>
+        <div class="social-item" onclick="openExternal('mailto:chilagulegacycinema@gmail.com')">
+            <div class="social-icon" style="background:#6A0DAD; border-color:#6A0DAD;">
+                <svg viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </div>
+            <span>Email<br>Us</span>
+        </div>
+    </div>
+    <p style="text-align:center; font-size:10px; color:#555; padding:10px 15px 0;">© Chilagu Legacy Cinema</p>
 </div>
 <div class="page" id="helpPage">
     <div class="help-page">
-        <h2>🛒 JINSI APP INAVYOFANYA KAZI</h2>
-        <p>Karibu CHILAGU LEGACY SHOP - Soko la Stories na Bidhaa za Entertainment.</p>
-        <div class="update-box"><h4>1. KUTAZAMA BIDHAA</h4><div>- Uko kwenye <b>HOME</b>, chagua Category juu: <b>Stories</b> au <b>Bidhaa Nyingine</b><br>- <b>Stories:</b> Playlist ya Stories - Film, Series, Script, Kitabu, Wimbo.</div></div>
-        <div class="update-box"><h4>2. JINSI YA KUAGIZA - NDANI YA APP</h4><div>1. Chagua bidhaa<br>2. Bonyeza <b>AGIZA SASA</b><br>3. Jaza Jina lako, Email / Namba ya Simu na Ujumbe<br>4. Bonyeza <b>TUMA ORDER</b><br>5. Order inatumwa moja kwa moja kwa muuzaji. Atakujibu kwa Email / Simu uliyoweka.</div></div>
-        <div class="update-box"><h4>3. KILA BIDHAA INA MUUZAJI WAKE</h4><div>Kila bidhaa ina Email yake ya kupokea Order. Order yako inaenda kwa mtu sahihi.</div></div>
-        <div class="update-box"><h4>4. UNATAKA KUUZA BIDHAA YAKO HAPA?</h4><div>Tuma Email: <b>chilagulegacy@gmail.com</b><br>Tuma: Jina la Bidhaa, Bei, Picha, Maelezo, na Email yako ya kupokea Order.</div></div>
-        <h2>SUBSCRIBE OUR YouTube Channel as Chilagu Legacy Cinema & YstarProTV</h2>
+        <h2>🛒 JINSI YA KUAGIZA</h2>
+        <div class="update-box"><div>1. Chagua bidhaa<br>2. Bonyeza <b>AGIZA SASA</b><br>3. Jaza Jina na Email<br>4. Bonyeza <b>TUMA ORDER</b><br>Muuzaji atakujibu.</div></div>
+        <h2>UNATAKA KUUZA HAPA?</h2>
+        <div class="update-box"><div>Tuma Email: <b>chilagulegacycinema@gmail.com</b><br>Tuma: Jina la Bidhaa, Bei, Picha, Maelezo, na Email yako ya kupokea Order.</div></div>
         <div id="helpText"></div><div id="helpVideos"></div>
-        <h2>Kwa msaada Email: chilagulegacycinema@gmail.com</h2>
         <div id="updatesList"></div>
+        <!-- SOCIAL PIA KWENYE MSAADA - ICON TU -->
+        <div class="social-divider"></div>
+        <div class="social-title">TUFUATILIE</div>
+        <div class="social-bar">
+            <div class="social-item" onclick="openExternal('https://www.youtube.com/@chilagucinema')"><div class="social-icon" style="background:#FF0000; border-color:#FF0000;"><svg viewBox="0 0 24 24" fill="white"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></div><span>Chilagu Cinema</span></div>
+            <div class="social-item" onclick="openExternal('https://www.youtube.com/@ystarprotv')"><div class="social-icon" style="background:#FF0000; border-color:#FF0000;"><svg viewBox="0 0 24 24" fill="white"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></div><span>YstarProTV</span></div>
+            <div class="social-item" onclick="openExternal('https://www.tiktok.com/@ystarprotv')"><div class="social-icon" style="background:#000; border-color:#fff;"><svg viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></div><span>TikTok</span></div>
+        </div>
     </div>
 </div>
 <div class="bottom-nav"><div class="nav-btn active" id="navHome">Home</div><div class="nav-btn" id="navHelp">Msaada</div></div>
 <div id="chilaguCinemaAd"><span class="ad-close" onclick="closeCinemaAd()">×</span><div class="ad-logo"><img src="https://i.postimg.cc/LXYGQT8w/In-Shot-20260523-092931092-removebg-preview.png" alt="Chilagu Legacy Cinema"></div><div class="ad-text"><div class="ad-title">Chilagu Legacy Cinema</div><div class="ad-sub">Movies & Series Mpya • Bure</div><span class="ad-tag">APP MPYA</span></div><a class="ad-btn" href="https://www.mediafire.com/folder/fx94jqzan4fcm/ChilaguLegacyCinema" target="_blank">Download</a></div>
 
-<!-- MODAL YA KUAGIZA - NDANI YA APP, HAKUNA KUFUNGUA GMAIL -->
 <div class="order-modal" id="orderModal">
   <div class="order-box" id="orderFormBox">
-    <h2 id="orderTitle">Agiza Bidhaa</h2>
-    <p id="orderSubtitle">Jaza taarifa zako, muuzaji atakujibu.</p>
+    <h2 id="orderTitle">Agiza Bidhaa</h2><p id="orderSubtitle">Jaza taarifa zako, muuzaji atakujibu.</p>
     <label>Jina Lako *</label><input id="orderName" placeholder="Mfano: Juma Mushi">
     <label>Email Yako *</label><input id="orderEmail" type="email" placeholder="Mfano: juma@gmail.com">
     <label>Namba ya Simu (hiari)</label><input id="orderPhone" placeholder="Mfano: 0686 436 004">
@@ -120,60 +160,28 @@
     <button class="btn-send-email" id="sendOrderBtn">TUMA ORDER ✅</button>
     <button class="btn-close-order" onclick="closeOrderModal()">GHAIRI</button>
   </div>
-  <div class="order-box order-success" id="orderSuccessBox">
-    <h2>✅ ORDER IMETUMWA!</h2>
-    <p style="color:#fff; font-size:13px;">Asante! Muuzaji wa bidhaa hii amepokea order yako.<br>Atakujibu kupitia Email / Simu uliyoweka.<br><br>Order Namba: <b id="orderNumberText" style="color:#fff;"></b></p>
-    <button class="btn-send-email" onclick="closeOrderModal()">SAWA, NIMELEWA</button>
-  </div>
+  <div class="order-box order-success" id="orderSuccessBox"><h2>✅ ORDER IMETUMWA!</h2><p style="color:#fff; font-size:13px;">Asante! Muuzaji amepokea order yako.<br>Atakujibu kupitia Email / Simu uliyoweka.<br><br>Order Namba: <b id="orderNumberText" style="color:#fff;"></b></p><button class="btn-send-email" onclick="closeOrderModal()">SAWA, NIMELEWA</button></div>
 </div>
 
 <div class="admin-modal" id="adminPanel">
     <div class="admin-box">
-        <h2>ADMIN PANEL</h2>
-        <input type="password" id="adminPin" placeholder="Weka PIN">
-        <button id="loginBtn">INGIA</button>
+        <h2>ADMIN PANEL</h2><input type="password" id="adminPin" placeholder="Weka PIN"><button id="loginBtn">INGIA</button>
         <div id="adminControls" style="display:none">
             <h3>1. Ongeza Bidhaa</h3>
-            <input id="pName" placeholder="Jina la Bidhaa">
-            <input id="pPrice" type="number" placeholder="Bei Tsh">
-            <input id="pImage" placeholder="Link ya Picha">
-            <textarea id="pDesc" placeholder="Maelezo mafupi"></textarea>
-            <span class="admin-label">Category Kuu:</span>
-            <select id="pCat" onchange="updateSubTypes()"><option>Stories</option><option>Bidhaa Nyingine</option></select>
-            <span class="admin-label">Aina ya Bidhaa (Sub-Type):</span>
-            <select id="pSubType"></select>
-            <span class="admin-label">Email ya Kupokea Order - Order ya bidhaa hii itaenda kwa Email hii (ya muuzaji husika):</span>
-            <input id="pEmail" placeholder="Email ya Muuzaji - mfano: muuzaji@gmail.com">
-            <small>Ukiacha wazi, itatumia Email yako ya default chilagulegacy@gmail.com</small>
-            <span class="admin-label">Namba ya WhatsApp ya Muuzaji (hiari):</span>
-            <input id="pWhatsApp" placeholder="2556... (hiari)">
+            <input id="pName" placeholder="Jina la Bidhaa"><input id="pPrice" type="number" placeholder="Bei Tsh"><input id="pImage" placeholder="Link ya Picha"><textarea id="pDesc" placeholder="Maelezo mafupi"></textarea>
+            <span class="admin-label">Category Kuu:</span><select id="pCat" onchange="updateSubTypes()"><option>Stories</option><option>Bidhaa Nyingine</option></select>
+            <span class="admin-label">Aina ya Bidhaa (Sub-Type):</span><select id="pSubType"></select>
+            <span class="admin-label">Email ya Kupokea Order - ya muuzaji husika wa bidhaa hii:</span><input id="pEmail" placeholder="Email ya Muuzaji - mfano: muuzaji@gmail.com">
+            <small>Ukiacha wazi, itatumia Email yako ya default chilagulegacycinema@gmail.com</small>
+            <span class="admin-label">Namba ya WhatsApp ya Muuzaji (hiari):</span><input id="pWhatsApp" placeholder="2556... (hiari)">
             <button id="addProductBtn">WEKA BIDHAA</button>
-            <h3>2. Dhibiti Bidhaa</h3>
-            <div class="admin-product-list" id="adminProductList"></div>
-            <h3>2B. ORDERS ZILIZOINGIA 📩 - HAPA NDIPO UNAONA WATEJA WALIAGIZA</h3>
-            <div class="admin-product-list" id="adminOrderList"><p style="font-size:11px; color:#888;">Hakuna order bado</p></div>
-            <button id="refreshOrdersBtn" style="background:#333;">ONYESHA ORDERS UPYA</button>
-            <h3>3. Dhibiti ADS</h3>
-            <textarea id="adTopCode" placeholder="Weka Code ya Ad ya Juu"></textarea>
-            <textarea id="adMiddleCode" placeholder="Weka Code ya Ad ya Kati"></textarea>
-            <button id="saveAdsBtn">HIFADHI ADS</button>
-            <h3>4. Dhibiti VIDEO ZA MSAADA</h3>
-            <input id="videoTitle" placeholder="Jina la Video">
-            <input id="videoLink" placeholder="Bandika LINK KAMILI ya Video">
-            <button id="addVideoBtn">ONGEZA VIDEO</button>
-            <div class="admin-product-list" id="adminVideoList"></div>
-            <h3>5. Dhibiti TAARIFA/UPDATES</h3>
-            <input id="updateTitle" placeholder="Kichwa cha Taarifa">
-            <textarea id="updateText" placeholder="Andika hapa. Unaweza kutumia HTML"></textarea>
-            <button id="addUpdateBtn">POST TAARIFA</button>
-            <div class="admin-product-list" id="adminUpdateList"></div>
-            <h3>6. Dhibiti MAELEZO YA MSAADA</h3>
-            <textarea id="helpTextAdmin" placeholder="Andika maelezo ya msaada hapa. HTML inafanya kazi"></textarea>
-            <button id="saveHelpTextBtn">HIFADHI MAELEZO</button>
-            <h3>7. Badili PIN</h3>
-            <input id="newPin" type="password" placeholder="Weka PIN Mpya">
-            <button id="changePinBtn">BADILI PIN</button>
-            <button id="logoutBtn" style="background:#550000; margin-top:20px">FUNGA ADMIN</button>
+            <h3>2. Dhibiti Bidhaa</h3><div class="admin-product-list" id="adminProductList"></div>
+            <h3>2B. ORDERS ZILIZOINGIA 📩</h3><div class="admin-product-list" id="adminOrderList"><p style="font-size:11px; color:#888;">Hakuna order bado</p></div><button id="refreshOrdersBtn" style="background:#333;">ONYESHA ORDERS UPYA</button>
+            <h3>3. Dhibiti ADS</h3><textarea id="adTopCode" placeholder="Weka Code ya Ad ya Juu"></textarea><textarea id="adMiddleCode" placeholder="Weka Code ya Ad ya Kati"></textarea><button id="saveAdsBtn">HIFADHI ADS</button>
+            <h3>4. Dhibiti VIDEO ZA MSAADA</h3><input id="videoTitle" placeholder="Jina la Video"><input id="videoLink" placeholder="Bandika LINK KAMILI ya Video"><button id="addVideoBtn">ONGEZA VIDEO</button><div class="admin-product-list" id="adminVideoList"></div>
+            <h3>5. Dhibiti TAARIFA/UPDATES</h3><input id="updateTitle" placeholder="Kichwa cha Taarifa"><textarea id="updateText" placeholder="Andika hapa. Unaweza kutumia HTML"></textarea><button id="addUpdateBtn">POST TAARIFA</button><div class="admin-product-list" id="adminUpdateList"></div>
+            <h3>6. Dhibiti MAELEZO YA MSAADA</h3><textarea id="helpTextAdmin" placeholder="Andika maelezo ya msaada hapa. HTML inafanya kazi"></textarea><button id="saveHelpTextBtn">HIFADHI MAELEZO</button>
+            <h3>7. Badili PIN</h3><input id="newPin" type="password" placeholder="Weka PIN Mpya"><button id="changePinBtn">BADILI PIN</button><button id="logoutBtn" style="background:#550000; margin-top:20px">FUNGA ADMIN</button>
         </div>
     </div>
 </div>
@@ -186,14 +194,11 @@ let ADMIN_PIN = "1255";
 let clickCount = 0;
 let allProducts = {};
 let currentCat = "Zote";
-let currentOrder = { name: "", price: "", email: "", sellerEmail: "" };
+let currentOrder = { name: "", price: "", email: "" };
 const cats = ["Zote", "Stories", "Bidhaa Nyingine"];
 const subTypes = { "Stories": ["Film", "Series", "Script / Stori", "Muziki / Wimbo", "Kitabu", "Nyingine"], "Bidhaa Nyingine": ["Album", "Nguo", "Branding", "Sanaa / Uchoraji", "Huduma Nyingine", "Nyingine"] };
 const catInfo = { "Zote": "", "Stories": "Playlist ya Stories - Watu wote wa Entertainment Industry wanahusika hapa.", "Bidhaa Nyingine": "Album za Wasanii, Nguo, Branding na chochote kinachoweza kuuzwa." };
-function openExternal(url){
-  // Kwa TV App na Download tu - hizi ni https, zinafanya kazi
-  try{ var a=document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{a.remove();}catch(e){} },500); }catch(e){ window.location.href=url; }
-}
+function openExternal(url){ try{ var a=document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{a.remove();}catch(e){} },500); }catch(e){ window.location.href=url; } }
 window.onload = function() { loadSettings(); buildCategories(); attachEvents(); loadProducts(); updateSubTypes(); setTimeout(showCinemaAd, 15000); }
 function showCinemaAd(){ var el=document.getElementById('chilaguCinemaAd'); if(el) el.classList.add('show'); }
 function closeCinemaAd(){ var el=document.getElementById('chilaguCinemaAd'); if(el) el.classList.remove('show'); setTimeout(showCinemaAd, 60000); }
@@ -248,7 +253,6 @@ function renderProducts(){
     Object.keys(filtered).forEach(k=>{ const p=filtered[k]; const safeName=String(p.name||"").replace(/'/g,"\\'"); const email=(p.email||DEFAULT_EMAIL).replace(/'/g,""); const tag=p.subType?`<span class="product-tag">${p.subType}</span>`:""; const desc=p.desc?`<div class="product-desc">${p.desc}</div>`:""; grid.innerHTML+=`<div class="product-card"><img src="${p.image}"><div class="product-info">${tag}<h4>${p.name}</h4>${desc}<p>Tsh ${p.price}</p></div><button class="buy-btn" onclick="buyProduct('${email}', '${safeName}', '${p.price}')">AGIZA SASA 📧</button></div>`; });
     if(Object.keys(filtered).length===0) grid.innerHTML="<p style='padding:20px; grid-column: span 2; text-align:center'>KARIBUNI CHILAGU SHOP</p>";
 }
-// ===== MFUMO MPYA: ORDER INABAKI NDANI YA APP - HAKUNA KUFUNGUA GMAIL / WHATSAPP =====
 function buyProduct(email, name, price){
     currentOrder={ name:name, price:price, email:email||DEFAULT_EMAIL };
     document.getElementById('orderTitle').innerText="Agiza: "+name;
@@ -268,29 +272,15 @@ function sendOrder(){
     if(buyerEmail.indexOf('@')===-1){ showToast('Email si sahihi'); return; }
     var orderNumber="CHL-"+Math.floor(1000+Math.random()*9000);
     var order={ orderNumber:orderNumber, productName:currentOrder.name, price:currentOrder.price, sellerEmail:currentOrder.email, buyerName:buyerName, buyerEmail:buyerEmail, buyerPhone:buyerPhone, message:msg, date:Date.now(), status:"NEW" };
-    document.getElementById('sendOrderBtn').innerText="INATUMA...";
-    document.getElementById('sendOrderBtn').disabled=true;
-    fetch(DB_URL+"/orders.json",{method:"POST",body:JSON.stringify(order)})
-    .then(()=>{ 
-        document.getElementById('sendOrderBtn').innerText="TUMA ORDER ✅"; document.getElementById('sendOrderBtn').disabled=false;
-        document.getElementById('orderFormBox').style.display='none';
-        document.getElementById('orderSuccessBox').style.display='block';
-        document.getElementById('orderNumberText').innerText=orderNumber;
-        document.getElementById('orderName').value=""; document.getElementById('orderEmail').value=""; document.getElementById('orderPhone').value="";
-    })
-    .catch(()=>{ document.getElementById('sendOrderBtn').innerText="TUMA ORDER ✅"; document.getElementById('sendOrderBtn').disabled=false; showToast("Imeshindikana, jaribu tena"); });
+    document.getElementById('sendOrderBtn').innerText="INATUMA..."; document.getElementById('sendOrderBtn').disabled=true;
+    fetch(DB_URL+"/orders.json",{method:"POST",body:JSON.stringify(order)}).then(()=>{ document.getElementById('sendOrderBtn').innerText="TUMA ORDER ✅"; document.getElementById('sendOrderBtn').disabled=false; document.getElementById('orderFormBox').style.display='none'; document.getElementById('orderSuccessBox').style.display='block'; document.getElementById('orderNumberText').innerText=orderNumber; document.getElementById('orderName').value=""; document.getElementById('orderEmail').value=""; document.getElementById('orderPhone').value=""; }).catch(()=>{ document.getElementById('sendOrderBtn').innerText="TUMA ORDER ✅"; document.getElementById('sendOrderBtn').disabled=false; showToast("Imeshindikana, jaribu tena"); });
 }
-// Admin anaona orders zote hapa
 function loadAdminOrders(){
     fetch(DB_URL+"/orders.json").then(res=>res.json()).then(data=>{
         const list=document.getElementById('adminOrderList');
         if(!data){ list.innerHTML="<p style='font-size:11px; color:#888;'>Hakuna order bado</p>"; return; }
         list.innerHTML="";
-        Object.keys(data).reverse().forEach(k=>{
-            const o=data[k];
-            const d=new Date(o.date||Date.now()).toLocaleString();
-            list.innerHTML+=`<div class="admin-product-item" style="flex-direction:column; align-items:flex-start; gap:4px;"><span><b>${o.orderNumber||''} - ${o.productName}</b> - Tsh ${o.price}</span><span style="color:#aaa;">Mteja: ${o.buyerName} | ${o.buyerEmail} | ${o.buyerPhone||''}</span><span style="color:#aaa;">Muuzaji: ${o.sellerEmail}</span><span style="color:#888;">${o.message||''}</span><span style="color:#666; font-size:10px;">${d}</span><div style="display:flex; gap:5px; width:100%;"><button class="btn-done" onclick="markOrderDone('${k}')">NIMEMJIBU ✅</button><button class="btn-delete" onclick="deleteOrder('${k}')">FUTA</button></div></div>`;
-        });
+        Object.keys(data).reverse().forEach(k=>{ const o=data[k]; const d=new Date(o.date||Date.now()).toLocaleString(); list.innerHTML+=`<div class="admin-product-item" style="flex-direction:column; align-items:flex-start; gap:4px;"><span><b>${o.orderNumber||''} - ${o.productName}</b> - Tsh ${o.price}</span><span style="color:#aaa;">Mteja: ${o.buyerName} | ${o.buyerEmail} | ${o.buyerPhone||''}</span><span style="color:#aaa;">Muuzaji: ${o.sellerEmail}</span><span style="color:#888;">${o.message||''}</span><span style="color:#666; font-size:10px;">${d}</span><div style="display:flex; gap:5px; width:100%;"><button class="btn-done" onclick="markOrderDone('${k}')">NIMEMJIBU ✅</button><button class="btn-delete" onclick="deleteOrder('${k}')">FUTA</button></div></div>`; });
     });
 }
 function deleteOrder(k){ if(confirm("Futa order hii?")){ fetch(DB_URL+"/orders/"+k+".json",{method:"DELETE"}).then(()=>{ loadAdminOrders(); }); } }
