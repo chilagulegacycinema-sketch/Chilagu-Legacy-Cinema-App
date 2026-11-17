@@ -66,6 +66,16 @@
     #chilaguCinemaAd .ad-tag{ display:inline-block; font-size:9px; background:#6A0DAD; color:#fff; padding:1px 6px; border-radius:10px; margin-top:3px; font-weight:600; }
     #chilaguCinemaAd .ad-btn{ background:#fff; color:#000; text-decoration:none; padding:7px 12px; border-radius:20px; font-size:11.5px; font-weight:700; white-space:nowrap; }
     #chilaguCinemaAd .ad-close{ position:absolute; top:-7px; right:-5px; background:#fff; color:#000; width:20px; height:20px; border-radius:50%; text-align:center; line-height:20px; cursor:pointer; font-weight:700; font-size:12px; box-shadow:0 2px 8px rgba(0,0,0,.4); }
+    /* Modal ya Order kwa Email */
+    .order-modal{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.92); z-index:50; padding:20px; overflow-y:auto; }
+    .order-box{ background:#111; border:1px solid var(--purple); border-radius:10px; padding:20px; margin-top:40px; }
+    .order-box h2{ color:#fff; font-size:16px; margin-bottom:5px; }
+    .order-box p{ font-size:12px; color:#aaa; margin-bottom:15px; }
+    .order-box label{ font-size:11px; color:#888; display:block; margin-top:8px; }
+    .order-box input,.order-box textarea{ width:100%; padding:11px; margin:5px 0; background:#1A1A1A; border:1px solid #333; color:#fff; border-radius:6px; font-size:13px; }
+    .order-box button{ width:100%; padding:12px; margin-top:10px; border:none; border-radius:6px; font-weight:700; font-size:13px; cursor:pointer; }
+    .btn-send-email{ background:var(--purple); color:#fff; }
+    .btn-close-order{ background:#222; color:#ccc; }
 </style>
 </head>
 <body>
@@ -92,16 +102,16 @@
             <div>- Uko kwenye <b>HOME</b>, chagua Category juu: <b>Stories</b> au <b>Bidhaa Nyingine</b><br>- <b>Stories:</b> Hapa ni Playlist ya Stories - Film, Series, Script, Kitabu, Wimbo. Watu wote wa Entertainment wanahusika hapa.<br>- <b>Bidhaa Nyingine:</b> Hapa ni Album za Wasanii, Nguo, Branding na chochote kinachoweza kuuzwa.</div>
         </div>
         <div class="update-box">
-            <h4>2. JINSI YA KUAGIZA (KUNUNUA)</h4>
-            <div>1. Chagua bidhaa unayoipenda<br>2. Bonyeza kitufe cha purple <b>AGIZA WHATSAPP</b><br>3. Utaenda moja kwa moja kwenye <b>DM ya WhatsApp</b> ya muuzaji wa hiyo bidhaa<br>4. Ujumbe umeshaandikwa tayari - wewe bonyeza tu SEND<br>5. Muuzaji atakujibu, mtakubaliana malipo na utapata bidhaa yako</div>
+            <h4>2. JINSI YA KUAGIZA (KUNUNUA) - KWA EMAIL</h4>
+            <div>1. Chagua bidhaa unayoipenda<br>2. Bonyeza kitufe cha purple <b>AGIZA KWA EMAIL</b><br>3. Jaza Jina lako, Email yako na Ujumbe<br>4. Bonyeza <b>TUMA ORDER KWA EMAIL</b><br>5. Email itafunguka ikiwa imeshaandikwa - wewe bonyeza tu SEND<br>6. Tutakujibu kwa Email na kukupa maelezo ya malipo</div>
         </div>
         <div class="update-box">
             <h4>3. KILA BIDHAA INA MUUZAJI WAKE</h4>
-            <div>Kila bidhaa ina namba yake ya WhatsApp. Order yako inaenda kwa mtu sahihi, sio kwa watu wote. Kama unaagiza Stori, inaenda kwa Mwandishi. Kama unaagiza Nguo, inaenda kwa muuzaji wa nguo.</div>
+            <div>Kila bidhaa ina Email yake ya kupokea Order. Order yako inaenda kwa mtu sahihi. Kama unaagiza Stori, inaenda kwa Mwandishi.</div>
         </div>
         <div class="update-box">
             <h4>4. UNATAKA KUUZA BIDHAA YAKO HAPA?</h4>
-            <div>Wewe ni Msanii, Mwandishi, Mfanyabiashara? Tuma bidhaa yako ili tuweke dukani.<br>Tuma WhatsApp: <b>255 686 436 004</b><br>Tuma: Jina la Bidhaa, Bei, Picha, Maelezo, na Namba yako ya kupokea Order.</div>
+            <div>Wewe ni Msanii, Mwandishi, Mfanyabiashara? Tuma bidhaa yako ili tuweke dukani.<br>Tuma Email: <b>chilagulegacy@gmail.com</b><br>Tuma: Jina la Bidhaa, Bei, Picha, Maelezo, na Email yako ya kupokea Order.</div>
         </div>
         <div class="update-box">
             <h4>5. TAZAMA FILAMU ZETU</h4>
@@ -110,7 +120,7 @@
         <h2>SUBSCRIBE OUR YouTube Channel as Chilagu Legacy Cinema & YstarProTV</h2>
         <div id="helpText"></div>
         <div id="helpVideos"></div>
-        <h2>Kwa msaada WhatsApp 255 686 436 004</h2>
+        <h2>Kwa msaada Email: chilagulegacy@gmail.com</h2>
         <div id="updatesList"></div>
     </div>
 </div>
@@ -128,6 +138,24 @@
   </div>
   <a class="ad-btn" href="https://www.mediafire.com/folder/fx94jqzan4fcm/ChilaguLegacyCinema" target="_blank">Download</a>
 </div>
+
+<!-- MODAL YA KUAGIZA KWA EMAIL -->
+<div class="order-modal" id="orderModal">
+  <div class="order-box">
+    <h2 id="orderTitle">Agiza Bidhaa</h2>
+    <p id="orderSubtitle">Jaza taarifa zako, tutakutumia majibu kwa Email.</p>
+    <label>Jina Lako *</label>
+    <input id="orderName" placeholder="Mfano: Juma Mushi">
+    <label>Email Yako *</label>
+    <input id="orderEmail" type="email" placeholder="Mfano: juma@gmail.com">
+    <label>Ujumbe Wako</label>
+    <textarea id="orderMessage" rows="4">Habari CHILAGU LEGACY, nataka kuagiza bidhaa hii. Tafadhali niambie jinsi ya kulipia na kupata bidhaa.</textarea>
+    <button class="btn-send-email" id="sendOrderBtn">TUMA ORDER KWA EMAIL 📧</button>
+    <button class="btn-close-order" onclick="closeOrderModal()">GHAIRI</button>
+    <p style="font-size:10px; text-align:center; margin-top:10px;">Order yako itatumwa kwa Email ya muuzaji wa bidhaa hii.</p>
+  </div>
+</div>
+
 <div class="admin-modal" id="adminPanel">
     <div class="admin-box">
         <h2>ADMIN PANEL</h2>
@@ -143,9 +171,11 @@
             <select id="pCat" onchange="updateSubTypes()"><option>Stories</option><option>Bidhaa Nyingine</option></select>
             <span class="admin-label">Aina ya Bidhaa (Sub-Type):</span>
             <select id="pSubType"></select>
-            <span class="admin-label">Namba ya Kupokea Order (WhatsApp) - Order itaenda kwa namba hii moja kwa moja:</span>
-            <input id="pWhatsApp" placeholder="Namba ya Kupokea Order 2556...">
-            <small>Ukiacha wazi, itatumia namba yako ya default 255686436004</small>
+            <span class="admin-label">Email ya Kupokea Order - Order itaenda kwa Email hii moja kwa moja:</span>
+            <input id="pEmail" placeholder="Email ya Kupokea Order - mfano: muuzaji@gmail.com">
+            <small>Ukiacha wazi, itatumia Email yako ya default chilagulegacy@gmail.com</small>
+            <span class="admin-label">Namba ya WhatsApp (hiari - kwa mawasiliano tu):</span>
+            <input id="pWhatsApp" placeholder="2556... (hiari)">
             <button id="addProductBtn">WEKA BIDHAA</button>
             <h3>2. Dhibiti Bidhaa</h3>
             <div class="admin-product-list" id="adminProductList"></div>
@@ -179,10 +209,12 @@
 <script>
 const DB_URL = "https://chilagu-shop-859ec-default-rtdb.firebaseio.com";
 const DEFAULT_WHATSAPP = "255686436004";
+const DEFAULT_EMAIL = "chilagulegacy@gmail.com";
 let ADMIN_PIN = "1255";
 let clickCount = 0;
 let allProducts = {};
 let currentCat = "Zote";
+let currentOrder = { name: "", price: "", email: "" };
 const cats = ["Zote", "Stories", "Bidhaa Nyingine"];
 const subTypes = {
   "Stories": ["Film", "Series", "Script / Stori", "Muziki / Wimbo", "Kitabu", "Nyingine"],
@@ -193,10 +225,7 @@ const catInfo = {
   "Stories": "Playlist ya Stories - Watu wote wa Entertainment Industry wanahusika hapa.",
   "Bidhaa Nyingine": "Album za Wasanii, Nguo, Branding na chochote kinachoweza kuuzwa."
 };
-// ===== FIX KUU: Fungua link za nje kwa njia inayofanya kazi ndani ya WebView / App =====
 function openExternal(url){
-  // Njia hii inafanya kazi ndani ya App (WebView) na nje ya App (browser)
-  // Tunaunda <a> ya kweli na kuiclick, sio window.open _blank ambayo WebView inai-block
   try{
     var a = document.createElement('a');
     a.href = url;
@@ -270,6 +299,7 @@ function attachEvents() {
     document.getElementById('logoutBtn').onclick = function(){ document.getElementById('adminPanel').style.display = 'none'; };
     document.getElementById('navHome').onclick = function(){ showPage('homePage'); }
     document.getElementById('navHelp').onclick = function(){ showPage('helpPage'); }
+    document.getElementById('sendOrderBtn').onclick = sendOrderEmail;
 }
 function setCat(cat, btn) {
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -365,6 +395,7 @@ function saveProduct() {
         desc: document.getElementById('pDesc').value,
         category: document.getElementById('pCat').value,
         subType: document.getElementById('pSubType').value,
+        email: (document.getElementById('pEmail').value || "").trim() || DEFAULT_EMAIL,
         whatsapp: cleanNumber(document.getElementById('pWhatsApp').value) || DEFAULT_WHATSAPP
     };
     fetch(DB_URL + "/products.json", { method: "POST", body: JSON.stringify(newProduct) })
@@ -387,7 +418,7 @@ function loadAdminProducts(){
     if(!allProducts) return;
     Object.keys(allProducts).forEach(key => {
         const p = allProducts[key];
-        list.innerHTML += `<div class="admin-product-item"><span>${p.name} - ${p.whatsapp || DEFAULT_WHATSAPP}</span><button class="btn-delete" onclick="deleteProduct('${key}')">FUTA</button></div>`;
+        list.innerHTML += `<div class="admin-product-item"><span>${p.name} - ${p.email || DEFAULT_EMAIL}</span><button class="btn-delete" onclick="deleteProduct('${key}')">FUTA</button></div>`;
     });
 }
 function loadAdminVideos(){
@@ -442,28 +473,44 @@ function renderProducts() {
     Object.keys(filtered).forEach(key => {
         const p = filtered[key];
         const safeName = String(p.name || "").replace(/'/g, "\\'");
-        const num = cleanNumber(p.whatsapp) || DEFAULT_WHATSAPP;
+        const email = (p.email || DEFAULT_EMAIL).replace(/'/g, "");
         const tag = p.subType ? `<span class="product-tag">${p.subType}</span>` : "";
         const desc = p.desc ? `<div class="product-desc">${p.desc}</div>` : "";
-        grid.innerHTML += `<div class="product-card"><img src="${p.image}"><div class="product-info">${tag}<h4>${p.name}</h4>${desc}<p>Tsh ${p.price}</p></div><button class="buy-btn" onclick="buyProduct('${num}', '${safeName}', '${p.price}')">AGIZA WHATSAPP</button></div>`;
+        grid.innerHTML += `<div class="product-card"><img src="${p.image}"><div class="product-info">${tag}<h4>${p.name}</h4>${desc}<p>Tsh ${p.price}</p></div><button class="buy-btn" onclick="buyProduct('${email}', '${safeName}', '${p.price}')">AGIZA KWA EMAIL 📧</button></div>`;
     });
     if(Object.keys(filtered).length === 0) grid.innerHTML = "<p style='padding:20px; grid-column: span 2; text-align:center'>KARIBUNI CHILAGU SHOP</p>";
 }
-// ===== IMEKEREKEBISHWA HAPA =====
-function buyProduct(num, name, price){
-    let clean = cleanNumber(num) || DEFAULT_WHATSAPP;
-    // Hakikisha inaanza na 255
-    if(clean.startsWith("0")) clean = "255" + clean.substring(1);
-    let msg = "Habari CHILAGU SHOP, nataka kuagiza: " + name + " - Tsh " + price + ". Tafadhali niambie jinsi ya kulipia.";
-    let url = "https://wa.me/" + clean + "?text=" + encodeURIComponent(msg);
-    // Tumia openExternal badala ya window.open _blank ambayo WebView ina-block
-    openExternal(url);
+// ===== MFUMO MPYA: AGIZA KWA EMAIL - PROFESSIONAL =====
+function buyProduct(email, name, price){
+    currentOrder = { name: name, price: price, email: email || DEFAULT_EMAIL };
+    document.getElementById('orderTitle').innerText = "Agiza: " + name;
+    document.getElementById('orderSubtitle').innerText = "Bei: Tsh " + price + " • Order itatumwa kwa " + currentOrder.email;
+    document.getElementById('orderMessage').value = "Habari CHILAGU LEGACY,\n\nNataka kuagiza: " + name + " - Tsh " + price + ".\n\nTafadhali niambie jinsi ya kulipia na kupata bidhaa.\n\nAsante.";
+    document.getElementById('orderModal').style.display = 'block';
+}
+function closeOrderModal(){
+    document.getElementById('orderModal').style.display = 'none';
+}
+function sendOrderEmail(){
+    var buyerName = document.getElementById('orderName').value.trim();
+    var buyerEmail = document.getElementById('orderEmail').value.trim();
+    var msg = document.getElementById('orderMessage').value;
+    if(!buyerName || !buyerEmail){ showToast('Jaza Jina na Email yako kwanza'); return; }
+    if(buyerEmail.indexOf('@') === -1){ showToast('Email si sahihi'); return; }
+    var subject = "NEW ORDER: " + currentOrder.name + " - Tsh " + currentOrder.price + " | CHILAGU SHOP";
+    var body = msg + "\n\n---\nJina la Mteja: " + buyerName + "\nEmail ya Mteja: " + buyerEmail + "\nBidhaa: " + currentOrder.name + "\nBei: Tsh " + currentOrder.price + "\nKutoka: CHILAGU LEGACY SHOP App";
+    // Tumia Gmail Compose kwa https - inafanya kazi 100% ndani ya App (WebView) na browser
+    var gmailUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(currentOrder.email) + "&su=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    closeOrderModal();
+    showToast("Inafungua Email...");
+    openExternal(gmailUrl);
 }
 function clearInputs(){
     document.getElementById('pName').value = "";
     document.getElementById('pPrice').value = "";
     document.getElementById('pImage').value = "";
     document.getElementById('pDesc').value = "";
+    document.getElementById('pEmail').value = "";
     document.getElementById('pWhatsApp').value = "";
 }
 </script>
