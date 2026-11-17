@@ -107,9 +107,9 @@
         <h2>🛒 JINSI APP INAVYOFANYA KAZI</h2>
         <p>Karibu CHILAGU LEGACY SHOP - Soko la Stories na Bidhaa za Entertainment.</p>
         <div class="update-box"><h4>1. KUTAZAMA BIDHAA</h4><div>- Uko kwenye <b>HOME</b>, chagua Category juu: <b>Stories</b> au <b>Bidhaa Nyingine</b><br>- <b>Stories:</b> Hapa ni Playlist ya Stories - Film, Series, Script, Kitabu, Wimbo.</div></div>
-        <div class="update-box"><h4>2. JINSI YA KUAGIZA</h4><div>1. Chagua bidhaa<br>2. Bonyeza <b>AGIZA SASA</b><br>3. Jaza Jina na Email<br>4. Bonyeza <b>TUMA ORDER</b><br>5. Muuzaji atakujibu</div></div>
+        <div class="update-box"><h4>2. JINSI YA KUAGIZA</h4><div>1. Chagua bidhaa<br>2. Bonyeza <b>AGIZA SASA</b><br>3. Jaza Jina na Email<br>4. Bonyeza <b>TUMA ORDER</b><br>5. Muuzaji atakujibu - Bei ni Maelewano / Discussion</div></div>
         <div class="update-box"><h4>3. KILA BIDHAA INA MUUZAJI WAKE</h4><div>Kila bidhaa ina Email yake ya kupokea Order.</div></div>
-        <div class="update-box"><h4>4. UNATAKA KUUZA BIDHAA YAKO HAPA?</h4><div>Tuma Email: <b>chilagulegacycinema@gmail.com</b><br>Tuma: Jina la Bidhaa, Bei, Picha, Maelezo, na Email yako ya kupokea Order.</div></div>
+        <div class="update-box"><h4>4. UNATAKA KUUZA BIDHAA YAKO HAPA?</h4><div>Tuma Email: <b>chilagulegacycinema@gmail.com</b><br>Tuma: Jina la Bidhaa, Bei au Maelewano, Picha, Maelezo, na Email yako ya kupokea Order.</div></div>
         <div class="update-box"><h4>5. TAZAMA FILAMU ZETU</h4><div>Bonyeza <b>FUNGUA TV APP</b> juu kabisa.</div></div>
         <div id="helpText"></div><div id="helpVideos"></div>
         <div class="social-title">TUFUATILIE</div>
@@ -141,7 +141,10 @@
         <div id="adminControls" style="display:none">
             <h3>1. Ongeza / Hariri Bidhaa</h3>
             <div class="edit-notice" id="editNotice">⚠️ UNAHARIRI BIDHAA - Ukimaliza bonyeza HIFADHI MABADILIKO</div>
-            <input id="pName" placeholder="Jina la Bidhaa"><input id="pPrice" type="number" placeholder="Bei Tsh"><input id="pImage" placeholder="Link ya Picha"><textarea id="pDesc" placeholder="Maelezo mafupi"></textarea><span class="admin-label">Category Kuu:</span><select id="pCat" onchange="updateSubTypes()"><option>Stories</option><option>Bidhaa Nyingine</option></select><span class="admin-label">Aina ya Bidhaa (Sub-Type):</span><select id="pSubType"></select><span class="admin-label">Email ya Kupokea Order - ya muuzaji husika:</span><input id="pEmail" placeholder="Email ya Muuzaji"><small>Ukiacha wazi, itatumia chilagulegacycinema@gmail.com</small><span class="admin-label">Namba ya WhatsApp (hiari):</span><input id="pWhatsApp" placeholder="2556..."><button id="saveProductBtn" onclick="saveProduct()">WEKA BIDHAA</button><button id="cancelEditBtn" class="btn-cancel-edit" onclick="cancelEdit()" style="display:none;">GHAIRI KUHARIRI</button>
+            <input id="pName" placeholder="Jina la Bidhaa">
+            <!-- BEI HAPA HAINA TYPE - UNAWEZA KUANDIKA MAELEWANO -->
+            <input id="pPrice" placeholder="Bei - Andika Maelewano au namba">
+            <input id="pImage" placeholder="Link ya Picha"><textarea id="pDesc" placeholder="Maelezo mafupi"></textarea><span class="admin-label">Category Kuu:</span><select id="pCat" onchange="updateSubTypes()"><option>Stories</option><option>Bidhaa Nyingine</option></select><span class="admin-label">Aina ya Bidhaa (Sub-Type):</span><select id="pSubType"></select><span class="admin-label">Email ya Kupokea Order - ya muuzaji husika:</span><input id="pEmail" placeholder="Email ya Muuzaji"><small>Ukiacha wazi, itatumia chilagulegacycinema@gmail.com</small><span class="admin-label">Namba ya WhatsApp (hiari):</span><input id="pWhatsApp" placeholder="2556..."><button id="saveProductBtn" onclick="saveProduct()">WEKA BIDHAA</button><button id="cancelEditBtn" class="btn-cancel-edit" onclick="cancelEdit()" style="display:none;">GHAIRI KUHARIRI</button>
             <h3>2. Dhibiti Bidhaa</h3><div class="admin-product-list" id="adminProductList"></div>
             <h3>2B. ORDERS ZILIZOINGIA 📩</h3><div class="admin-product-list" id="adminOrderList"></div><button onclick="loadAdminOrders()" style="background:#333;">ONYESHA ORDERS UPYA</button>
             <h3>3. Dhibiti ADS</h3><textarea id="adTopCode" placeholder="Weka Code ya Ad ya Juu"></textarea><textarea id="adMiddleCode" placeholder="Weka Code ya Ad ya Kati"></textarea><button onclick="saveAds()">HIFADHI ADS</button>
@@ -166,114 +169,62 @@ var currentOrder = { name: "", price: "", email: "" };
 var editingKey = null;
 var subTypes = { "Stories": ["Film", "Series", "Script / Stori", "Muziki / Wimbo", "Kitabu", "Nyingine"], "Bidhaa Nyingine": ["Album", "Nguo", "Branding", "Sanaa / Uchoraji", "Huduma Nyingine", "Nyingine"] };
 var catInfo = { "Zote": "", "Stories": "Playlist ya Stories - Watu wote wa Entertainment Industry wanahusika hapa.", "Bidhaa Nyingine": "Album za Wasanii, Nguo, Branding na chochote kinachoweza kuuzwa." };
-
-function getSavedPin(){
-  try{ return localStorage.getItem('chilagu_admin_pin') || null; }catch(e){ return null; }
-}
-function setSavedPin(pin){
-  try{ localStorage.setItem('chilagu_admin_pin', pin); }catch(e){}
-}
-function openExternal(url){
-  try{ var a=document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{a.remove();}catch(e){} },500); }catch(e){ window.location.href=url; }
-}
-function showToast(msg){ var t=document.getElementById('toast'); if(!t) return; t.innerText=msg; t.style.display='block'; setTimeout(function(){ t.style.display='none'; },3000); }
-function showPage(pageId){
-  var pages = document.querySelectorAll('.page');
-  for(var i=0;i<pages.length;i++){ pages[i].classList.remove('active'); }
-  var p = document.getElementById(pageId);
-  if(p) p.classList.add('active');
-  var homeBtn = document.getElementById('navHome');
-  var helpBtn = document.getElementById('navHelp');
-  if(homeBtn) homeBtn.classList.remove('active');
-  if(helpBtn) helpBtn.classList.remove('active');
-  if(pageId==='homePage' && homeBtn) homeBtn.classList.add('active');
-  if(pageId==='helpPage' && helpBtn) helpBtn.classList.add('active');
-  window.scrollTo(0,0);
-}
-function logoClick(){
-  clickCount++;
-  if(clickCount>=5){ document.getElementById('adminPanel').style.display='block'; clickCount=0; }
-  setTimeout(function(){ clickCount=0; },3000);
-}
+function getSavedPin(){ try{ return localStorage.getItem('chilagu_admin_pin') || null; }catch(e){ return null; } }
+function setSavedPin(pin){ try{ localStorage.setItem('chilagu_admin_pin', pin); }catch(e){} }
+function openExternal(url){ try{ var a=document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{a.remove();}catch(e){} },500); }catch(e){ window.location.href=url; } }
+function showToast(msg){ var t=document.getElementById('toast'); if(!t) return; t.innerText=msg; t.style.display='block'; setTimeout(function(){ t.style.display='none'; },4000); }
+function showPage(pageId){ var pages = document.querySelectorAll('.page'); for(var i=0;i<pages.length;i++){ pages[i].classList.remove('active'); } var p = document.getElementById(pageId); if(p) p.classList.add('active'); var homeBtn = document.getElementById('navHome'); var helpBtn = document.getElementById('navHelp'); if(homeBtn) homeBtn.classList.remove('active'); if(helpBtn) helpBtn.classList.remove('active'); if(pageId==='homePage' && homeBtn) homeBtn.classList.add('active'); if(pageId==='helpPage' && helpBtn) helpBtn.classList.add('active'); window.scrollTo(0,0); }
+function logoClick(){ clickCount++; if(clickCount>=5){ document.getElementById('adminPanel').style.display='block'; clickCount=0; } setTimeout(function(){ clickCount=0; },3000); }
 function showCinemaAd(){ var el=document.getElementById('chilaguCinemaAd'); if(el) el.classList.add('show'); }
 function closeCinemaAd(){ var el=document.getElementById('chilaguCinemaAd'); if(el) el.classList.remove('show'); setTimeout(showCinemaAd, 60000); }
-function setCat(cat, btn){
-  var all = document.querySelectorAll('.cat-btn');
-  for(var i=0;i<all.length;i++){ all[i].classList.remove('active'); }
-  if(btn) btn.classList.add('active');
-  currentCat = cat;
-  var t = document.getElementById('sectionTitle');
-  if(t) t.innerText = cat==='Zote' ? 'Bidhaa Zote' : cat;
-  var s = document.getElementById('sectionSub');
-  if(s) s.innerText = catInfo[cat] || "";
-  renderProducts();
-}
-function updateSubTypes(){
-  var cat = document.getElementById('pCat').value;
-  var sel = document.getElementById('pSubType');
-  if(!sel) return;
-  sel.innerHTML = "";
-  var list = subTypes[cat] || ["Nyingine"];
-  for(var i=0;i<list.length;i++){ var o=document.createElement('option'); o.value=list[i]; o.innerText=list[i]; sel.appendChild(o); }
-}
+function setCat(cat, btn){ var all = document.querySelectorAll('.cat-btn'); for(var i=0;i<all.length;i++){ all[i].classList.remove('active'); } if(btn) btn.classList.add('active'); currentCat = cat; var t = document.getElementById('sectionTitle'); if(t) t.innerText = cat==='Zote' ? 'Bidhaa Zote' : cat; var s = document.getElementById('sectionSub'); if(s) s.innerText = catInfo[cat] || ""; renderProducts(); }
+function updateSubTypes(){ var cat = document.getElementById('pCat').value; var sel = document.getElementById('pSubType'); if(!sel) return; sel.innerHTML = ""; var list = subTypes[cat] || ["Nyingine"]; for(var i=0;i<list.length;i++){ var o=document.createElement('option'); o.value=list[i]; o.innerText=list[i]; sel.appendChild(o); } }
 function cleanNumber(n){ return String(n||"").replace(/[^0-9]/g,""); }
 function normalizeCat(c){ if(c==="Stories") return "Stories"; if(c==="Bidhaa Nyingine") return "Bidhaa Nyingine"; if(c==="Nguo"||c==="Album") return "Bidhaa Nyingine"; return c||"Bidhaa Nyingine"; }
+function formatPrice(price){
+  var p = String(price||"").trim();
+  if(!p) return "Bei: Maelewano";
+  var low = p.toLowerCase();
+  if(low.indexOf('maelewano')!==-1 || low.indexOf('discussion')!==-1 || low.indexOf('majadiliano')!==-1) return "Bei: Maelewano";
+  if(isNaN(p)) return p;
+  if(Number(p)===0) return "Bei: Maelewano";
+  return "Tsh " + p;
+}
 function renderProducts(){
-  var grid = document.getElementById('productGrid');
-  if(!grid) return;
-  var keys = Object.keys(allProducts || {});
-  var filtered = [];
-  for(var i=0;i<keys.length;i++){
-    var p = allProducts[keys[i]];
-    if(!p || !p.name || !p.price) continue;
-    var norm = normalizeCat(p.category);
-    if(currentCat==='Zote' || norm===currentCat){ filtered.push(p); }
-  }
+  var grid = document.getElementById('productGrid'); if(!grid) return;
+  var keys = Object.keys(allProducts || {}); var filtered = [];
+  for(var i=0;i<keys.length;i++){ var p = allProducts[keys[i]]; if(!p || !p.name) continue; var norm = normalizeCat(p.category); if(currentCat==='Zote' || norm===currentCat){ filtered.push(p); } }
   if(filtered.length===0){ grid.innerHTML = ""; return; }
   var html = "";
   for(var j=0;j<filtered.length;j++){
     var pp = filtered[j];
     var safeName = String(pp.name||"").replace(/'/g,"");
+    var safePrice = String(pp.price||"Maelewano").replace(/'/g,"");
     var email = (pp.email||DEFAULT_EMAIL).replace(/'/g,"");
     var tag = pp.subType ? '<span class="product-tag">'+pp.subType+'</span>' : "";
     var desc = pp.desc ? '<div class="product-desc">'+pp.desc+'</div>' : "";
-    html += '<div class="product-card"><img src="'+pp.image+'" onerror="this.style.display=\'none\'"><div class="product-info">'+tag+'<h4>'+pp.name+'</h4>'+desc+'<p>Tsh '+pp.price+'</p></div><button class="buy-btn" onclick="buyProduct(\''+email+'\', \''+safeName+'\', \''+pp.price+'\')">AGIZA SASA 📧</button></div>';
+    html += '<div class="product-card"><img src="'+pp.image+'" onerror="this.style.display=\'none\'"><div class="product-info">'+tag+'<h4>'+pp.name+'</h4>'+desc+'<p>'+formatPrice(pp.price)+'</p></div><button class="buy-btn" onclick="buyProduct(\''+email+'\', \''+safeName+'\', \''+safePrice+'\')">AGIZA SASA 📧</button></div>';
   }
   grid.innerHTML = html;
 }
-function loadProducts(){
-  fetch(DB_URL + "/products.json")
-  .then(function(res){ return res.json(); })
-  .then(function(data){ allProducts = data || {}; renderProducts(); })
-  .catch(function(){ allProducts = {}; renderProducts(); });
-}
+function loadProducts(){ fetch(DB_URL + "/products.json").then(function(res){ return res.json(); }).then(function(data){ allProducts = data || {}; renderProducts(); }).catch(function(){ allProducts = {}; renderProducts(); }); }
 function loadSettings(){
-  var saved = getSavedPin();
-  if(saved) ADMIN_PIN = saved;
+  var saved = getSavedPin(); if(saved) ADMIN_PIN = saved;
   fetch(DB_URL + "/settings.json").then(function(r){ return r.json(); }).then(function(data){
     if(!data) return;
-    if(data.adminPin){
-      ADMIN_PIN = data.adminPin;
-      setSavedPin(data.adminPin);
-    }
+    if(data.adminPin){ ADMIN_PIN = data.adminPin; setSavedPin(data.adminPin); }
     if(data.adTop) document.getElementById('adTop').innerHTML = data.adTop;
     if(data.adMiddle) document.getElementById('adMiddle').innerHTML = data.adMiddle;
     if(data.helpText) document.getElementById('helpText').innerHTML = data.helpText;
-    if(data.videos){
-      var h=""; Object.keys(data.videos).forEach(function(k){ var v=data.videos[k]; if(!v || !v.title) return; h+="<h4>"+v.title+"</h4><iframe class='help-video' height='200' src='"+v.link+"' frameborder='0' allowfullscreen></iframe>"; });
-      document.getElementById('helpVideos').innerHTML=h;
-    }
-    if(data.updates){
-      var u=""; Object.keys(data.updates).reverse().forEach(function(k){ var x=data.updates[k]; if(!x || !x.title) return; u+="<div class='update-box'><h4>"+x.title+"</h4><div>"+x.text+"</div></div>"; });
-      document.getElementById('updatesList').innerHTML=u;
-    }
+    if(data.videos){ var h=""; Object.keys(data.videos).forEach(function(k){ var v=data.videos[k]; if(!v || !v.title) return; h+="<h4>"+v.title+"</h4><iframe class='help-video' height='200' src='"+v.link+"' frameborder='0' allowfullscreen></iframe>"; }); document.getElementById('helpVideos').innerHTML=h; }
+    if(data.updates){ var u=""; Object.keys(data.updates).reverse().forEach(function(k){ var x=data.updates[k]; if(!x || !x.title) return; u+="<div class='update-box'><h4>"+x.title+"</h4><div>"+x.text+"</div></div>"; }); document.getElementById('updatesList').innerHTML=u; }
   }).catch(function(){});
 }
 function buyProduct(email, name, price){
   currentOrder = { name:name, price:price, email:email||DEFAULT_EMAIL };
   document.getElementById('orderTitle').innerText = "Agiza: " + name;
-  document.getElementById('orderSubtitle').innerText = "Bei: Tsh " + price + " • Muuzaji: " + currentOrder.email;
-  document.getElementById('orderMessage').value = "Habari, nataka kuagiza: " + name + " - Tsh " + price + ". Tafadhali niambie jinsi ya kulipia.";
+  document.getElementById('orderSubtitle').innerText = formatPrice(price) + " • Muuzaji: " + currentOrder.email;
+  document.getElementById('orderMessage').value = "Habari, nataka kuagiza: " + name + " - " + formatPrice(price) + ". Tafadhali niambie jinsi ya kulipia / tuongee bei.";
   document.getElementById('orderFormBox').style.display='block';
   document.getElementById('orderSuccessBox').style.display='none';
   document.getElementById('orderModal').style.display='block';
@@ -286,93 +237,26 @@ function sendOrder(){
   var msg=document.getElementById('orderMessage').value;
   if(!buyerName||!buyerEmail){ showToast('Jaza Jina na Email yako kwanza'); return; }
   if(buyerEmail.indexOf('@')===-1){ showToast('Email si sahihi'); return; }
-  if(!currentOrder.name || !currentOrder.price){ showToast('Chagua bidhaa kwanza'); return; }
+  if(!currentOrder.name){ showToast('Chagua bidhaa kwanza'); return; }
   var orderNumber="CHL-"+Math.floor(1000+Math.random()*9000);
-  var order={ orderNumber:orderNumber, productName:currentOrder.name, price:currentOrder.price, sellerEmail:currentOrder.email, buyerName:buyerName, buyerEmail:buyerEmail, buyerPhone:buyerPhone, message:msg, date:Date.now(), status:"NEW" };
+  var finalPrice = currentOrder.price || "Maelewano";
+  var order={ orderNumber:orderNumber, productName:currentOrder.name, price:finalPrice, sellerEmail:currentOrder.email, buyerName:buyerName, buyerEmail:buyerEmail, buyerPhone:buyerPhone, message:msg, date:Date.now(), status:"NEW" };
   var btn=document.getElementById('sendOrderBtn'); btn.innerText="INATUMA..."; btn.disabled=true;
-  fetch(DB_URL+"/orders.json",{method:"POST",body:JSON.stringify(order)})
-  .then(function(res){ if(!res.ok) throw new Error('fail'); return res.json(); })
-  .then(function(){ btn.innerText="TUMA ORDER ✅"; btn.disabled=false; document.getElementById('orderFormBox').style.display='none'; document.getElementById('orderSuccessBox').style.display='block'; document.getElementById('orderNumberText').innerText=orderNumber; document.getElementById('orderName').value=""; document.getElementById('orderEmail').value=""; document.getElementById('orderPhone').value=""; })
-  .catch(function(){ btn.innerText="TUMA ORDER ✅"; btn.disabled=false; showToast("Imeshindikana, jaribu tena"); });
+  fetch(DB_URL+"/orders.json",{method:"POST",body:JSON.stringify(order)}).then(function(res){ if(!res.ok) throw new Error('Firebase imekataa - Status '+res.status); return res.json(); }).then(function(){ btn.innerText="TUMA ORDER ✅"; btn.disabled=false; document.getElementById('orderFormBox').style.display='none'; document.getElementById('orderSuccessBox').style.display='block'; document.getElementById('orderNumberText').innerText=orderNumber; document.getElementById('orderName').value=""; document.getElementById('orderEmail').value=""; document.getElementById('orderPhone').value=""; }).catch(function(err){ btn.innerText="TUMA ORDER ✅"; btn.disabled=false; showToast("Imeshindikana: "+err.message); });
 }
-function checkPin(){
-  var entered = document.getElementById('adminPin').value;
-  var saved = getSavedPin();
-  if(entered===ADMIN_PIN || (saved && entered===saved)){
-    ADMIN_PIN = entered;
-    document.getElementById('adminControls').style.display='block'; showToast("Karibu Admin");
-    loadAdminProducts(); loadAdminVideos(); loadAdminUpdates(); loadAdminSettings(); loadAdminOrders();
-  } else { showToast('PIN SIO SAHI'); }
-}
-// ===== PIN - IMEFIXWA: INA-VERIFY KWELI IMEHIFADHIWA =====
-function changePin(){
-  var n=document.getElementById('newPin').value.trim();
-  if(n.length<4){ showToast("PIN iwe angalau 4"); return; }
-  if(n===ADMIN_PIN){ showToast("Hii ndiyo PIN ya sasa"); return; }
-  showToast("Inahifadhi PIN mpya...");
-  fetch(DB_URL+"/settings/adminPin.json",{method:"PUT",body:JSON.stringify(n)})
-  .then(function(res){ if(!res.ok) throw new Error('save fail'); return res.json(); })
-  .then(function(){
-    return fetch(DB_URL+"/settings/adminPin.json").then(function(r){ return r.json(); });
-  })
-  .then(function(savedPin){
-    if(savedPin===n){
-      ADMIN_PIN=n;
-      setSavedPin(n);
-      document.getElementById('newPin').value="";
-      document.getElementById('adminPin').value="";
-      document.getElementById('pinStatus').innerText="✅ PIN mpya imehifadhiwa: "+n+" - PIN ya zamani haifanyi kazi tena. Toka na ingia upya ku-test.";
-      showToast("PIN Imebadilishwa! PIN ya zamani haifanyi kazi tena.");
-    } else {
-      showToast("PIN haikuhifadhiwa, jaribu tena");
-    }
-  })
-  .catch(function(){ showToast("Imeshindikana kuhifadhi PIN. Angalia internet / Firebase Rules."); });
-}
+function checkPin(){ var entered = document.getElementById('adminPin').value; var saved = getSavedPin(); if(entered===ADMIN_PIN || (saved && entered===saved)){ ADMIN_PIN = entered; document.getElementById('adminControls').style.display='block'; showToast("Karibu Admin"); loadAdminProducts(); loadAdminVideos(); loadAdminUpdates(); loadAdminSettings(); loadAdminOrders(); } else { showToast('PIN SIO SAHI'); } }
+function changePin(){ var n=document.getElementById('newPin').value.trim(); if(n.length<4){ showToast("PIN iwe angalau 4"); return; } if(n===ADMIN_PIN){ showToast("Hii ndiyo PIN ya sasa"); return; } showToast("Inahifadhi PIN mpya..."); fetch(DB_URL+"/settings/adminPin.json",{method:"PUT",body:JSON.stringify(n)}).then(function(res){ if(!res.ok) throw new Error('save fail'); return res.json(); }).then(function(){ return fetch(DB_URL+"/settings/adminPin.json").then(function(r){ return r.json(); }); }).then(function(savedPin){ if(savedPin===n){ ADMIN_PIN=n; setSavedPin(n); document.getElementById('newPin').value=""; document.getElementById('adminPin').value=""; document.getElementById('pinStatus').innerText="✅ PIN mpya imehifadhiwa: "+n; showToast("PIN Imebadilishwa!"); } else { showToast("PIN haikuhifadhiwa, jaribu tena"); } }).catch(function(){ showToast("Imeshindikana kuhifadhi PIN."); }); }
 function saveProduct(){
-  var name=document.getElementById('pName').value.trim(); var price=document.getElementById('pPrice').value; var image=document.getElementById('pImage').value.trim();
-  if(!name||!price||!image){ showToast('Jaza Jina, Bei na Picha kwanza'); return; }
+  var name=document.getElementById('pName').value.trim(); var price=document.getElementById('pPrice').value.trim() || "Maelewano"; var image=document.getElementById('pImage').value.trim();
+  if(!name||!image){ showToast('Jaza Jina na Picha kwanza'); return; }
   var np={ name:name, price:price, image:image, desc:document.getElementById('pDesc').value, category:document.getElementById('pCat').value, subType:document.getElementById('pSubType').value, email:(document.getElementById('pEmail').value||"").trim()||DEFAULT_EMAIL, whatsapp:cleanNumber(document.getElementById('pWhatsApp').value)||DEFAULT_WHATSAPP };
-  if(editingKey){
-    fetch(DB_URL+"/products/"+editingKey+".json",{method:"PUT",body:JSON.stringify(np)})
-    .then(function(res){ if(!res.ok) throw new Error('fail'); return res.json(); })
-    .then(function(){ showToast('Bidhaa Imehaririwa!'); cancelEdit(); loadProducts(); loadAdminProducts(); })
-    .catch(function(){ showToast("Imeshindikana kuhariri"); });
-  } else {
-    fetch(DB_URL+"/products.json",{method:"POST",body:JSON.stringify(np)})
-    .then(function(res){ if(!res.ok) throw new Error('fail'); return res.json(); })
-    .then(function(){ showToast('Bidhaa Imehifadhiwa!'); clearInputs(); loadProducts(); loadAdminProducts(); })
-    .catch(function(){ showToast("Imeshindikana kuhifadhi"); });
-  }
+  if(editingKey){ fetch(DB_URL+"/products/"+editingKey+".json",{method:"PUT",body:JSON.stringify(np)}).then(function(res){ if(!res.ok) throw new Error('fail'); return res.json(); }).then(function(){ showToast('Bidhaa Imehaririwa!'); cancelEdit(); loadProducts(); loadAdminProducts(); }).catch(function(){ showToast("Imeshindikana kuhariri"); }); }
+  else { fetch(DB_URL+"/products.json",{method:"POST",body:JSON.stringify(np)}).then(function(res){ if(!res.ok) throw new Error('fail'); return res.json(); }).then(function(){ showToast('Bidhaa Imehifadhiwa!'); clearInputs(); loadProducts(); loadAdminProducts(); }).catch(function(){ showToast("Imeshindikana kuhifadhi"); }); }
 }
-function editProduct(key){
-  var p = allProducts[key];
-  if(!p){ showToast("Bidhaa haikupatikana"); return; }
-  editingKey = key;
-  document.getElementById('pName').value = p.name||"";
-  document.getElementById('pPrice').value = p.price||"";
-  document.getElementById('pImage').value = p.image||"";
-  document.getElementById('pDesc').value = p.desc||"";
-  document.getElementById('pCat').value = p.category||"Stories";
-  updateSubTypes();
-  document.getElementById('pSubType').value = p.subType||"";
-  document.getElementById('pEmail').value = p.email||"";
-  document.getElementById('pWhatsApp').value = p.whatsapp||"";
-  document.getElementById('editNotice').style.display='block';
-  document.getElementById('saveProductBtn').innerText='HIFADHI MABADILIKO ✅';
-  document.getElementById('cancelEditBtn').style.display='block';
-  showToast("Unahariri: "+p.name+" - Badilisha na bonyeza HIFADHI");
-  window.scrollTo(0,0);
-}
-function cancelEdit(){
-  editingKey = null;
-  clearInputs();
-  document.getElementById('editNotice').style.display='none';
-  document.getElementById('saveProductBtn').innerText='WEKA BIDHAA';
-  document.getElementById('cancelEditBtn').style.display='none';
-}
+function editProduct(key){ var p = allProducts[key]; if(!p){ showToast("Bidhaa haikupatikana - Bonyeza ONYESHA upya"); loadAdminProducts(); return; } editingKey = key; document.getElementById('pName').value = p.name||""; document.getElementById('pPrice').value = p.price||"Maelewano"; document.getElementById('pImage').value = p.image||""; document.getElementById('pDesc').value = p.desc||""; document.getElementById('pCat').value = p.category||"Stories"; updateSubTypes(); document.getElementById('pSubType').value = p.subType||""; document.getElementById('pEmail').value = p.email||""; document.getElementById('pWhatsApp').value = p.whatsapp||""; document.getElementById('editNotice').style.display='block'; document.getElementById('saveProductBtn').innerText='HIFADHI MABADILIKO ✅'; document.getElementById('cancelEditBtn').style.display='block'; showToast("Unahariri: "+p.name); window.scrollTo(0,0); }
+function cancelEdit(){ editingKey = null; clearInputs(); document.getElementById('editNotice').style.display='none'; document.getElementById('saveProductBtn').innerText='WEKA BIDHAA'; document.getElementById('cancelEditBtn').style.display='none'; }
 function deleteProduct(k){ if(confirm("Una uhakika kufuta bidhaa hii?")){ fetch(DB_URL+"/products/"+k+".json",{method:"DELETE"}).then(function(){ showToast("Bidhaa Imefutwa"); if(editingKey===k) cancelEdit(); loadProducts(); loadAdminProducts(); }); } }
-function loadAdminProducts(){ var list=document.getElementById('adminProductList'); if(!list) return; list.innerHTML=""; var keys=Object.keys(allProducts||{}); if(keys.length===0) return; keys.forEach(function(k){ var p=allProducts[k]; if(!p || !p.name) return; list.innerHTML+="<div class='admin-product-item'><span>"+p.name+" - "+(p.email||DEFAULT_EMAIL)+"</span><button class='btn-edit' onclick=\"editProduct('"+k+"')\">EDIT</button><button class='btn-delete' onclick=\"deleteProduct('"+k+"')\">FUTA</button></div>"; }); }
+function loadAdminProducts(){ var list=document.getElementById('adminProductList'); if(!list) return; list.innerHTML="Inapakia..."; fetch(DB_URL+"/products.json").then(function(r){ return r.json(); }).then(function(data){ allProducts = data || {}; list.innerHTML=""; var keys=Object.keys(allProducts); if(keys.length===0) return; keys.forEach(function(k){ var p=allProducts[k]; if(!p || !p.name) return; list.innerHTML+="<div class='admin-product-item'><span>"+p.name+" - "+formatPrice(p.price)+"</span><button class='btn-edit' onclick=\"editProduct('"+k+"')\">EDIT</button><button class='btn-delete' onclick=\"deleteProduct('"+k+"')\">FUTA</button></div>"; }); }).catch(function(){ list.innerHTML=""; }); }
 function saveAds(){ var ads={ adTop: document.getElementById('adTopCode').value, adMiddle: document.getElementById('adMiddleCode').value }; fetch(DB_URL+"/settings.json",{method:"PATCH",body:JSON.stringify(ads)}).then(function(res){ if(!res.ok) throw new Error('fail'); showToast("ADS Zimehifadhiwa"); loadSettings(); }).catch(function(){ showToast("Imeshindikana kuhifadhi ADS"); }); }
 function saveVideo(){ var title=document.getElementById('videoTitle').value.trim(); var link=document.getElementById('videoLink').value.trim(); if(!title||!link){ showToast("Jaza Jina na Link ya Video"); return; } var v={ title:title, link:link }; fetch(DB_URL+"/settings/videos.json",{method:"POST",body:JSON.stringify(v)}).then(function(){ showToast("Video Imeongezwa"); document.getElementById('videoTitle').value=""; document.getElementById('videoLink').value=""; loadAdminVideos(); loadSettings(); }).catch(function(){ showToast("Imeshindikana"); }); }
 function deleteVideo(k){ if(!confirm("Futa video hii?")) return; fetch(DB_URL+"/settings/videos/"+k+".json",{method:"DELETE"}).then(function(){ showToast("Video Imefutwa"); loadAdminVideos(); loadSettings(); }); }
@@ -382,7 +266,7 @@ function deleteUpdate(k){ if(!confirm("Futa taarifa hii?")) return; fetch(DB_URL
 function loadAdminUpdates(){ fetch(DB_URL+"/settings/updates.json").then(function(r){return r.json();}).then(function(data){ var list=document.getElementById('adminUpdateList'); if(!list) return; list.innerHTML=""; if(!data) return; Object.keys(data).reverse().forEach(function(k){ if(!data[k] || !data[k].title) return; list.innerHTML+="<div class='admin-product-item'><span>"+data[k].title+"</span><button class='btn-delete' onclick=\"deleteUpdate('"+k+"')\">FUTA</button></div>"; }); }); }
 function loadAdminSettings(){ fetch(DB_URL+"/settings.json").then(function(r){return r.json();}).then(function(data){ if(data){ document.getElementById('adTopCode').value=data.adTop||""; document.getElementById('adMiddleCode').value=data.adMiddle||""; document.getElementById('helpTextAdmin').value=data.helpText||""; } }); }
 function saveHelpText(){ fetch(DB_URL+"/settings/helpText.json",{method:"PUT",body:JSON.stringify(document.getElementById('helpTextAdmin').value)}).then(function(res){ if(!res.ok) throw new Error('fail'); showToast("Maelezo Yamehifadhiwa"); loadSettings(); }).catch(function(){ showToast("Imeshindikana"); }); }
-function loadAdminOrders(){ fetch(DB_URL+"/orders.json").then(function(r){return r.json();}).then(function(data){ var list=document.getElementById('adminOrderList'); if(!list) return; list.innerHTML=""; if(!data) return; var count=0; Object.keys(data).reverse().forEach(function(k){ var o=data[k]; if(!o || !o.productName || !o.buyerName || !o.buyerEmail) return; count++; var d=new Date(o.date||Date.now()).toLocaleString(); list.innerHTML+="<div class='admin-product-item' style='flex-direction:column; align-items:flex-start; gap:4px;'><span><b>"+(o.orderNumber||'')+" - "+o.productName+"</b> - Tsh "+o.price+"</span><span style='color:#aaa;'>Mteja: "+o.buyerName+" | "+o.buyerEmail+" | "+(o.buyerPhone||'')+"</span><span style='color:#aaa;'>Muuzaji: "+o.sellerEmail+"</span><span style='color:#888;'>"+(o.message||'')+"</span><span style='color:#666; font-size:10px;'>"+d+"</span><div style='display:flex; gap:5px; width:100%;'><button class='btn-done' onclick=\"markOrderDone('"+k+"')\">NIMEMJIBU ✅</button><button class='btn-delete' onclick=\"deleteOrder('"+k+"')\">FUTA</button></div></div>"; }); }); }
+function loadAdminOrders(){ fetch(DB_URL+"/orders.json").then(function(r){return r.json();}).then(function(data){ var list=document.getElementById('adminOrderList'); if(!list) return; list.innerHTML=""; if(!data) return; Object.keys(data).reverse().forEach(function(k){ var o=data[k]; if(!o || !o.productName || !o.buyerName || !o.buyerEmail) return; var d=new Date(o.date||Date.now()).toLocaleString(); list.innerHTML+="<div class='admin-product-item' style='flex-direction:column; align-items:flex-start; gap:4px;'><span><b>"+(o.orderNumber||'')+" - "+o.productName+"</b> - "+formatPrice(o.price)+"</span><span style='color:#aaa;'>Mteja: "+o.buyerName+" | "+o.buyerEmail+" | "+(o.buyerPhone||'')+"</span><span style='color:#aaa;'>Muuzaji: "+o.sellerEmail+"</span><span style='color:#888;'>"+(o.message||'')+"</span><span style='color:#666; font-size:10px;'>"+d+"</span><div style='display:flex; gap:5px; width:100%;'><button class='btn-done' onclick=\"markOrderDone('"+k+"')\">NIMEMJIBU ✅</button><button class='btn-delete' onclick=\"deleteOrder('"+k+"')\">FUTA</button></div></div>"; }); }); }
 function deleteOrder(k){ if(confirm("Futa order hii?")){ fetch(DB_URL+"/orders/"+k+".json",{method:"DELETE"}).then(function(){ loadAdminOrders(); }); } }
 function markOrderDone(k){ fetch(DB_URL+"/orders/"+k+"/status.json",{method:"PUT",body:JSON.stringify("DONE")}).then(function(){ showToast("Order imemark"); loadAdminOrders(); }); }
 function clearInputs(){ document.getElementById('pName').value=""; document.getElementById('pPrice').value=""; document.getElementById('pImage').value=""; document.getElementById('pDesc').value=""; document.getElementById('pEmail').value=""; document.getElementById('pWhatsApp').value=""; }
