@@ -50,6 +50,7 @@
     .btn-edit { background: var(--blue)!important; }
     .btn-cancel-edit { background: #333!important; }
     .btn-approve { background: var(--orange)!important; }
+    .btn-report { background: var(--red)!important; font-size:11px!important; padding:8px!important; }
     .admin-product-list { max-height: 400px; overflow-y: auto; }
     .admin-product-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: #1A1A1A; margin-bottom: 5px; border-radius: 5px; font-size: 11px; gap:5px; }
     .admin-product-item span { flex:1; }
@@ -61,12 +62,11 @@
     .status-APPROVED { background: var(--orange); }
     .status-REPLIED { background: var(--green); }
     .status-DONE { background: var(--green); }
-    .status-WAITING { background: #555; }
-    .chat-box { background:#1A1A1A; border-radius:8px; padding:10px; margin-top:8px; max-height:180px; overflow-y:auto; }
-    .chat-msg { padding:6px 8px; margin:4px 0; border-radius:8px; font-size:11px; line-height:1.4; }
-    .chat-msg.buyer { background:#222; color:#eee; text-align:left; }
+    .chat-box { background:#1A1A1A; border-radius:8px; padding:10px; margin-top:8px; max-height:220px; overflow-y:auto; }
+    .chat-msg { padding:7px 9px; margin:5px 0; border-radius:8px; font-size:11px; line-height:1.4; }
+    .chat-msg.buyer { background:#222; color:#eee; text-align:left; border-left:3px solid #888; }
     .chat-msg.admin { background:var(--purple); color:#fff; text-align:left; }
-    .chat-msg.seller { background:#1565C0; color:#fff; text-align:left; }
+    .chat-msg.seller { background:#1565C0; color:#fff; text-align:left; border-left:3px solid #fff; }
     .chat-input-row { display:flex; gap:6px; margin-top:6px; }
     .chat-input-row input { flex:1; padding:9px; background:#222; border:1px solid #333; color:#fff; border-radius:6px; font-size:12px; }
     .chat-input-row button { width:auto; padding:9px 14px; background:var(--purple); color:#fff; border:none; border-radius:6px; font-weight:700; font-size:12px; }
@@ -76,6 +76,12 @@
     .order-search { padding:15px; }
     .order-search input { width:100%; padding:11px; background:#1A1A1A; border:1px solid #333; color:#fff; border-radius:6px; margin:8px 0; }
     .order-search button { width:100%; padding:12px; background:var(--purple); color:#fff; border:none; border-radius:6px; font-weight:700; }
+    .mode-tabs { display:flex; gap:8px; margin:10px 0; }
+    .mode-tabs button { flex:1; padding:11px; border-radius:6px; border:1px solid #333; background:#1A1A1A; color:#aaa; font-weight:700; font-size:12px; cursor:pointer; }
+    .mode-tabs button.active { background:var(--purple); color:#fff; border-color:var(--purple); }
+    .howto-box { background:#1A1A1A; border:1px solid #333; border-left:3px solid var(--purple); border-radius:6px; padding:12px; margin:10px 0; }
+    .howto-box h4 { color:#fff; font-size:12px; margin-bottom:6px; }
+    .howto-box p { font-size:11px; color:#aaa; line-height:1.6; }
     #chilaguCinemaAd{ position:fixed; bottom:62px; left:50%; transform:translateX(-50%) translateY(180%); width:92%; max-width:360px; background:rgba(18,18,18,.97); border:1px solid rgba(255,255,255,.12); border-left:3px solid #6A0DAD; border-radius:14px; padding:9px 10px; display:flex; gap:9px; align-items:center; z-index:9999; transition:transform .55s ease; box-shadow:0 10px 28px rgba(0,0,0,.65); color:#fff; }
     #chilaguCinemaAd.show{ transform:translateX(-50%) translateY(0); }
     #chilaguCinemaAd .ad-logo{ width:42px; height:42px; border-radius:10px; background:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0; overflow:hidden; }
@@ -125,11 +131,21 @@
 
 <div class="page" id="myOrdersPage">
     <div class="order-search">
-        <h2 style="color:#fff; font-size:16px;">📦 DASHBOARD YANGU - ORDERS ZANGU</h2>
-        <p style="font-size:11px; color:#888; margin-top:4px;">Weka Email uliyotumia kuagiza, uone order yako na majibu humo humo ndani ya App.</p>
-        <input id="myOrderEmail" type="email" placeholder="Weka Email yako - mfano: juma@gmail.com">
+        <h2 style="color:#fff; font-size:16px;">📦 DASHBOARD YANGU</h2>
+        <div class="howto-box">
+          <h4>👋 KARIBU - JINSI YA KUINGIA KWENYE ORDER ZAKO:</h4>
+          <p><b style="color:#fff;">1. Kama WEWE NI MTEJA (Umeagiza Bidhaa):</b><br>Chagua <b style="color:#fff;">MIMI NI MTEJA</b> hapo chini, kisha andika <b style="color:#fff;">Email uliyotumia wakati unatuma Order</b>. Mfano: Kama wakati wa kuagiza uliandika <i>juma@gmail.com</i>, hapa andika <i>juma@gmail.com</i> ile ile. Usibadilishe.<br><br>
+          <b style="color:#fff;">2. Kama WEWE NI MUUZAJI (Bidhaa ni Yako):</b><br>Chagua <b style="color:#fff;">MIMI NI MUUZAJI</b>, kisha andika <b style="color:#fff;">Email uliyoweka kwenye Bidhaa yako</b> wakati Admin alipokuwekea bidhaa. Ndipo utaona Orders za wateja wako na DM yao.<br><br>
+          <b style="color:#fff;">3. Baada ya kuandika Email:</b><br>Bonyeza <b style="color:#fff;">ANGALIA ORDER ZANGU</b>. Utaona Order yako, hali yake, na DM ya kuongea na mwenzako humo humo ndani ya App - hutoki nje.</p>
+        </div>
+        <div class="mode-tabs">
+          <button id="modeBuyerBtn" class="active" onclick="setOrderMode('buyer')">MIMI NI MTEJA</button>
+          <button id="modeSellerBtn" onclick="setOrderMode('seller')">MIMI NI MUUZAJI</button>
+        </div>
+        <label id="orderEmailLabel" style="font-size:11px; color:#aaa;">Andika Email uliyotumia wakati wa KUAGIZA:</label>
+        <input id="myOrderEmail" type="email" placeholder="Andika Email yako hapa...">
         <button onclick="loadMyOrders()">ANGALIA ORDER ZANGU</button>
-        <p style="font-size:11px; color:#888; margin-top:8px;">Kama uliagiza juzi kama J / Justin, weka <b style="color:#fff;">studioflex38@gmail.com</b></p>
+        <p style="font-size:11px; color:#888; margin-top:8px;">⚠️ Kumbuka: Andika Email sahihi uliyotumia. Kama uliandika Email nyingine wakati wa kuagiza, hapa andika hiyo hiyo.</p>
     </div>
     <div id="myOrdersList"></div>
 </div>
@@ -139,15 +155,15 @@
         <h2>🛒 JINSI APP INAVYOFANYA KAZI</h2>
         <p>Karibu CHILAGU LEGACY SHOP - Soko la Stories na Bidhaa za Entertainment.</p>
         <div class="update-box"><h4>1. KUTAZAMA BIDHAA</h4><div>- Uko kwenye <b>HOME</b>, chagua Category juu: <b>Stories</b> au <b>Bidhaa Nyingine</b></div></div>
-        <div class="update-box"><h4>2. JINSI YA KUAGIZA - NDANI YA APP</h4><div>1. Chagua bidhaa > AGIZA SASA<br>2. Jaza Jina na Email<br>3. Order inakuja kwa Admin kwanza<br>4. Admin aki-APPROVE, inaenda kwa muuzaji<br>5. Majibu yote unayaona kwenye <b>Orders Zangu</b> - hutoki nje ya App</div></div>
-        <div class="update-box"><h4>3. HALI ZA ORDER</h4><div>🔴 <b>HAIJAJIBIWA</b> = Bado haijajibiwa<br>🟠 <b>IMEIDHINISHWA</b> = Admin ame-approve, ipo kwa muuzaji<br>🟢 <b>IMEJIBIWA</b> = Muuzaji / Admin amekujibu</div></div>
-        <div class="update-box"><h4>4. UNATAKA KUUZA?</h4><div>Tuma Email: <b>chilagulegacycinema@gmail.com</b></div></div>
+        <div class="update-box"><h4>2. JINSI YA KUAGIZA - NDANI YA APP</h4><div>1. Chagua bidhaa > AGIZA SASA<br>2. Jaza Jina na Email YAKO<br>3. Order inakuja kwa Admin kwanza<br>4. Admin aki-APPROVE, wewe na Muuzaji mnafunguliwa DM - mnaongea humo humo<br>5. Mkimalizana, mnashare huko huko kwenye DM</div></div>
+        <div class="update-box"><h4>3. HALI ZA ORDER</h4><div>🔴 <b>HAIJAJIBIWA</b> = Bado haijajibiwa<br>🟠 <b>IMEIDHINISHWA</b> = Admin ame-approve, DM imefunguka<br>🟢 <b>IMEJIBIWA</b> = Mteja / Muuzaji amejibu kwenye DM</div></div>
+        <div class="update-box"><h4>4. DM NA REPORT</h4><div>Baada ya Admin ku-approve, Mteja na Muuzaji wana DM yao. Kama kuna ubadhirifu, bonyeza <b>🚩 RIPOTI KWA ADMIN</b> - Admin ataona ripoti na atachukua hatua.</div></div>
+        <div class="update-box"><h4>5. UNATAKA KUUZA?</h4><div>Tuma Email: <b>chilagulegacycinema@gmail.com</b></div></div>
         <div id="helpText"></div><div id="helpVideos"></div>
-        <div class="social-title">TUFUATILIE</div>
+        <div class="social-title">TUFUATILIE - YOUTUBE PEKEE</div>
         <div class="social-bar">
             <div class="social-item" onclick="openExternal('https://www.youtube.com/@chilagucinema')"><div class="social-icon" style="background:#FF0000;"><svg viewBox="0 0 24 24" fill="white"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></div><span>Chilagu<br>Legacy Cinema</span></div>
             <div class="social-item" onclick="openExternal('https://www.youtube.com/@ystarprotv')"><div class="social-icon" style="background:#FF0000;"><svg viewBox="0 0 24 24" fill="white"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></div><span>YstarPro<br>TV</span></div>
-            <div class="social-item" onclick="openTikTok()"><div class="social-icon" style="background:#000; border-color:#fff;"><svg viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></div><span>TikTok<br>@ystarprotv</span></div>
         </div>
         <p style="text-align:center; font-size:10px; color:#555; padding:10px 0;">© Chilagu Legacy Cinema • chilagulegacycinema@gmail.com</p>
         <div id="updatesList"></div>
@@ -163,8 +179,8 @@
 <div id="chilaguCinemaAd"><span class="ad-close" onclick="closeCinemaAd()">×</span><div class="ad-logo"><img src="https://i.postimg.cc/LXYGQT8w/In-Shot-20260523-092931092-removebg-preview.png"></div><div class="ad-text"><div class="ad-title">Chilagu Legacy Cinema</div><div class="ad-sub">Movies & Series Mpya • Bure</div><span class="ad-tag">APP MPYA</span></div><a class="ad-btn" href="https://www.mediafire.com/folder/fx94jqzan4fcm/ChilaguLegacyCinema" target="_blank">Download</a></div>
 
 <div class="order-modal" id="orderModal">
-  <div class="order-box" id="orderFormBox"><h2 id="orderTitle">Agiza Bidhaa</h2><p id="orderSubtitle">Jaza taarifa zako, muuzaji atakujibu.</p><label>Jina Lako *</label><input id="orderName" placeholder="Mfano: Juma Mushi"><label>Email Yako *</label><input id="orderEmail" type="email" placeholder="Mfano: juma@gmail.com"><label>Namba ya Simu (hiari)</label><input id="orderPhone" placeholder="Mfano: 0686 436 004"><label>Ujumbe Wako</label><textarea id="orderMessage" rows="4">Habari, nataka kuagiza bidhaa hii.</textarea><button class="btn-send-email" id="sendOrderBtn" onclick="sendOrder()">TUMA ORDER ✅</button><button class="btn-close-order" onclick="closeOrderModal()">GHAIRI</button></div>
-  <div class="order-box order-success" id="orderSuccessBox"><h2>✅ ORDER IMETUMWA!</h2><p style="color:#fff; font-size:13px;">Asante! Order imepokelewa na Admin.<br>Admin akishai-approve utaona kwenye <b>Orders Zangu</b>.<br><br>Order Namba: <b id="orderNumberText" style="color:#fff;"></b></p><button class="btn-send-email" onclick="closeOrderModal(); showPage('myOrdersPage');">ANGALIA ORDER YANGU</button><button class="btn-close-order" onclick="closeOrderModal()">SAWA, NIMELEWA</button></div>
+  <div class="order-box" id="orderFormBox"><h2 id="orderTitle">Agiza Bidhaa</h2><p id="orderSubtitle">Jaza taarifa zako, muuzaji atakujibu.</p><label>Jina Lako *</label><input id="orderName" placeholder="Mfano: Juma Mushi"><label>Email Yako * - Hii ndiyo utakayotumia kuingia kwenye DM baadaye, ikumbuke!</label><input id="orderEmail" type="email" placeholder="Mfano: juma@gmail.com"><label>Namba ya Simu (hiari)</label><input id="orderPhone" placeholder="Mfano: 0686 436 004"><label>Ujumbe Wako</label><textarea id="orderMessage" rows="4">Habari, nataka kuagiza bidhaa hii.</textarea><button class="btn-send-email" id="sendOrderBtn" onclick="sendOrder()">TUMA ORDER ✅</button><button class="btn-close-order" onclick="closeOrderModal()">GHAIRI</button></div>
+  <div class="order-box order-success" id="orderSuccessBox"><h2>✅ ORDER IMETUMWA!</h2><p style="color:#fff; font-size:13px;">Asante! Order imepokelewa na Admin.<br>Admin akishai-approve utaona kwenye <b>Orders Zangu</b> na DM itafunguka.<br><br><b style="color:#FFD700;">Kumbuka Email uliyotumia hapa - ndiyo utakayotumia kuingia kwenye DM.</b><br><br>Order Namba: <b id="orderNumberText" style="color:#fff;"></b></p><button class="btn-send-email" onclick="closeOrderModal(); showPage('myOrdersPage');">ANGALIA ORDER YANGU</button><button class="btn-close-order" onclick="closeOrderModal()">SAWA, NIMELEWA</button></div>
 </div>
 
 <div class="admin-modal" id="adminPanel">
@@ -179,7 +195,8 @@
             <input id="pPrice" placeholder="Bei - Andika namba au Maelewano">
             <input id="pImage" placeholder="Link ya Picha"><textarea id="pDesc" placeholder="Maelezo mafupi"></textarea><span class="admin-label">Category Kuu:</span><select id="pCat" onchange="updateSubTypes()"><option>Stories</option><option>Bidhaa Nyingine</option></select><span class="admin-label">Aina ya Bidhaa:</span><select id="pSubType"></select><span class="admin-label">Email ya Muuzaji:</span><input id="pEmail" placeholder="Email ya Muuzaji"><small>Ukiacha wazi, itatumia chilagulegacycinema@gmail.com</small><span class="admin-label">WhatsApp (hiari):</span><input id="pWhatsApp" placeholder="2556..."><button id="saveProductBtn" onclick="saveProduct()">WEKA BIDHAA</button><button id="cancelEditBtn" class="btn-cancel-edit" onclick="cancelEdit()" style="display:none;">GHAIRI KUHARIRI</button>
             <h3>2. Dhibiti Bidhaa</h3><div class="admin-product-list" id="adminProductList"></div>
-            <h3>2B. ORDERS - KWANZA KWA ADMIN, NDIPO KWA MUUZAJI 📩</h3><p style="font-size:11px; color:#888;">Order mpya inakuja hapa kwanza. Wewe uki-APPROVE ndipo inaenda kwa muuzaji.</p><div class="admin-product-list" id="adminOrderList"></div><button onclick="loadAdminOrders()" style="background:#333;">ONYESHA ORDERS UPYA</button>
+            <h3>2B. ORDERS - KWANZA KWA ADMIN, NDIPO DM INAFUNGUKA 📩</h3><p style="font-size:11px; color:#888;">Order mpya inakuja hapa kwanza. Wewe uki-APPROVE ndipo Mteja na Muuzaji wanakutana kwenye DM.</p><div class="admin-product-list" id="adminOrderList"></div><button onclick="loadAdminOrders()" style="background:#333;">ONYESHA ORDERS UPYA</button>
+            <h3>2C. 🚩 RIPOTI KUTOKA KWA WATUMIAJI</h3><p style="font-size:11px; color:#888;">Kama Mteja au Muuzaji amerepoti ubadhirifu, ripoti itaonekana hapa.</p><div class="admin-product-list" id="adminReportList"></div><button onclick="loadAdminReports()" style="background:#333;">ONYESHA RIPOTI UPYA</button>
             <h3>3. Dhibiti ADS</h3><textarea id="adTopCode" placeholder="Weka Code ya Ad ya Juu"></textarea><textarea id="adMiddleCode" placeholder="Weka Code ya Ad ya Kati"></textarea><button onclick="saveAds()">HIFADHI ADS</button>
             <h3>4. Dhibiti VIDEO ZA MSAADA</h3><input id="videoTitle" placeholder="Jina la Video"><input id="videoLink" placeholder="Bandika LINK KAMILI ya Video"><button onclick="saveVideo()">ONGEZA VIDEO</button><div class="admin-product-list" id="adminVideoList"></div>
             <h3>5. Dhibiti TAARIFA/UPDATES</h3><input id="updateTitle" placeholder="Kichwa cha Taarifa"><textarea id="updateText" placeholder="Andika hapa"></textarea><button onclick="saveUpdate()">POST TAARIFA</button><div class="admin-product-list" id="adminUpdateList"></div>
@@ -201,16 +218,12 @@ var allOrders = {};
 var currentCat = "Zote";
 var currentOrder = { name: "", price: "", email: "" };
 var editingKey = null;
+var orderMode = "buyer";
 var subTypes = { "Stories": ["Film", "Series", "Script / Stori", "Muziki / Wimbo", "Kitabu", "Nyingine"], "Bidhaa Nyingine": ["Album", "Nguo", "Branding", "Sanaa / Uchoraji", "Huduma Nyingine", "Nyingine"] };
 var catInfo = { "Zote": "", "Stories": "Playlist ya Stories - Watu wote wa Entertainment Industry wanahusika hapa.", "Bidhaa Nyingine": "Album za Wasanii, Nguo, Branding na chochote kinachoweza kuuzwa." };
 function getSavedPin(){ try{ return localStorage.getItem('chilagu_admin_pin') || null; }catch(e){ return null; } }
 function setSavedPin(pin){ try{ localStorage.setItem('chilagu_admin_pin', pin); }catch(e){} }
 function openExternal(url){ try{ var a=document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); setTimeout(function(){ try{a.remove();}catch(e){} },500); }catch(e){ window.location.href=url; } }
-// TIKTOK FIX: Tumia m.tiktok.com - hairukii kwenye App, inabaki kwenye browser, haina error ya snssdk1340://
-function openTikTok(){
-  var url = "https://m.tiktok.com/@ystarprotv";
-  try{ window.open(url, '_blank'); }catch(e){ window.location.href = url; }
-}
 function showToast(msg){ var t=document.getElementById('toast'); if(!t) return; t.innerText=msg; t.style.display='block'; setTimeout(function(){ t.style.display='none'; },4000); }
 function showPage(pageId){ var pages = document.querySelectorAll('.page'); for(var i=0;i<pages.length;i++){ pages[i].classList.remove('active'); } var p = document.getElementById(pageId); if(p) p.classList.add('active'); var ids=['navHome','navOrders','navHelp']; for(var k=0;k<ids.length;k++){ var el=document.getElementById(ids[k]); if(el) el.classList.remove('active'); } if(pageId==='homePage') document.getElementById('navHome').classList.add('active'); if(pageId==='myOrdersPage') document.getElementById('navOrders').classList.add('active'); if(pageId==='helpPage') document.getElementById('navHelp').classList.add('active'); window.scrollTo(0,0); }
 function logoClick(){ clickCount++; if(clickCount>=5){ document.getElementById('adminPanel').style.display='block'; clickCount=0; } setTimeout(function(){ clickCount=0; },3000); }
@@ -235,10 +248,18 @@ function onPriceTypeChange(){
   if(t==='maelewano'){ inp.value='Maelewano'; inp.placeholder='Maelewano'; }
   else { if(inp.value==='Maelewano') inp.value=''; inp.placeholder='Andika Bei - mfano 50000'; }
 }
+function setOrderMode(mode){
+  orderMode = mode;
+  document.getElementById('modeBuyerBtn').classList.remove('active');
+  document.getElementById('modeSellerBtn').classList.remove('active');
+  if(mode==='buyer'){ document.getElementById('modeBuyerBtn').classList.add('active'); document.getElementById('orderEmailLabel').innerText = 'Andika Email uliyotumia wakati wa KUAGIZA:'; document.getElementById('myOrderEmail').placeholder = 'Andika Email yako uliyotumia kuagiza...'; }
+  else { document.getElementById('modeSellerBtn').classList.add('active'); document.getElementById('orderEmailLabel').innerText = 'Andika Email uliyoweka kwenye BIDHAA YAKO (Email ya Muuzaji):'; document.getElementById('myOrderEmail').placeholder = 'Andika Email ya Muuzaji...'; }
+  document.getElementById('myOrdersList').innerHTML = '';
+}
 function getStatusBadge(status){
   if(status==='REPLIED' || status==='DONE') return '<span class="status-badge status-REPLIED">🟢 IMEJIBIWA</span>';
-  if(status==='APPROVED') return '<span class="status-badge status-APPROVED">🟠 IMEIDHINISHWA - Ipo kwa Muuzaji</span>';
-  return '<span class="status-badge status-NEW">🔴 HAIJAJIBIWA - Inasubiri Approve</span>';
+  if(status==='APPROVED') return '<span class="status-badge status-APPROVED">🟠 IMEIDHINISHWA - DM IMEFUNGUKA</span>';
+  return '<span class="status-badge status-NEW">🔴 HAIJAJIBIWA - Inasubiri Approve ya Admin</span>';
 }
 function renderProducts(){
   var grid = document.getElementById('productGrid'); if(!grid) return;
@@ -297,26 +318,51 @@ function sendOrder(){
 function approveOrder(k){
   fetch(DB_URL+"/orders/"+k+"/status.json",{method:"PUT",body:JSON.stringify("APPROVED")}).then(function(){
     return fetch(DB_URL+"/orders/"+k+"/approved.json",{method:"PUT",body:JSON.stringify(true)});
-  }).then(function(){ showToast("Order Imeidhinishwa - Sasa ipo kwa Muuzaji"); loadAdminOrders(); });
+  }).then(function(){ showToast("Order Imeidhinishwa - DM imefunguka kwa Mteja na Muuzaji"); loadAdminOrders(); });
 }
 function replyToOrder(k){
   var txt = document.getElementById('reply-'+k).value.trim();
   if(!txt){ showToast("Andika jibu kwanza"); return; }
-  var msg = { from:"Admin / Muuzaji", text:txt, time:Date.now() };
+  var msg = { from:"Admin", text:txt, time:Date.now() };
   fetch(DB_URL+"/orders/"+k+"/messages.json",{method:"POST",body:JSON.stringify(msg)}).then(function(){
     return fetch(DB_URL+"/orders/"+k+"/status.json",{method:"PUT",body:JSON.stringify("REPLIED")});
-  }).then(function(){ showToast("Jibu Limetumwa - Mteja ataliona kwenye Orders Zangu"); loadAdminOrders(); });
+  }).then(function(){ showToast("Jibu Limetumwa"); loadAdminOrders(); });
 }
-function buyerReply(k){
-  var txt = document.getElementById('buyer-reply-'+k).value.trim();
+function sendDM(k, who){
+  var inputId = (who==='buyer' ? 'buyer-reply-' : 'seller-reply-') + k;
+  var el = document.getElementById(inputId);
+  if(!el) el = document.getElementById('buyer-reply-'+k);
+  var txt = el ? el.value.trim() : '';
   if(!txt){ showToast("Andika ujumbe"); return; }
-  var msg = { from:"Mteja", text:txt, time:Date.now() };
-  fetch(DB_URL+"/orders/"+k+"/messages.json",{method:"POST",body:JSON.stringify(msg)}).then(function(){ showToast("Ujumbe Umetumwa"); loadMyOrders(); });
+  var from = who==='seller' ? 'Muuzaji' : 'Mteja';
+  var msg = { from:from, text:txt, time:Date.now() };
+  fetch(DB_URL+"/orders/"+k+"/messages.json",{method:"POST",body:JSON.stringify(msg)}).then(function(){
+    return fetch(DB_URL+"/orders/"+k+"/status.json",{method:"PUT",body:JSON.stringify("REPLIED")});
+  }).then(function(){ showToast("Ujumbe Umetumwa kwenye DM"); loadMyOrders(); });
 }
+function reportOrder(k, reporter){
+  var reason = prompt("Eleza tatizo - kwa nini unamripoti mwenzako? Mfano: Ametaka nimtume pesa nje ya App / Ametukana / Ni tapeli");
+  if(!reason) return;
+  fetch(DB_URL+"/orders/"+k+".json").then(function(r){ return r.json(); }).then(function(o){
+    var rep = { orderKey:k, orderNumber:o.orderNumber||'', productName:o.productName||'', buyerName:o.buyerName||'', buyerEmail:o.buyerEmail||'', sellerEmail:o.sellerEmail||'', reporter:reporter, reason:reason, date:Date.now(), status:"NEW" };
+    return fetch(DB_URL+"/reports.json",{method:"POST",body:JSON.stringify(rep)});
+  }).then(function(){ showToast("🚩 Ripoti Imemtumia Admin. Asante, Admin atashughulikia."); });
+}
+function loadAdminReports(){
+  fetch(DB_URL+"/reports.json").then(function(r){ return r.json(); }).then(function(data){
+    var list=document.getElementById('adminReportList'); if(!list) return; list.innerHTML="";
+    if(!data){ list.innerHTML="<div style='color:#888; padding:8px;'>Hakuna ripoti.</div>"; return; }
+    Object.keys(data).reverse().forEach(function(k){
+      var rep=data[k]; if(!rep) return;
+      list.innerHTML+="<div class='admin-product-item' style='flex-direction:column; align-items:flex-start; gap:5px; border-left:3px solid #D32F2F;'><span><b>🚩 "+(rep.orderNumber||'')+" - "+(rep.productName||'')+"</b></span><span>Ameripoti: "+rep.reporter+" | Sababu: "+rep.reason+"</span><span>Mteja: "+rep.buyerName+" ("+rep.buyerEmail+") | Muuzaji: "+rep.sellerEmail+"</span><span style='color:#888; font-size:10px;'>"+new Date(rep.date||Date.now()).toLocaleString()+"</span><button class='btn-delete' onclick=\"deleteReport('"+k+"')\">FUTA RIPOTI</button></div>";
+    });
+  });
+}
+function deleteReport(k){ if(confirm("Futa ripoti hii?")){ fetch(DB_URL+"/reports/"+k+".json",{method:"DELETE"}).then(function(){ loadAdminReports(); }); } }
 function renderMessages(messages){
-  if(!messages) return "<div style='font-size:11px; color:#888;'>Hakuna majibu bado.</div>";
+  if(!messages) return "<div style='font-size:11px; color:#888;'>Hakuna majibu bado. DM itafunguka Admin akisha-approve.</div>";
   var html="";
-  Object.keys(messages).forEach(function(k){ var m=messages[k]; var cls = m.from && m.from.indexOf('Mteja')!==-1 ? 'buyer' : 'admin'; html += "<div class='chat-msg "+cls+"'><b>"+(m.from||'')+":</b> "+(m.text||'')+"</div>"; });
+  Object.keys(messages).forEach(function(k){ var m=messages[k]; var cls='admin'; if(m.from && m.from.indexOf('Mteja')!==-1) cls='buyer'; else if(m.from && m.from.indexOf('Muuzaji')!==-1) cls='seller'; html += "<div class='chat-msg "+cls+"'><b>"+(m.from||'')+":</b> "+(m.text||'')+"</div>"; });
   return html;
 }
 function loadAdminOrders(){
@@ -327,29 +373,37 @@ function loadAdminOrders(){
     Object.keys(data).reverse().forEach(function(k){
       var o=data[k]; if(!o || !o.productName) return;
       var d=new Date(o.date||Date.now()).toLocaleString();
-      var approveBtn = (o.status==='NEW') ? "<button class='btn-approve' onclick=\"approveOrder('"+k+"')\">APPROVE ✅ Iende kwa Muuzaji</button>" : "<span style='color:#EF6C00; font-size:10px;'>✔️ Isha-approve</span>";
-      list.innerHTML+="<div class='admin-product-item' style='flex-direction:column; align-items:flex-start; gap:6px;'><span><b>"+(o.orderNumber||'')+" - "+o.productName+"</b> - "+formatPrice(o.price)+" "+getStatusBadge(o.status)+"</span><span style='color:#aaa;'>Mteja: "+o.buyerName+" | "+o.buyerEmail+" | "+(o.buyerPhone||'')+"</span><span style='color:#aaa;'>Muuzaji: "+o.sellerEmail+"</span><span style='color:#888;'>"+(o.message||'')+"</span><span style='color:#666; font-size:10px;'>"+d+"</span><div class='chat-box'>"+renderMessages(o.messages)+"</div><div class='chat-input-row'><input id='reply-"+k+"' placeholder='Jibu mteja hapa ndani ya App...'><button onclick=\"replyToOrder('"+k+"')\">JIBU</button></div><div style='display:flex; gap:5px; width:100%; flex-wrap:wrap;'>"+approveBtn+"<button class='btn-delete' onclick=\"deleteOrder('"+k+"')\">FUTA</button></div></div>";
+      var approveBtn = (o.status==='NEW') ? "<button class='btn-approve' onclick=\"approveOrder('"+k+"')\">APPROVE ✅ Fungua DM</button>" : "<span style='color:#EF6C00; font-size:10px;'>✔️ Isha-approve - DM iko wazi</span>";
+      list.innerHTML+="<div class='admin-product-item' style='flex-direction:column; align-items:flex-start; gap:6px;'><span><b>"+(o.orderNumber||'')+" - "+o.productName+"</b> - "+formatPrice(o.price)+" "+getStatusBadge(o.status)+"</span><span style='color:#aaa;'>Mteja: "+o.buyerName+" | "+o.buyerEmail+" | "+(o.buyerPhone||'')+"</span><span style='color:#aaa;'>Muuzaji: "+o.sellerEmail+"</span><span style='color:#888;'>"+(o.message||'')+"</span><span style='color:#666; font-size:10px;'>"+d+"</span><div class='chat-box'>"+renderMessages(o.messages)+"</div><div class='chat-input-row'><input id='reply-"+k+"' placeholder='Jibu kama Admin...'><button onclick=\"replyToOrder('"+k+"')\">JIBU</button></div><div style='display:flex; gap:5px; width:100%; flex-wrap:wrap;'>"+approveBtn+"<button class='btn-delete' onclick=\"deleteOrder('"+k+"')\">FUTA</button></div></div>";
     });
   });
 }
 function loadMyOrders(){
   var email = document.getElementById('myOrderEmail').value.trim().toLowerCase();
-  if(!email){ showToast("Weka Email yako kwanza"); return; }
+  if(!email){ showToast("Weka Email yako kwanza - ile ile uliyotumia wakati wa kuagiza / kuweka bidhaa"); return; }
   fetch(DB_URL+"/orders.json").then(function(r){return r.json();}).then(function(data){
     var list=document.getElementById('myOrdersList'); list.innerHTML="";
-    if(!data){ list.innerHTML="<p style='padding:0 15px; font-size:12px;'>Hakuna order kwa email hii.</p>"; return; }
+    if(!data){ list.innerHTML="<p style='padding:0 15px; font-size:12px;'>Hakuna order kwa Email hii. Hakikisha umeandika Email sahihi uliyotumia wakati wa kuagiza.</p>"; return; }
     var found=0;
     Object.keys(data).reverse().forEach(function(k){
       var o=data[k]; if(!o || !o.buyerEmail) return;
-      if(o.buyerEmail.toLowerCase()!==email) return;
+      var match = (orderMode==='buyer') ? (o.buyerEmail.toLowerCase()===email) : (String(o.sellerEmail||'').toLowerCase()===email);
+      if(!match) return;
       found++;
       var d=new Date(o.date||Date.now()).toLocaleString();
-      list.innerHTML+="<div class='myorder-card'><h4>"+o.productName+" - "+formatPrice(o.price)+"</h4><p>Order: "+(o.orderNumber||'')+" • "+d+"<br>"+getStatusBadge(o.status)+"<br>Muuzaji: "+o.sellerEmail+"</p><div class='chat-box'>"+renderMessages(o.messages)+"</div><div class='chat-input-row'><input id='buyer-reply-"+k+"' placeholder='Jibu hapa...'><button onclick=\"buyerReply('"+k+"')\">TUMA</button></div></div>";
+      var isApproved = (o.status==='APPROVED' || o.status==='REPLIED');
+      var dmTitle = isApproved ? "💬 DM - Mteja na Muuzaji mnaongea hapa, malizaneni biashara yenu hapa:" : "🔒 DM IMEFUNGWA - Subiri Admin a-approve, ndipo DM itafunguka";
+      var dmInput = isApproved ? "<div class='chat-input-row'><input id='"+(orderMode==='seller' ? 'seller-reply-' : 'buyer-reply-')+k+"' placeholder='Andika kwenye DM...'><button onclick=\"sendDM('"+k+"','"+orderMode+"')\">TUMA Kwenye DM</button></div>" : "";
+      var who = orderMode==='seller' ? 'Muuzaji' : 'Mteja';
+      list.innerHTML+="<div class='myorder-card'><h4>"+o.productName+" - "+formatPrice(o.price)+"</h4><p>Order: "+(o.orderNumber||'')+" • "+d+"<br>"+getStatusBadge(o.status)+"<br>Mteja: "+o.buyerName+" ("+o.buyerEmail+")<br>Muuzaji: "+o.sellerEmail+"</p><div style='background:#1A1A1A; padding:8px; border-radius:6px; margin-top:8px;'><p style='color:#fff; font-size:11px; font-weight:700;'>"+dmTitle+"</p><div class='chat-box'>"+renderMessages(o.messages)+"</div>"+dmInput+"</div><div style='display:flex; gap:6px; margin-top:8px;'><button class='btn-report' onclick=\"reportOrder('"+k+"','"+who+"')\">🚩 RIPOTI MWENZANGU KWA ADMIN</button></div><p style='font-size:10px; color:#666; margin-top:6px;'>Ukiwa na tatizo na mwenzako (tapeli, matusi, kutaka pesa nje ya App), bonyeza RIPOTI. Admin ataona.</p></div>";
     });
-    if(found===0) list.innerHTML="<p style='padding:0 15px; font-size:12px;'>Hakuna order kwa email hii. Hakikisha umeandika email uliyotumia kuagiza.</p>";
+    if(found===0){
+      if(orderMode==='buyer') list.innerHTML="<p style='padding:0 15px; font-size:12px;'>Hakuna order kwa Email hii.<br><br>Angalia: 1) Uliandika Email sahihi uliyotumia wakati wa KUAGIZA? 2) Kama bado hujaagiza, nenda Home uagize kwanza.</p>";
+      else list.innerHTML="<p style='padding:0 15px; font-size:12px;'>Hakuna order kwa Email hii ya Muuzaji.<br><br>Angalia: Uliandika Email ile ile uliyoweka kwenye Bidhaa yako? Kama bidhaa yako bado haijaagizwa, hapa haitaonyesha chochote.</p>";
+    }
   });
 }
-function checkPin(){ var entered = document.getElementById('adminPin').value; var saved = getSavedPin(); if(entered===ADMIN_PIN || (saved && entered===saved)){ ADMIN_PIN = entered; document.getElementById('adminControls').style.display='block'; showToast("Karibu Admin"); loadAdminProducts(); loadAdminVideos(); loadAdminUpdates(); loadAdminSettings(); loadAdminOrders(); } else { showToast('PIN SIO SAHI'); } }
+function checkPin(){ var entered = document.getElementById('adminPin').value; var saved = getSavedPin(); if(entered===ADMIN_PIN || (saved && entered===saved)){ ADMIN_PIN = entered; document.getElementById('adminControls').style.display='block'; showToast("Karibu Admin"); loadAdminProducts(); loadAdminVideos(); loadAdminUpdates(); loadAdminSettings(); loadAdminOrders(); loadAdminReports(); } else { showToast('PIN SIO SAHI'); } }
 function changePin(){ var n=document.getElementById('newPin').value.trim(); if(n.length<4){ showToast("PIN iwe angalau 4"); return; } if(n===ADMIN_PIN){ showToast("Hii ndiyo PIN ya sasa"); return; } fetch(DB_URL+"/settings/adminPin.json",{method:"PUT",body:JSON.stringify(n)}).then(function(res){ if(!res.ok) throw new Error('save fail'); return res.json(); }).then(function(){ return fetch(DB_URL+"/settings/adminPin.json").then(function(r){ return r.json(); }); }).then(function(savedPin){ if(savedPin===n){ ADMIN_PIN=n; setSavedPin(n); document.getElementById('newPin').value=""; document.getElementById('adminPin').value=""; document.getElementById('pinStatus').innerText="✅ PIN mpya imehifadhiwa: "+n; showToast("PIN Imebadilishwa!"); } else { showToast("PIN haikuhifadhiwa, jaribu tena"); } }).catch(function(){ showToast("Imeshindikana kuhifadhi PIN."); }); }
 function saveProduct(){
   var name=document.getElementById('pName').value.trim();
