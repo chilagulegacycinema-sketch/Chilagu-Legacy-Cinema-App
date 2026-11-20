@@ -265,7 +265,7 @@ function shareProduct(key, event){
 function copyProductLink(key){
   var link = getProductLink(key);
   if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(link).then(function(){ showToast("✅ Link Imekopiwa! Sasa itume Status / WhatsApp"); }).catch(function(){ prompt("Copy Link hii:", link); });
+    navigator.clipboard.writeText(link).then(function(){ showToast("✅ Link copied"); }).catch(function(){ prompt("Copy Link hii:", link); });
   } else { prompt("Copy Link hii:", link); }
 }
 function openProductDetail(key){
